@@ -18,4 +18,12 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
 
+
+  describe "GET #import" do
+    it "renders a file_upload form" do
+      get :import
+      expect(assigns(:file_upload).filename).to be_nil
+    end
+  end
+
 end
