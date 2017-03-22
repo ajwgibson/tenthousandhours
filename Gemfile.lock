@@ -87,8 +87,8 @@ GEM
     faker (1.6.1)
       i18n (~> 0.5)
     ffi (1.9.10)
-    font-awesome-rails (4.3.0.0)
-      railties (>= 3.2, < 5.0)
+    font-awesome-rails (4.7.0.1)
+      railties (>= 3.2, < 5.1)
     formatador (0.2.5)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -266,7 +266,7 @@ DEPENDENCIES
   devise
   factory_girl_rails
   faker
-  font-awesome-rails (= 4.3.0.0)
+  font-awesome-rails (= 4.7.0.1)
   guard-rspec
   jbuilder (~> 2.0)
   jquery-rails
