@@ -38,9 +38,18 @@ RSpec.describe Project, type: :model do
       clear_uploads
     end
 
-    context "for an invalid file" do
-      it "throws an exception" do
-        expect { Project.import(file_fixture('project_imports/invalid.csv')) }.to raise_error('Invalid format')
+    context "for an file with the wrong headers" do
+      it "throws an exception with 'Invalid format'" do
+        expect { Project.import(file_fixture('project_imports/invalid_headers.csv')) }.to raise_error('Invalid format')
+      end
+    end
+
+    context "for a file with a mixture of valid and invalid records" do
+      it "throws an exception with 'Invalid data'" do
+        expect { Project.import(file_fixture('project_imports/invalid_records.csv')) }.to raise_error('Invalid data')
+      end
+      it "does not add any records" do
+        expect { Project.import(file_fixture('project_imports/invalid_records.csv')) rescue nil }.not_to change{Project.count}
       end
     end
 
@@ -208,6 +217,20 @@ RSpec.describe Project, type: :model do
       end
       it "captures the july_24 flag" do
         expect(project.july_24).to be_truthy
+      end
+    end
+
+    context "for an existing project" do
+      let(:project) { Project.first }
+      before do
+        Project.create!({ typeform_id: '1234', organisation_type: 'School', organisation_name: 'A school' })
+        Project.import(file_fixture('project_imports/pre_school.csv'))
+      end
+      it "does not create a new record" do
+        expect(Project.count).to eq(1)
+      end
+      it "updates the existing project" do
+        expect(project.organisation_name).to eq('Causeway Coast Pre-school')
       end
     end
 
