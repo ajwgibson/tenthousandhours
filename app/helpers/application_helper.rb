@@ -13,7 +13,7 @@ module ApplicationHelper
   # Toastr messages used for application flashes
   #
 
-  ALERT_TYPES = [:success, :info, :warning, :danger] unless const_defined?(:ALERT_TYPES)
+  ALERT_TYPES = [:success, :info, :warning, :error] unless const_defined?(:ALERT_TYPES)
 
   def toastr_flash(options = {})
 
@@ -26,7 +26,7 @@ module ApplicationHelper
       type = type.to_sym
       type = :success if type == :notice
       type = :info    if type == :alert
-      type = :danger  if type == :error
+      type = :error   if type == :error
       next unless ALERT_TYPES.include?(type)
 
       Array(message).each do |msg|
@@ -37,5 +37,5 @@ module ApplicationHelper
 
     flash_messages.join("\n").html_safe
   end
-  
+
 end
