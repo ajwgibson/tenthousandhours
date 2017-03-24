@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV['TTH_DATABASE'] %>
-  username: <%= ENV['TTH_DATABASE_USER'] %>
-  password: <%= ENV['TTH_DATABASE_PASSWORD'] %>
+  database: <%= ENV['TENKHOURS_DATABASE'] %>
+  username: <%= ENV['TENKHOURS_DATABASE_USER'] %>
+  password: <%= ENV['TENKHOURS_DATABASE_PASSWORD'] %>
