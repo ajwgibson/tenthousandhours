@@ -1,0 +1,40 @@
+
+<div class="middle-box text-center loginscreen animated fadeInDown">
+  <div>
+    <div>
+      <h1 class="logo-name">CCV</h1>
+    </div>
+
+    <h3>Login</h3>
+
+    <p>Please login to access CCV 10,000 hours administration functionality.</p>
+
+    <%= bootstrap_flash %>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "m-t") do |f| %>
+
+      <div class="form-group">
+        <%= f.label :email, class: "sr-only" %>
+        <%= f.email_field :email, autofocus: true, placeholder: "Email", class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password, class: "sr-only" %>
+        <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control" %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+        <div class="form-group">
+          <%= f.check_box :remember_me, class: "form-control" %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end -%>
+
+      <%= f.submit "Log in", class: "btn btn-primary block full-width m-b" %>
+
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+
+  </div>
+</div>

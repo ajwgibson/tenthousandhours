@@ -19,6 +19,11 @@
         <i class="fa fa-address-card"></i> <span class="nav-label">Projects</span>
         <% end %>
       </li>
+      <li class="<%= 'active' if current_page?(controller: 'users') %>">
+        <%= link_to controller: "users" do %>
+        <i class="fa fa-user-circle"></i> <span class="nav-label">Users</span>
+        <% end %>
+      </li>
     </ul>
   </div>
 </nav>
