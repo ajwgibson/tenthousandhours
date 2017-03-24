@@ -20,6 +20,11 @@
  *= require inspinia
  */
 
+ body.fixed-nav #wrapper .navbar-static-side,
+ body.fixed-nav #wrapper #page-wrapper {
+   margin-top: 60px;
+ }
+
  .nav-header {
   .logo-element {
     img {

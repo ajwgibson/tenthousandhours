@@ -18,7 +18,7 @@
 
 </head>
 
-<body>
+<body class="fixed-nav">
 
   <!-- Wrapper-->
   <div id="wrapper">
@@ -33,7 +33,9 @@
           <%= render 'layouts/topnavbar' %>
 
           <!-- Main view  -->
+          <div class="wrapper wrapper-content animated fadeInRight">
           <%= yield %>
+          </div>
 
           <!-- Footer -->
           <%= render 'layouts/footer' %>
