@@ -54,10 +54,6 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-  # Limit the log size!
-  config.logger = ActiveSupport::Logger.new(
-                     config.paths['log'].first, 1, 10 * 1024 * 1024)
-
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -80,4 +76,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Limit the log size!
+  config.logger =
+    ActiveSupport::Logger.new(
+      Rails.root.join('log', "#{Rails.env}.log"), 1, 10 * 1024 * 1024)
 end
