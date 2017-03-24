@@ -9,6 +9,16 @@ module ApplicationHelper
     params[:action] == action_name ? "active" : nil
   end
 
+
+  def yes_no_icon(value)
+    if value then
+      content_tag(:span, " ", class: ["fa", "fa-check", "text-success"])
+    else
+      content_tag(:span, " ", class: ["fa", "fa-times", "text-danger"])  
+    end
+  end
+
+
   #
   # Toastr messages used for application flashes
   #

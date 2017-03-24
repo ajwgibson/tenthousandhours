@@ -35,6 +35,15 @@ p.required-legend:before {
   content: "\f069";
 }
 
+fieldset legend {
+  font-size: 12px;
+}
+
+.form-static {
+  .form-group { margin-bottom: 0 !important; }
+  fieldset { margin-top: 20px !important; }
+}
+
 p.required-legend {
   margin-bottom: 20px;
 }

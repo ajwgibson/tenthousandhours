@@ -26,4 +26,24 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
 
+
+  describe "GET #show" do
+
+    let(:project) { FactoryGirl.create(:default_project) }
+
+    it "shows a record" do
+      get :show, { id: project.id }
+      expect(response).to render_template :show
+      expect(response).to have_http_status(:success)
+      expect(assigns(:project).id).to eq(project.id)
+    end
+
+    it "raises an exception for a missing record" do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        get :show, { id: 99 }
+      end
+    end
+
+  end
+
 end

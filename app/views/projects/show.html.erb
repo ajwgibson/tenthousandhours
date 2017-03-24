@@ -1,0 +1,231 @@
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h3>Project details</h3>
+        </div>
+        <div class="ibox-content">
+
+          <div class="form-horizontal  form-static">
+
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Organisation name</label>
+              <div class="col-lg-9">
+                <p class="form-control-static"><%= @project.organisation_name %></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Organisation type</label>
+              <div class="col-lg-9">
+                <p class="form-control-static"><%= @project.organisation_type %></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Typeform ID</label>
+              <div class="col-lg-9">
+                <p class="form-control-static"><code><%= @project.typeform_id %></code></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Submission date</label>
+              <div class="col-lg-9">
+                <p class="form-control-static"><%= l(@project.submitted_at, :format => :short) %></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-3 control-label">Additional notes</label>
+              <div class="col-lg-9">
+                <p class="form-control-static"><%= @project.notes %></p>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend>Contact details</legend>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Name</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.contact_name %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Role</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.contact_role %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Email</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.contact_email %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Telephone</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.contact_phone %></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Project #1</legend>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Summary</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.project_1_summary %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">More information</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.project_1_information %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Suitable for under 18s</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon @project.project_1_under_18 %></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Project #2</legend>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Summary</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.project_2_summary %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">More information</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.project_2_information %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Suitable for under 18s</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon @project.project_2_under_18 %></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Project #3</legend>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Summary</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.project_3_summary %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">More information</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= @project.project_3_information %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Suitable for under 18s</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon @project.project_3_under_18 %></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Possible dates and times</legend>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">July 3rd</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon(@project.july_3 || @project.any_week) %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">July 10th</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon(@project.july_10 || @project.any_week) %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">July 17th</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon(@project.july_17 || @project.any_week) %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">July 24th</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon(@project.july_24 || @project.any_week) %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Evenings</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon @project.evenings %></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-3 control-label">Saturdays</label>
+                <div class="col-lg-9">
+                  <p class="form-control-static"><%= yes_no_icon @project.saturday %></p>
+                </div>
+              </div>
+            </fieldset>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 hidden-print">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h3>Actions</h3>
+        </div>
+        <div class="ibox-content">
+          <div>
+            <%= link_to edit_project_path, :class => 'btn btn-primary' do %>
+              <i class="fa fa-edit"></i> Edit details
+            <% end %>
+          </div>
+          <div>
+            <a class="btn btn-danger" data-toggle='modal' data-target='#delete'><i class="fa fa-times"></i> Delete this project</a>
+          </div>
+            <%= link_to projects_path, :class => 'btn btn-default' do %>
+              <i class="fa fa-reply"></i> Back to projects
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal inmodal" id="delete" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content animated flipInY">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <i class="fa fa-bomb modal-icon"></i>
+        <h4 class="modal-title">Warning</h4>
+        <small class="font-bold">You are about to delete a project!</small>
+      </div>
+      <div class="modal-body">
+        <p>
+          If you continue with this action you will delete this record. While this action
+          <strong><em>can be reversed by an administrator</em></strong>, you should probably
+          still think carefully before continuing.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <%= form_for @project, method: :delete, :html => { :class => "project" } do |f| %>
+        <button type="button" class="btn btn-white" data-dismiss="modal">Cancel (don't delete)</button>
+        <button type="submit" class="btn btn-danger">Continue (delete)</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
