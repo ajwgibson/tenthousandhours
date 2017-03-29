@@ -236,4 +236,22 @@ RSpec.describe ProjectsController, type: :controller do
 
   end
 
+
+  describe "DELETE #destroy" do
+
+    let!(:project) { FactoryGirl.create(:default_project) }
+
+    it "soft deletes the record" do
+      expect {
+        delete :destroy, :id => project.id
+      }.to change(Project, :count).by(-1)
+      expect(Project.only_deleted.count).to eq(1)
+    end
+
+    it "redirects to #index" do
+      delete :destroy, :id => project.id
+      expect(response).to redirect_to(:projects)
+    end
+
+  end
 end
