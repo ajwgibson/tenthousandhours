@@ -35,10 +35,72 @@ class ProjectsController < ApplicationController
   end
 
 
+  def new
+    @project = Project.new
+    render :edit
+  end
+
+
+  def create
+    @project = Project.new project_params
+    @project.submitted_at = DateTime.now
+    if @project.save
+      redirect_to( { action: 'index' }, notice: 'Project was created successfully' )
+    else
+      render :edit
+    end
+  end
+
+
+  def edit
+  end
+
+
+  def update
+    @project.attributes = project_params
+    if @project.save project_params
+      redirect_to @project, notice: 'Project was updated successfully'
+    else
+      render :edit
+    end
+  end
+
+
 
   private
     def set_project
       @project = Project.find(params[:id])
+    end
+
+    # Parameter white list
+    def project_params
+      params
+        .require(:project)
+        .permit(
+          :organisation_type,
+          :organisation_name,
+          :notes,
+          :contact_name,
+          :contact_role,
+          :contact_email,
+          :contact_phone,
+          :project_1_summary,
+          :project_1_information,
+          :project_1_under_18,
+          :project_2_summary,
+          :project_2_information,
+          :project_2_under_18,
+          :project_3_summary,
+          :project_3_information,
+          :project_3_under_18,
+          :any_week,
+          :evenings,
+          :saturday,
+          :july_3,
+          :july_10,
+          :july_17,
+          :july_24,
+        )
     end
 
 end

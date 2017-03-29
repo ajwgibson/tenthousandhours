@@ -10,6 +10,15 @@ class Project < ActiveRecord::Base
   validates :organisation_name, :presence => true
 
 
+  ORG_TYPES = [
+    "Agency/Charity",
+    "Business",
+    "Pre-school",
+    "Residential centre",
+    "School",
+  ]
+
+
   def self.import(file)
 
     data = CSV.read(file, headers: :first_row, return_headers: true)

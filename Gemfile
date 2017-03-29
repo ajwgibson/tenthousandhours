@@ -48,6 +48,10 @@ gem 'acts_as_paranoid'
 # Spreadsheet handling
 gem 'roo'
 
+# bootstrap form helpers
+gem 'bootstrap_form'
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
