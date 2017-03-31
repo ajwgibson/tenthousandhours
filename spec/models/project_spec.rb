@@ -9,12 +9,52 @@ RSpec.describe Project, type: :model do
 
   # VALIDATION
 
-  it "is invalid without an organisation type" do
+  it "is not valid without an organisation type" do
     expect(FactoryGirl.build(:default_project, organisation_type: nil)).not_to be_valid
   end
 
-  it "is invalid without an organisation name" do
+  it "is not valid without an organisation name" do
     expect(FactoryGirl.build(:default_project, organisation_name: nil)).not_to be_valid
+  end
+
+  it "is not valid when adults is not a number" do
+    expect(FactoryGirl.build(:default_project, adults: 'yes')).not_to be_valid
+  end
+  it "is not valid when adults < 2" do
+    expect(FactoryGirl.build(:default_project, adults: 1)).not_to be_valid
+  end
+  it "is not valid when adults is not a whole number" do
+    expect(FactoryGirl.build(:default_project, adults: 2.5)).not_to be_valid
+  end
+  it "is valid when adults >= 2" do
+    expect(FactoryGirl.build(:default_project, adults: 2)).to be_valid
+  end
+  it "is valid when adults is nil" do
+    expect(FactoryGirl.build(:default_project, adults: nil)).to be_valid
+  end
+
+  it "is not valid when youth is not a number" do
+    expect(FactoryGirl.build(:default_project, youth: 'yes')).not_to be_valid
+  end
+  it "is not valid when youth < 0" do
+    expect(FactoryGirl.build(:default_project, youth: -1)).not_to be_valid
+  end
+  it "is not valid when youth is not a whole number" do
+    expect(FactoryGirl.build(:default_project, youth: 2.5)).not_to be_valid
+  end
+  it "is valid when youth >= 0" do
+    expect(FactoryGirl.build(:default_project, youth: 2, project_1_under_18: true)).to be_valid
+  end
+  it "is valid when youth is nil" do
+    expect(FactoryGirl.build(:default_project, youth: nil)).to be_valid
+  end
+
+  it "is not valid when youth is > zero but none of the sub-projects are for youth" do
+    expect(FactoryGirl.build(:default_project,
+                              project_1_under_18: false,
+                              project_2_under_18: false,
+                              project_3_under_18: false,
+                              youth: 1)).not_to be_valid
   end
 
 

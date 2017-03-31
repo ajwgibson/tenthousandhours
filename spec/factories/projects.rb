@@ -27,6 +27,9 @@ FactoryGirl.define do
     saturday              false
     notes                 nil
     submitted_at          1.days.ago.change(:sec => 0)
+    adults                nil
+    youth                 nil
+    materials             nil
   end
 
   factory :default_project, parent: :project do

@@ -1,0 +1,30 @@
+
+<fieldset>
+  <legend>Project #1</legend>
+  <%= f.text_field :project_1_summary, :label => 'Summary' %>
+  <%= f.text_area :project_1_information, :label => 'More information' %>
+  <%= f.form_group :project_1_under_18, label: { text: "Suitable for under 18s" } do %>
+    <%= f.radio_button :project_1_under_18, true, label: "Yes", inline: true %>
+    <%= f.radio_button :project_1_under_18, false, label: "No",  inline: true %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <legend>Project #2</legend>
+  <%= f.text_field :project_2_summary, :label => 'Summary' %>
+  <%= f.text_area :project_2_information, :label => 'More information' %>
+  <%= f.form_group :project_2_under_18, label: { text: "Suitable for under 18s" } do %>
+    <%= f.radio_button :project_2_under_18, true, label: "Yes", inline: true %>
+    <%= f.radio_button :project_2_under_18, false, label: "No",  inline: true %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <legend>Project #3</legend>
+  <%= f.text_field :project_3_summary, :label => 'Summary' %>
+  <%= f.text_area :project_3_information, :label => 'More information' %>
+  <%= f.form_group :project_3_under_18, label: { text: "Suitable for under 18s" } do %>
+    <%= f.radio_button :project_3_under_18, true,  label: "Yes", inline: true %>
+    <%= f.radio_button :project_3_under_18, false, label: "No",  inline: true %>
+  <% end %>
+</fieldset>

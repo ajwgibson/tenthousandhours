@@ -8,6 +8,9 @@ class Project < ActiveRecord::Base
 
   validates :organisation_type, :presence => true
   validates :organisation_name, :presence => true
+  validates :adults, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 2 }
+  validates :youth,  numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
+  validate  :youth_need_youth_projects
 
 
   ORG_TYPES = [
@@ -78,6 +81,13 @@ class Project < ActiveRecord::Base
 
 
 private
+
+  def youth_need_youth_projects
+    if !youth.nil? && youth > 0 && !project_1_under_18 && !project_2_under_18 && !project_3_under_18
+      errors.add(:youth, "can't be more than zero when none of the projects are suitable for youth")
+    end
+  end
+
 
   def self.organisation_type(row)
     row[1] || ''

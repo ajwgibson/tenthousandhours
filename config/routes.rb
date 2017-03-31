@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get  'projects/import'
   post 'projects/import', to: 'projects#do_import'
+  get  'projects/:id/review', to: 'projects#review',    as: 'review_project'
+  put  'projects/:id/review', to: 'projects#do_review'
   resources :projects
 
 end

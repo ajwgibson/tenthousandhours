@@ -14,8 +14,8 @@ RSpec.describe Ability, type: :model do
   context "overseers" do
     let(:user)    { FactoryGirl.build(:default_user, role: :Overseer) }
 
-    it { is_expected.to have_abilities([:read, :update],   Project) }
-    it { is_expected.to not_have_abilities([:create, :destroy, :import], Project) }
+    it { is_expected.to have_abilities([:read, :review, :do_review],   Project) }
+    it { is_expected.to not_have_abilities([:create, :update, :destroy, :import], Project) }
 
     it { is_expected.to have_abilities([:read], User) }
     it { is_expected.to not_have_abilities([:create, :update, :destroy], User) }

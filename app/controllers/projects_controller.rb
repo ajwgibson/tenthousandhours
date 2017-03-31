@@ -72,6 +72,20 @@ class ProjectsController < ApplicationController
   end
 
 
+  def review
+  end
+
+
+  def do_review
+    @project.attributes = review_params
+    if @project.save
+      redirect_to @project, notice: 'Project was updated successfully'
+    else
+      render :review
+    end
+  end
+
+
 
 
   private
@@ -79,7 +93,7 @@ class ProjectsController < ApplicationController
       @project = Project.find(params[:id])
     end
 
-    # Parameter white list
+    # Parameter white lists
     def project_params
       params
         .require(:project)
@@ -107,6 +121,28 @@ class ProjectsController < ApplicationController
           :july_10,
           :july_17,
           :july_24,
+          :adults,
+          :youth,
+          :materials,
+        )
+    end
+
+    def review_params
+      params
+        .require(:project)
+        .permit(
+          :project_1_summary,
+          :project_1_information,
+          :project_1_under_18,
+          :project_2_summary,
+          :project_2_information,
+          :project_2_under_18,
+          :project_3_summary,
+          :project_3_information,
+          :project_3_under_18,
+          :adults,
+          :youth,
+          :materials,
         )
     end
 
