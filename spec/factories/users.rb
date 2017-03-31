@@ -15,6 +15,6 @@ FactoryGirl.define do
     password_confirmation "password"
     first_name            Faker::Name.first_name
     last_name             Faker::Name.last_name
-    role                  User::ROLES[0]
+    role                  :Organiser
   end
 end

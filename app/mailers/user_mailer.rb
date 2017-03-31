@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @url  = 'http://tenthousandhours.grumpygibson.com/'
 
-    email_with_name = %("#{@user.full_name}" <#{@user.email}>)
+    email_with_name = %("#{@user.name}" <#{@user.email}>)
 
     mail(
       to:      email_with_name,

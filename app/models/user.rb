@@ -22,15 +22,31 @@ class User < ActiveRecord::Base
 
 
   ROLES = [
-    "Organiser",
-    "Overseer",
-    "Coordinator",
-    "Leader",
+    :Organiser,
+    :Overseer,
+    :Coordinator,
+    :Leader,
   ]
 
+  def organiser?
+    :Organiser.to_s.eql? role
+  end
 
-  def full_name
-    "#{first_name} #{last_name}"
+  def overseer?
+    :Overseer.to_s.eql? role
+  end
+
+  def coordinator?
+    :Coordinator.to_s.eql? role
+  end
+
+  def leader?
+    :Leader.to_s.eql? role
+  end
+
+
+  def name
+    "#{first_name} #{last_name}".strip
   end
 
 end
