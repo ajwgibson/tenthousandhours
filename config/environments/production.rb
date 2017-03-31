@@ -64,6 +64,18 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  # Action Mailer configuration
+  config.action_mailer.default_url_options = { host: ENV['TENKHOURS_HOST'] }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :port           => ENV['TENKHOURS_SMTP_PORT'],
+    :address        => ENV['TENKHOURS_SMTP_SERVER'],
+    :user_name      => ENV['TENKHOURS_SMTP_LOGIN'],
+    :password       => ENV['TENKHOURS_SMTP_PASSWORD'],
+    :domain         => ENV['TENKHOURS_SMTP_DOMAIN'],
+    :authentication => :plain,
+  }
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
@@ -81,4 +93,8 @@ Rails.application.configure do
   config.logger =
     ActiveSupport::Logger.new(
       Rails.root.join('log', "#{Rails.env}.log"), 1, 10 * 1024 * 1024)
+end
+
+Devise.setup do |config|
+  config.mailer_sender = "no-reply@#{ENV['TENKHOURS_HOST']}"
 end
