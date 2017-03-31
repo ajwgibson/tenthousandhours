@@ -76,6 +76,11 @@ Rails.application.configure do
     :authentication => :plain,
   }
 
+  # Change the Devise sender email using environment variables
+  config.after_initialize do
+    Devise.mailer_sender = "no-reply@#{ENV['TENKHOURS_HOST']}"
+  end
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
@@ -93,8 +98,4 @@ Rails.application.configure do
   config.logger =
     ActiveSupport::Logger.new(
       Rails.root.join('log', "#{Rails.env}.log"), 1, 10 * 1024 * 1024)
-end
-
-Devise.setup do |config|
-  config.mailer_sender = "no-reply@#{ENV['TENKHOURS_HOST']}"
 end
