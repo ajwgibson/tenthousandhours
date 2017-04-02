@@ -23,10 +23,9 @@ module Tenthousandhours
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    # Provide a default host value for action_mailer
+    # Action Mailer
     config.action_mailer.default_url_options = { host: 'example.com' }
-
-    # Default to using sendmail
     config.action_mailer.delivery_method = :sendmail
+    config.action_mailer.default_options = { from: "from@example.com" }
   end
 end
