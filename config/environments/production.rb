@@ -76,7 +76,7 @@ Rails.application.configure do
     :authentication => :plain,
   }
   config.action_mailer.default_options = {
-    from: 'no-reply@#{ENV['TENKHOURS_HOST']}'
+    from: "no-reply@#{ENV['TENKHOURS_HOST']}"
   }
 
   # Change the Devise sender email using environment variables
