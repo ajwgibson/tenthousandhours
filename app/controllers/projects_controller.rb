@@ -89,9 +89,6 @@ class ProjectsController < ApplicationController
 
 
   private
-    def set_project
-      @project = Project.find(params[:id])
-    end
 
     # Parameter white lists
     def project_params

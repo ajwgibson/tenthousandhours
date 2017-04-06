@@ -19,6 +19,8 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.to have_abilities([:read], User) }
     it { is_expected.to not_have_abilities([:create, :update, :destroy], User) }
+
+    it { is_expected.to not_have_abilities([:manage], ProjectSlot) }
   end
 
   context "coordinators" do
@@ -29,6 +31,8 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.to have_abilities([:read], User) }
     it { is_expected.to not_have_abilities([:create, :update, :destroy], User) }
+
+    it { is_expected.to not_have_abilities([:manage], ProjectSlot) }
   end
 
   context "leaders" do
@@ -39,6 +43,8 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.to have_abilities([:read], User) }
     it { is_expected.to not_have_abilities([:create, :update, :destroy], User) }
+    
+    it { is_expected.to not_have_abilities([:manage], ProjectSlot) }
   end
 
 end

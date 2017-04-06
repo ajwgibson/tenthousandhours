@@ -19,6 +19,8 @@
 //= require toastr/toastr.min.js
 //= require jasny/jasny-bootstrap.min.js
 //= require select2/select2.full.min.js
+//= require datepicker/bootstrap-datepicker.js
+//= require sweetalert/sweetalert.min.js
 //= require_tree .
 
 $(function () {
@@ -45,5 +47,43 @@ $(function () {
   $('.toastr-message').each(function() {
     window["toastr"][$(this).attr('data-toastr-type')]($(this).text());
   });
+
+  $('.date.days .datepicker').datepicker({
+    format: "dd/mm/yyyy",
+    startView: "days",
+    todayBtn: true,
+    todayHighlight: true,
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true,
+    weekStart: 1,
+    defaultViewDate: { year: 2017, month: 6, day: 1 }
+  });
+
+  function warn(e) {
+    e.preventDefault();
+    var source = $(this);
+    swal(
+      {
+        title: "Warning",
+        text: "You may not be able to undo this action. Are you sure you want to continue?",
+        type: "warning",
+        showCancelButton: true,
+        cancelButtonText: "No, cancel",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, continue",
+        closeOnConfirm: false,
+        html: false
+      },
+      function (confirmed) {
+        if (confirmed) {
+          source.off(e.type, warn);
+          source.trigger(e.type);
+        }
+      });
+  }
+
+  $("form[data-warn]").submit(warn);
+  $("button[data-warn]").click(warn);
 
 })

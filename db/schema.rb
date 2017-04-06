@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331151424) do
+ActiveRecord::Schema.define(version: 20170402124440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "project_slots", force: :cascade do |t|
+    t.date     "slot_date",  null: false
+    t.integer  "slot_type",  null: false
+    t.integer  "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+  end
+
+  add_index "project_slots", ["deleted_at"], name: "index_project_slots_on_deleted_at", using: :btree
+  add_index "project_slots", ["project_id"], name: "index_project_slots_on_project_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
     t.string   "typeform_id"
@@ -77,4 +89,5 @@ ActiveRecord::Schema.define(version: 20170331151424) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "project_slots", "projects"
 end

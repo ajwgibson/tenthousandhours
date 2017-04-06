@@ -1,0 +1,120 @@
+
+<div class="row">
+  <div class="col-sm-9">
+
+    <div class="ibox float-e-margins">
+
+      <div class="ibox-title">
+        <div class="ibox-tools pull-right">
+        </div>
+        <h2>Manage project slots</h2>
+      </div>
+
+      <div class="ibox-content" style="display: block;">
+
+        <div class="well">
+
+          <%= render partial: "layouts/errors", object: @create_project_slot, as: 'form' %>
+
+          <%= form_for(@create_project_slot,
+                  url: project_slots_create_path,
+                  html: { class: 'form-inline create-project-slots-form' } ) do |f| %>
+
+
+            <div class="form-group date days has-feedback <%= "has-error" if @create_project_slot.errors[:start_date].present? %>">
+                <%= f.label :start_date, 'From', class: 'control-label required sr-only' %>
+                <%= f.text_field :start_date, class: 'form-control datepicker', placeholder: 'from' %>
+                <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+            </div>
+
+            <div class="form-group date days has-feedback <%= "has-error" if @create_project_slot.errors[:end_date].present? %>">
+                <%= f.label :end_date, 'To', class: 'control-label required sr-only' %>
+                <%= f.text_field :end_date, class: 'form-control datepicker', placeholder: 'to' %>
+                <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+            </div>
+
+            <div class="form-group <%= "has-error" if @create_project_slot.errors[:morning_slot].present? %>">
+              <div class="checkbox">
+                <%= f.check_box :morning_slot %>
+                <%= f.label :morning_slot, 'Morning' %>
+              </div>
+            </div>
+
+            <div class="form-group <%= "has-error" if @create_project_slot.errors[:afternoon_slot].present? %>">
+              <div class="checkbox">
+                <%= f.check_box :afternoon_slot %>
+                <%= f.label :afternoon_slot, 'Afternoon' %>
+              </div>
+            </div>
+
+            <div class="form-group <%= "has-error" if @create_project_slot.errors[:evening_slot].present? %>">
+              <div class="checkbox">
+                <%= f.check_box :evening_slot %>
+                <%= f.label :evening_slot, 'Evening' %>
+              </div>
+            </div>
+
+            <%= button_tag(type: "submit", class: "btn btn-sm btn-primary") do %>
+              <i class="fa fa-plus"></i> Add slots
+            <% end %>
+
+          <% end %>
+
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Day</th>
+              <th>Slot</th>
+              <th class="col-xs-1"></th>
+            </tr>
+          </thead>
+          <% @project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+          <tr>
+            <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
+            <td><%= project_slot.slot_date.strftime('%A') %></td>
+            <td><%= project_slot.humanized_slot_type %></td>
+            <td>
+              <%= form_tag(
+                    { action: "destroy", id: project_slot.id },
+                    { data: { warn: 'yes' }, method: :delete }) do %>
+                <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Delete</button>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </table>
+
+      </div>
+
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Project summary</h3>
+      </div>
+      <div class="ibox-content">
+        <dl>
+          <dt>Organisation</dt>
+          <dd><%= @project.organisation_name %></dd>
+          <dt>Contact</dt>
+          <dd><%= @project.contact_name %></dd>
+          <dt>Telephone</dt>
+          <dd><%= @project.contact_phone %></dd>
+          <dt>Email</dt>
+          <dd><%= @project.contact_email %></dd>
+        </dl>
+
+        <div>
+          <%= link_to project_path(@project), :class => 'btn btn-default' do %>
+            <i class="fa fa-reply"></i> Back to project
+          <% end %>
+        </div>
+
+      </div>
+  </div>
+
+</div>

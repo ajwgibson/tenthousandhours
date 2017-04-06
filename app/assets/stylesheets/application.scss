@@ -17,6 +17,8 @@
  *= require awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css
  *= require jasny/jasny-bootstrap.min.css
  *= require select2/select2.min.css
+ *= require datepicker/bootstrap-datepicker3.css
+ *= require sweetalert/sweetalert.css
  *= require inspinia
  */
 
@@ -53,4 +55,17 @@ fieldset {
 
 p.required-legend {
   margin-bottom: 20px;
+}
+
+dd {
+  margin-bottom: 5px;
+}
+
+.list-group li:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.form-inline>* {
+  margin-left:5px;
+  margin-top:10px;
 }

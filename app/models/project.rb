@@ -3,15 +3,15 @@ require 'csv'
 class Project < ActiveRecord::Base
 
   acts_as_paranoid
-
   include Filterable
+
+  has_many :project_slots
 
   validates :organisation_type, :presence => true
   validates :organisation_name, :presence => true
   validates :adults, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 2 }
   validates :youth,  numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validate  :youth_need_youth_projects
-
 
   ORG_TYPES = [
     "Agency/Charity",
