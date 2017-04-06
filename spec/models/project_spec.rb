@@ -276,4 +276,45 @@ RSpec.describe Project, type: :model do
 
   end
 
+
+  # UTILITY CODE
+
+  describe "#start_date" do
+    context "with no slots" do
+      let(:project) { FactoryGirl.build(:default_project) }
+      it "returns nil" do
+        expect(project.start_date).to eq(nil)
+      end
+    end
+    context "with slots" do
+      let(:project) { FactoryGirl.create(:default_project) }
+      before do
+        FactoryGirl.create(:default_project_slot, slot_date: 5.days.from_now.to_s, project: project)
+        FactoryGirl.create(:default_project_slot, slot_date: 2.days.from_now.to_s, project: project)
+      end
+      it "returns the date of the earliest slot" do
+        expect(project.start_date).to eq(2.days.from_now.to_date)
+      end
+    end
+  end
+
+  describe "#end_date" do
+    context "with no slots" do
+      let(:project) { FactoryGirl.build(:default_project) }
+      it "returns nil" do
+        expect(project.end_date).to eq(nil)
+      end
+    end
+    context "with slots" do
+      let(:project) { FactoryGirl.create(:default_project) }
+      before do
+        FactoryGirl.create(:default_project_slot, slot_date: 5.days.from_now.to_s, project: project)
+        FactoryGirl.create(:default_project_slot, slot_date: 2.days.from_now.to_s, project: project)
+      end
+      it "returns the date of the latest slot" do
+        expect(project.end_date).to eq(5.days.from_now.to_date)
+      end
+    end
+  end
+
 end

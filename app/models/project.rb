@@ -22,6 +22,16 @@ class Project < ActiveRecord::Base
   ]
 
 
+  def start_date
+    project_slots.order(:slot_date).first.slot_date unless project_slots.empty?
+  end
+
+
+  def end_date
+    project_slots.order(:slot_date).last.slot_date unless project_slots.empty?
+  end
+
+
   def self.import(file)
 
     data = CSV.read(file, headers: :first_row, return_headers: true)
