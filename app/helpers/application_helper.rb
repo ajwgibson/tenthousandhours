@@ -1,3 +1,5 @@
+require 'kramdown'
+
 module ApplicationHelper
 
   def is_active_controller(controller_name)
@@ -17,7 +19,12 @@ module ApplicationHelper
       content_tag(:span, " ", class: ["fa", "fa-times", "text-danger"])
     end
   end
-  
+
+
+  def markdown(text)
+    Kramdown::Document.new(text ||= '').to_html
+  end
+
 
   #
   # Toastr messages used for application flashes

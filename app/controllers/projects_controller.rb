@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @projects = Project.all
+    @projects = Project.order :organisation_name
   end
 
 
@@ -86,6 +86,15 @@ class ProjectsController < ApplicationController
   end
 
 
+  def summary
+  end
+
+
+  def do_summary
+    @project.attributes = summary_params
+    @project.save
+    redirect_to @project, notice: 'Project summary was updated successfully'
+  end
 
 
   private
@@ -122,6 +131,12 @@ class ProjectsController < ApplicationController
           :youth,
           :materials,
         )
+    end
+
+    def summary_params
+      params
+        .require(:project)
+        .permit(:summary)
     end
 
     def review_params

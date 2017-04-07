@@ -5,6 +5,8 @@ class Project < ActiveRecord::Base
   acts_as_paranoid
   include Filterable
 
+  enum status: [ :draft, :published ]
+
   has_many :project_slots
 
   validates :organisation_type, :presence => true

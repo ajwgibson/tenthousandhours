@@ -351,4 +351,53 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
 
+
+  describe "GET #summary" do
+
+    let(:project) { FactoryGirl.create(:default_project) }
+
+    it "shows a record for editing" do
+      get :summary, { id: project.id }
+      expect(response).to render_template :summary
+      expect(response).to have_http_status(:success)
+      expect(assigns(:project).id).to eq(project.id)
+    end
+    it "raises an exception for a missing record" do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        get :summary, { id: 99 }
+      end
+    end
+
+  end
+
+
+  describe "PUT #do_summary" do
+
+    let(:project) { FactoryGirl.create(:default_project) }
+
+    def post_update
+      put :do_summary, :id => project.id, :project => {
+        summary: 'Some summary text'
+      }
+      project.reload
+    end
+
+    before(:each) do
+      post_update
+    end
+
+    it "updates summary" do
+      expect(project.summary).to eq('Some summary text')
+    end
+
+    it "redirects to the show action" do
+      expect(response).to redirect_to(project_path(assigns(:project)))
+    end
+
+    it "set a flash message" do
+      expect(flash[:notice]).to eq('Project summary was updated successfully')
+    end
+
+  end
+
 end

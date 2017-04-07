@@ -33,6 +33,7 @@ FactoryGirl.define do
   end
 
   factory :default_project, parent: :project do
+    status              :draft
     organisation_type   "School"
     organisation_name   "Causeway Coast Primary"
   end

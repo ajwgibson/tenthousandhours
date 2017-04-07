@@ -54,6 +54,9 @@ gem 'roo'
 # bootstrap form helpers
 gem 'bootstrap_form'
 
+# Kramdown for markdown display
+gem 'kramdown'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

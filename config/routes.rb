@@ -8,9 +8,11 @@ Rails.application.routes.draw do
   get '/not_authorized', to: 'home#not_authorized'
 
   get  'projects/import'
-  post 'projects/import', to: 'projects#do_import'
-  get  'projects/:id/review', to: 'projects#review',    as: 'review_project'
-  put  'projects/:id/review', to: 'projects#do_review'
+  post 'projects/import',      to: 'projects#do_import'
+  get  'projects/:id/review',  to: 'projects#review',     as: 'review_project'
+  put  'projects/:id/review',  to: 'projects#do_review'
+  get  'projects/:id/summary', to: 'projects#summary',    as: 'summarise_project'
+  put  'projects/:id/summary', to: 'projects#do_summary', as: 'do_summarise_project'
   resources :projects do
     get    'slots', to: 'project_slots#index',   as: 'slots'
     post   'slots', to: 'project_slots#create',  as: 'slots_create'

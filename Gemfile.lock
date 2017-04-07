@@ -120,6 +120,7 @@ GEM
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    kramdown (1.13.2)
     libv8 (3.16.14.15)
     listen (3.0.3)
       rb-fsevent (>= 0.9.3)
@@ -275,6 +276,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   kaminari
+  kramdown
   pg (~> 0.15)
   puma
   rails (= 4.2.6)

@@ -21,9 +21,10 @@
 //= require select2/select2.full.min.js
 //= require datepicker/bootstrap-datepicker.js
 //= require sweetalert/sweetalert.min.js
+//= require showdown/showdown.min.js
 //= require_tree .
 
-$(function () {
+$(function() {
 
   $('[data-toggle="tooltip"]').tooltip();
 
@@ -85,5 +86,12 @@ $(function () {
 
   $("form[data-warn]").submit(warn);
   $("button[data-warn]").click(warn);
+
+  // Showdown (markdown) live preview
+  var converter = new showdown.Converter();
+  $('#showdown-editor').keyup(function convert() {
+    $('#showdown-preview').html(converter.makeHtml($(this).val()));
+  });
+  $('#showdown-editor').keyup();
 
 })
