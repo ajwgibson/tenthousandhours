@@ -34,6 +34,20 @@ class Project < ActiveRecord::Base
   end
 
 
+  def suitable_for_youth?
+    return false if youth.nil? || youth == 0
+    return true
+  end
+
+
+  def can_publish?
+    return false if project_slots.size == 0
+    return false if summary.blank?
+    return false if adults.nil?
+    true
+  end
+
+
   def self.import(file)
 
     data = CSV.read(file, headers: :first_row, return_headers: true)

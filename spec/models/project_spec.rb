@@ -317,4 +317,54 @@ RSpec.describe Project, type: :model do
     end
   end
 
+
+  describe "#can_publish?" do
+    context "when a project is good to go" do
+      it "returns true" do
+        project = FactoryGirl.create(:good_to_publish_project)
+        expect(project.can_publish?).to eq(true)
+      end
+    end
+    context "when a project has no slots" do
+      it "returns false" do
+        project = FactoryGirl.create(:default_project, adults: 10, summary: 'Something')
+        expect(project.can_publish?).to eq(false)
+      end
+    end
+    context "when a project has no summary" do
+      it "returns false" do
+        project = FactoryGirl.create(:good_to_publish_project, summary: '')
+        expect(project.can_publish?).to eq(false)
+      end
+    end
+    context "when a project has no adult quota set" do
+      it "returns false" do
+        project = FactoryGirl.create(:good_to_publish_project, adults: nil)
+        expect(project.can_publish?).to eq(false)
+      end
+    end
+  end
+
+
+  describe "#suitable_for_youth?" do
+    context "when the youth counter is nil" do
+      it "returns false" do
+        project = FactoryGirl.build(:default_project, youth: nil)
+        expect(project.suitable_for_youth?).to eq(false)
+      end
+    end
+    context "when the youth counter is zero" do
+      it "returns false" do
+        project = FactoryGirl.build(:default_project, youth: 0)
+        expect(project.suitable_for_youth?).to eq(false)
+      end
+    end
+    context "when the youth counter is more than zero" do
+      it "returns false" do
+        project = FactoryGirl.build(:default_project, youth: 1)
+        expect(project.suitable_for_youth?).to eq(true)
+      end
+    end
+  end
+
 end

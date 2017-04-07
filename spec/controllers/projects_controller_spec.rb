@@ -400,4 +400,68 @@ RSpec.describe ProjectsController, type: :controller do
 
   end
 
+
+  describe "GET #publish" do
+
+    let(:project) { FactoryGirl.create(:default_project) }
+
+    it "shows a record for editing" do
+      get :publish, { id: project.id }
+      expect(response).to render_template :publish
+      expect(response).to have_http_status(:success)
+      expect(assigns(:project).id).to eq(project.id)
+    end
+    it "raises an exception for a missing record" do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        get :publish, { id: 99 }
+      end
+    end
+
+  end
+
+
+  describe "PUT #do_publish" do
+
+    context "when a project is good to go" do
+      let(:project) { FactoryGirl.create(:good_to_publish_project) }
+      def post_update
+        put :do_publish, :id => project.id
+        project.reload
+      end
+      before(:each) do
+        post_update
+      end
+      it "set the status to published" do
+        expect(project.status).to eq(:published.to_s)
+      end
+      it "redirects to the show action" do
+        expect(response).to redirect_to(project_path(assigns(:project)))
+      end
+      it "set a flash message" do
+        expect(flash[:notice]).to eq('Project was published')
+      end
+    end
+
+    context "when a project is not ready to publish" do
+      let(:project) { FactoryGirl.create(:default_project) }
+      def post_update
+        put :do_publish, :id => project.id
+        project.reload
+      end
+      before(:each) do
+        post_update
+      end
+      it "does not set the status to published" do
+        expect(project.status).to_not eq(:published.to_s)
+      end
+      it "redirects to the publish action" do
+        expect(response).to redirect_to(publish_project_path(assigns(:project)))
+      end
+      it "set a flash message" do
+        expect(flash[:error]).to eq('Project cannot be published')
+      end
+    end
+
+  end
+
 end

@@ -314,7 +314,7 @@
         </div>
       </div>
       <div class="ibox-content">
-        <%= raw markdown(@project.summary) %>
+        <%= markdown(@project.summary) %>
       </div>
     </div>
 
@@ -327,15 +327,21 @@
       </div>
       <div class="ibox-content">
 
+        <div>
+          <%= link_to projects_path, :class => 'btn btn-outline btn-default' do %>
+            <i class="fa fa-reply"></i> Back to projects
+          <% end %>
+        </div>
+
         <% if can? :edit, Project %>
         <div>
-          <%= link_to edit_project_path, :class => 'btn btn-primary' do %>
+          <%= link_to edit_project_path, :class => 'btn btn-outline btn-primary' do %>
             <i class="fa fa-edit"></i> Edit details
           <% end %>
         </div>
         <% elsif can? :review, Project %>
         <div>
-          <%= link_to review_project_path(@project), :class => 'btn btn-primary' do %>
+          <%= link_to review_project_path(@project), :class => 'btn btn-outline btn-primary' do %>
             <i class="fa fa-edit"></i> Edit details
           <% end %>
         </div>
@@ -343,7 +349,7 @@
 
         <% if can? :manage, ProjectSlot %>
         <div>
-          <%= link_to project_slots_path(@project), :class => 'btn btn-success' do %>
+          <%= link_to project_slots_path(@project), :class => 'btn btn-outline btn-success' do %>
             <i class="fa fa-calendar"></i> Manage project slots
           <% end %>
         </div>
@@ -351,7 +357,7 @@
 
         <% if can? :summary, Project %>
         <div>
-          <%= link_to summarise_project_path, :class => 'btn btn-success' do %>
+          <%= link_to summarise_project_path, :class => 'btn btn-outline btn-success' do %>
             <i class="fa fa-edit"></i> Edit project summary
           <% end %>
         </div>
@@ -359,15 +365,17 @@
 
         <% if can? :destroy, Project %>
         <div>
-          <a class="btn btn-danger" data-toggle='modal' data-target='#delete'><i class="fa fa-times"></i> Delete this project</a>
+          <a class="btn btn-outline btn-danger" data-toggle='modal' data-target='#delete'><i class="fa fa-times"></i> Delete this project</a>
         </div>
         <% end %>
 
-        <div>
-          <%= link_to projects_path, :class => 'btn btn-default' do %>
-            <i class="fa fa-reply"></i> Back to projects
+        <% if can? :publish, Project %>
+        <div style="margin-top: 20px;">
+          <%= link_to publish_project_path, :class => 'btn btn-lg btn-primary' do %>
+            <i class="fa fa-globe"></i> Publish project
           <% end %>
         </div>
+        <% end %>
 
       </div>
     </div>

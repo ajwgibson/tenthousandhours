@@ -97,6 +97,21 @@ class ProjectsController < ApplicationController
   end
 
 
+  def publish
+  end
+
+
+  def do_publish
+    if @project.can_publish?
+      @project.published!
+      redirect_to @project, notice: 'Project was published'
+    else
+      flash[:error] = 'Project cannot be published'
+      redirect_to publish_project_url(@project)
+    end
+  end
+
+
   private
 
     # Parameter white lists

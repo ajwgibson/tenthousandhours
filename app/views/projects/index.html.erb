@@ -34,6 +34,7 @@
                 <th>Contact name</th>
                 <th>Planned dates</th>
                 <th>Planned slots</th>
+                <th>Status</th>
                 <th>Links</th>
               </tr>
             </thead>
@@ -46,6 +47,7 @@
                 <td><%= project.contact_name %> </td>
                 <td><%= project_dates(project) %></td>
                 <td><%= project.project_slots.size %> </td>
+                <td><%= project.status.humanize %> </td>
                 <td>
                   <%= link_to project_path(project), :class => '' do %>
                   <i class="fa fa-info-circle"></i> View details

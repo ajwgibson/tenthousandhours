@@ -38,4 +38,16 @@ FactoryGirl.define do
     organisation_name   "Causeway Coast Primary"
   end
 
+  factory :good_to_publish_project, parent: :default_project do
+    status              :draft
+    organisation_type   "School"
+    organisation_name   "Causeway Coast Primary"
+    adults              10
+    summary             'Some kind of summary'
+
+    after(:create) do |project|
+      create(:default_project_slot, project: project)
+    end
+  end
+
 end
