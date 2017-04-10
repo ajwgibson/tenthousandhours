@@ -104,10 +104,7 @@ class Project < ActiveRecord::Base
         end
 
         begin
-          Project.where(typeform_id: params['typeform_id']).first_or_initialize.tap do |project|
-            project.assign_attributes(params)
-            project.save!
-          end
+          Project.create! params unless Project.exists?(typeform_id: params['typeform_id'])
         rescue
           raise 'Invalid data'
         end

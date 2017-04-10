@@ -269,8 +269,8 @@ RSpec.describe Project, type: :model do
       it "does not create a new record" do
         expect(Project.count).to eq(1)
       end
-      it "updates the existing project" do
-        expect(project.organisation_name).to eq('Causeway Coast Pre-school')
+      it "does not update the existing project" do
+        expect(project.organisation_name).to eq('A school')
       end
     end
 
