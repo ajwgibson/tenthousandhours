@@ -15,6 +15,16 @@ class Project < ActiveRecord::Base
   validates :youth,  numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validate  :youth_need_youth_projects
 
+  scope :could_run_wc_july_3rd,  ->(value) { where('july_3=? OR any_week=?',  true, true) }
+  scope :could_run_wc_july_10th, ->(value) { where('july_10=? OR any_week=?', true, true) }
+  scope :could_run_wc_july_17th, ->(value) { where('july_17=? OR any_week=?', true, true) }
+  scope :could_run_wc_july_24th, ->(value) { where('july_24=? OR any_week=?', true, true) }
+  scope :could_run_evenings, ->(value) { where evenings: true }
+  scope :could_run_saturday, ->(value) { where saturday: true }
+  scope :with_name,   ->(value) { where("lower(organisation_name) like lower(?)", "%#{value}%") }
+  scope :of_type,     ->(value) { where organisation_type: value }
+  scope :with_status, ->(value) { where status: value }
+
   ORG_TYPES = [
     "Agency/Charity",
     "Business",

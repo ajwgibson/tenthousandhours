@@ -3,7 +3,15 @@ class ProjectsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @projects = Project.order :organisation_name
+    @filter = get_filter
+    @projects = Project.filter(@filter).order :organisation_name
+    set_filter @filter
+  end
+
+
+  def clear_filter
+    set_filter nil
+    redirect_to projects_url
   end
 
 
@@ -171,6 +179,30 @@ class ProjectsController < ApplicationController
           :youth,
           :materials,
         )
+    end
+
+    def get_filter
+      filter =
+        params.slice(
+          :could_run_wc_july_3rd,
+          :could_run_wc_july_10th,
+          :could_run_wc_july_17th,
+          :could_run_wc_july_24th,
+          :could_run_evenings,
+          :could_run_saturday,
+          :with_name,
+          :of_type,
+          :with_status,
+          :order_by,
+        )
+      filter = session[:filter_projects].symbolize_keys! if filter.empty? && session.key?(:filter_projects)
+      filter = { :order_by => 'organisation_name' } if filter.empty?
+      filter.delete_if { |key, value| value.blank? }
+    end
+
+    def set_filter(filter)
+      session[:filter_projects] = filter unless filter.nil?
+      session.delete(:filter_projects) if filter.nil?
     end
 
 end

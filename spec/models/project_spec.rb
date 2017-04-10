@@ -367,4 +367,120 @@ RSpec.describe Project, type: :model do
     end
   end
 
+
+  #
+  # SCOPES
+  #
+  describe 'scope:could_run_wc_july_3rd' do
+    it 'includes records with july_3 set true' do
+      a    = FactoryGirl.create(:default_project, :july_3 => true , any_week: false)
+      b    = FactoryGirl.create(:default_project, :july_3 => false, any_week: false)
+      filtered = Project.could_run_wc_july_3rd(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+    it 'includes records with any_week set true' do
+      a    = FactoryGirl.create(:default_project, july_3: false, any_week: true)
+      b    = FactoryGirl.create(:default_project, july_3: false, any_week: false)
+      filtered = Project.could_run_wc_july_3rd(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+  describe 'scope:could_run_wc_july_10th' do
+    it 'includes records with july_10 set true' do
+      a    = FactoryGirl.create(:default_project, :july_10 => true , any_week: false)
+      b    = FactoryGirl.create(:default_project, :july_10 => false, any_week: false)
+      filtered = Project.could_run_wc_july_10th(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+    it 'includes records with any_week set true' do
+      a    = FactoryGirl.create(:default_project, july_10: false, any_week: true)
+      b    = FactoryGirl.create(:default_project, july_10: false, any_week: false)
+      filtered = Project.could_run_wc_july_10th(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+  describe 'scope:could_run_wc_july_17th' do
+    it 'includes records with july_17 set true' do
+      a    = FactoryGirl.create(:default_project, :july_17 => true , any_week: false)
+      b    = FactoryGirl.create(:default_project, :july_17 => false, any_week: false)
+      filtered = Project.could_run_wc_july_17th(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+    it 'includes records with any_week set true' do
+      a    = FactoryGirl.create(:default_project, july_17: false, any_week: true)
+      b    = FactoryGirl.create(:default_project, july_17: false, any_week: false)
+      filtered = Project.could_run_wc_july_17th(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+  describe 'scope:could_run_wc_july_24th' do
+    it 'includes records with july_24 set true' do
+      a    = FactoryGirl.create(:default_project, :july_24 => true , any_week: false)
+      b    = FactoryGirl.create(:default_project, :july_24 => false, any_week: false)
+      filtered = Project.could_run_wc_july_24th(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+    it 'includes records with any_week set true' do
+      a    = FactoryGirl.create(:default_project, july_24: false, any_week: true)
+      b    = FactoryGirl.create(:default_project, july_24: false, any_week: false)
+      filtered = Project.could_run_wc_july_24th(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+  describe 'scope:could_run_evenings' do
+    it 'includes records with evenings set true' do
+      a    = FactoryGirl.create(:default_project, evenings: true)
+      b    = FactoryGirl.create(:default_project, evenings: false)
+      filtered = Project.could_run_evenings(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+  describe 'scope:could_run_saturday' do
+    it 'includes records with saturday set true' do
+      a    = FactoryGirl.create(:default_project, saturday: true)
+      b    = FactoryGirl.create(:default_project, saturday: false)
+      filtered = Project.could_run_saturday(true)
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+  describe 'scope:with_name' do
+    it 'includes records where the organisation_name contains the value' do
+      aaa    = FactoryGirl.create(:default_project, organisation_name: 'aaa')
+      bab    = FactoryGirl.create(:default_project, organisation_name: 'bab')
+      bbb    = FactoryGirl.create(:default_project, organisation_name: 'bbb')
+      filtered = Project.with_name('a')
+      expect(filtered).to include(aaa)
+      expect(filtered).to include(bab)
+      expect(filtered).not_to include(bbb)
+    end
+  end
+  describe 'scope:of_type' do
+    it 'includes records where the organisation_type matches the value' do
+      a    = FactoryGirl.create(:default_project, organisation_type: 'a')
+      b    = FactoryGirl.create(:default_project, organisation_type: 'b')
+      filtered = Project.of_type('a')
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+  describe 'scope:with_status' do
+    it 'includes records where the status matches the value' do
+      a    = FactoryGirl.create(:default_project, status: :draft)
+      b    = FactoryGirl.create(:default_project, status: :published)
+      filtered = Project.with_status(Project.statuses[:draft])
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+
 end

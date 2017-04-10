@@ -18,6 +18,101 @@ RSpec.describe ProjectsController, type: :controller do
       get :index
       expect(assigns(:projects)).to eq([project])
     end
+    it "orders projects by organisation_name by default" do
+      b = FactoryGirl.create(:default_project, organisation_name: 'b')
+      c = FactoryGirl.create(:default_project, organisation_name: 'c')
+      a = FactoryGirl.create(:default_project, organisation_name: 'a')
+      get :index
+      expect(assigns(:projects)).to eq([a,b,c])
+    end
+    it "applies the 'order_by' parameter" do
+      b = FactoryGirl.create(:default_project, organisation_name: 'b')
+      c = FactoryGirl.create(:default_project, organisation_name: 'c')
+      a = FactoryGirl.create(:default_project, organisation_name: 'a')
+      get :index, order_by: 'organisation_name desc'
+      expect(assigns(:projects)).to eq([c,b,a])
+    end
+    it "applies the 'could_run_wc_july_3rd' filter" do
+      a = FactoryGirl.create(:default_project, :july_3 => true , any_week: false)
+      b = FactoryGirl.create(:default_project, :july_3 => false, any_week: false)
+      get :index, could_run_wc_july_3rd: true
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'could_run_wc_july_10th' filter" do
+      a = FactoryGirl.create(:default_project, :july_10 => true , any_week: false)
+      b = FactoryGirl.create(:default_project, :july_10 => false, any_week: false)
+      get :index, could_run_wc_july_10th: true
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'could_run_wc_july_17th' filter" do
+      a = FactoryGirl.create(:default_project, :july_17 => true , any_week: false)
+      b = FactoryGirl.create(:default_project, :july_17 => false, any_week: false)
+      get :index, could_run_wc_july_17th: true
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'could_run_wc_july_24th' filter" do
+      a = FactoryGirl.create(:default_project, :july_24 => true , any_week: false)
+      b = FactoryGirl.create(:default_project, :july_24 => false, any_week: false)
+      get :index, could_run_wc_july_24th: true
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'could_run_evenings' filter" do
+      a = FactoryGirl.create(:default_project, evenings: true)
+      b = FactoryGirl.create(:default_project, evenings: false)
+      get :index, could_run_evenings: true
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'could_run_saturday' filter" do
+      a = FactoryGirl.create(:default_project, saturday: true)
+      b = FactoryGirl.create(:default_project, saturday: false)
+      get :index, could_run_saturday: true
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'with_name' filter" do
+      a = FactoryGirl.create(:default_project, organisation_name: 'a')
+      b = FactoryGirl.create(:default_project, organisation_name: 'b')
+      get :index, with_name: 'a'
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'of_type' filter" do
+      a = FactoryGirl.create(:default_project, organisation_type: 'a')
+      b = FactoryGirl.create(:default_project, organisation_type: 'b')
+      get :index, of_type: 'a'
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "applies the 'with_status' filter" do
+      a = FactoryGirl.create(:default_project, status: :draft)
+      b = FactoryGirl.create(:default_project, status: :published)
+      get :index, with_status: Project.statuses[:draft]
+      expect(assigns(:projects)).to eq([a])
+    end
+    it "stores filters to the session" do
+      get :index, could_run_wc_july_3rd: true
+      expect(session[:filter_projects]).to eq({'could_run_wc_july_3rd' => true})
+    end
+    it "removes blank filter values" do
+      get :index, could_run_wc_july_3rd: nil
+      expect(assigns(:filter)).to eq({})
+    end
+    it "retrieves filters from the session if none have been supplied" do
+      a = FactoryGirl.create(:default_project, :july_3 => true , any_week: false)
+      b = FactoryGirl.create(:default_project, :july_3 => false, any_week: false)
+      get :index, { }, { :filter_projects => {'could_run_wc_july_3rd' => true} }
+      expect(assigns(:projects)).to eq([a])
+    end
+  end
+
+
+  describe "GET #clear_filter" do
+    it "redirects to #index" do
+      get :clear_filter
+      expect(response).to redirect_to(:projects)
+    end
+    it "clears the session entry" do
+      session[:filter_projects] = {'could_run_wc_july_3rd' => true}
+      get :clear_filter
+      expect(session.key?(:filter_projects)).to be false
+    end
   end
 
 
