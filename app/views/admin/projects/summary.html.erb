@@ -1,0 +1,74 @@
+
+<div class="row">
+  <div class="col-lg-9">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h2>Update project summary</h2>
+      </div>
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-sm-12">
+            <p>
+              The project summary will be shown on the public website and
+              will help volunteers to decide whether they want to sign up for
+              any given project. So it's important to really <em><strong>sell
+              the project</strong></em> here by including as much information as possible
+              and adopting a positive tone.
+            </p>
+            <p>
+              Note: this text can be formatted using simple <code>markdown</code>. For
+              more information about the markdown syntax see the
+              <a href="https://daringfireball.net/projects/markdown/basics"
+                target="top"><span class="glyphicon glyphicon-new-window"></span> official documentation</a>.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <h4>Summary</h4>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <%= form_for(
+                        @project,
+                        method: :put,
+                        url: admin_do_summarise_project_path ) do |f| %>
+                  <div class="form-group">
+                    <%= f.text_area :summary, class: 'form-control', rows: 25, id: 'showdown-editor' %>
+                  </div>
+                  <%= button_tag(type: "submit", class: "btn btn-primary") do %>
+                    <i class="fa fa-check"></i> Save
+                  <% end %>
+                  <%= link_to admin_project_path, :class => 'btn btn-default' do %>
+                    <i class="fa fa-times"></i> Cancel
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <h4>Preview</h4>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h3><%= @project.organisation_name %></h3>
+                <p><%= styled_project_dates(@project) %></p>
+                <div id="showdown-preview"> </div>
+                <strong>Slots:</strong>
+                <ul>
+                  <% @project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                  <li>
+                    <%= project_slot.slot_date.strftime("%A #{project_slot.slot_date.day.ordinalize} %B") %>
+                    - <%= project_slot.humanized_slot_type %>
+                  </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <%= render partial: "sidebar_project_summary", locals: { project: @project } %>
+  </div>
+</div>

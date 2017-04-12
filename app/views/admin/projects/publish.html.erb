@@ -1,0 +1,95 @@
+
+<div class="row">
+  <div class="col-lg-12">
+
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h2>Publish project</h2>
+      </div>
+      <div class="ibox-content">
+
+        <p>
+          The following information will be shown to potential volunteers.
+          If any of this information is missing you will not be able to publish
+          the project. Please check that the information is complete and correct
+          before proceedingt to publish the project.
+        </p>
+
+        <%= form_for(
+                @project,
+                method: :put,
+                html: { class: 'form-horizontal' },
+                url: admin_do_publish_project_path ) do |f| %>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Project name</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.organisation_name %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Number of adults needed</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.adults %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Suitable for youth?</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= yes_no_icon(@project.suitable_for_youth?) %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Project dates</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= project_dates(@project) %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Project slots</label>
+            <div class="col-lg-9">
+              <p class="form-control-static">
+              <% @project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                <%= project_slot.slot_date.strftime("%A #{project_slot.slot_date.day.ordinalize} %B") %>
+                - <%= project_slot.humanized_slot_type %><br />
+              <% end %>
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Project summary</label>
+            <div class="col-lg-9">
+              <div class="form-control-static">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <%= markdown(@project.summary) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-lg-9 col-lg-offset-3">
+              <% if @project.can_publish? %>
+                <%= button_tag(type: "submit", class: "btn btn-primary") do %>
+                  <i class="fa fa-globe"></i> Publish
+                <% end %>
+              <% else %>
+                <%= button_tag(type: "submit", class: "btn btn-primary", disabled: 'disabled') do %>
+                  <i class="fa fa-globe"></i> Publish
+                <% end %>
+              <% end %>
+                <%= link_to admin_project_path, :class => 'btn btn-default' do %>
+                  <i class="fa fa-times"></i> Cancel
+                <% end %>
+            </div>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+</div>

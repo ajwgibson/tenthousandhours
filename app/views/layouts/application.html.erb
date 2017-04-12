@@ -1,49 +1,371 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>Ten Thousand Hours</title>
+    <title>10,000 hours | Causeway Coast Vineyard</title>
 
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'public', media: 'all', 'data-turbolinks-track' => true %>
 
-  <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+    <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
-  <%= csrf_meta_tags %>
-
+    <%= csrf_meta_tags %>
 </head>
 
-<body class="fixed-nav">
+<body id="page-top" class="landing-page no-skin-config">
+  <div class="navbar-wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a class="page-scroll" href="#page-top">Home</a></li>
+            <li><a class="page-scroll" href="#projects">Projects</a></li>
+            <li><a class="page-scroll" href="#signup">Sign up</a></li>
+            <li><a class="page-scroll" href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 
-  <!-- Wrapper-->
-  <div id="wrapper">
+  <div class="banner">
+    <%= image_tag('banner.jpg') %>
+  </div>
 
-      <!-- Navigation -->
-      <%= render 'layouts/navigation' %>
+  <section id="projects" class="gray-section projects">
+    <div class="container">
+      <div class="row m-b-lg">
+        <div class="col-lg-12 text-center">
+          <div class="navy-line"></div>
+          <h1>Projects</h1>
+          <p>
+            These are the projects that are running this year. We have
+            a wide variety so hopefully there is something for everyone!
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="grid">
 
-      <!-- Page wraper -->
-      <div id="page-wrapper" class="gray-bg">
+          <div class="grid-sizer"></div>
+          <div class="gutter-sizer"></div>
 
-          <!-- Page wrapper -->
-          <%= render 'layouts/topnavbar' %>
-
-          <!-- Main view  -->
-          <div class="wrapper wrapper-content animated fadeInRight">
-          <%= yield %>
+          <div class="grid-item">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>Project #1</h5>
+              </div>
+              <div class="ibox-content" style="display: block;">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in
+                  lacus non velit pulvinar rutrum interdum sit amet felis. Duis
+                  imperdiet nisl ut tincidunt varius. Proin in neque sollicitudin
+                  nulla sollicitudin pharetra et non ipsum. Nam vestibulum quam et
+                  pretium commodo. Donec id odio urna. Pellentesque bibendum justo
+                  ac nibh venenatis molestie. Donec efficitur justo pellentesque
+                  nisi porttitor, id convallis nisl ultricies. Sed vestibulum enim
+                  lorem, ut pretium lacus auctor ac. Nunc lectus ex, sollicitudin
+                  et velit quis, dapibus suscipit lacus.
+                </p>
+              </div>
+            </div>
           </div>
 
+          <div class="grid-item">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>Project #2</h5>
+              </div>
+              <div class="ibox-content" style="display: block;">
+                <p>
+                  Mauris mi nisi, commodo ac odio eget, faucibus sagittis sapien.
+                  Curabitur in ipsum eget arcu pharetra convallis. Duis id quam ut
+                  neque maximus dictum. Nam vel tempor ante, blandit tempor sapien.
+                  Vestibulum euismod nisl et ex aliquet cursus. Morbi et nisi ante.
+                  Nullam mattis metus eu gravida rutrum. Suspendisse vel consectetur
+                  lacus. Mauris tristique velit eget sapien tempus sagittis.
+                  Vestibulum ut lacus sit amet diam luctus fermentum. Donec imperdiet
+                  sagittis eros vitae venenatis. Nunc venenatis, sapien molestie
+                  aliquam sodales, justo nisl suscipit arcu, quis condimentum elit
+                  eros a diam. Maecenas pulvinar, erat quis tincidunt scelerisque,
+                  erat massa tristique enim, et efficitur orci nisl nec libero.
+                  Nunc congue vitae neque at eleifend. Donec ac tortor ut dui
+                  porttitor consequat quis vitae tortor. Proin vel aliquet ligula,
+                  nec tincidunt diam.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-item">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>Project #3</h5>
+              </div>
+              <div class="ibox-content" style="display: block;">
+                <p>
+                  Proin scelerisque lectus ac dolor pulvinar interdum. Cras
+                  hendrerit bibendum vehicula. Morbi magna erat, rhoncus ac
+                  interdum in, tempor sagittis nisi. Praesent nec augue vitae
+                  felis gravida vulputate vitae in quam. Proin rhoncus, tellus
+                  a posuere egestas, lorem augue auctor dui, fringilla consequat
+                  odio enim in erat. In tempus vestibulum dolor vitae congue.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-item">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>Project #4</h5>
+              </div>
+              <div class="ibox-content" style="display: block;">
+                <p>
+                  Duis aliquam ornare consequat. Ut cursus, neque sit amet blandit
+                  posuere, elit sem ornare lectus, vitae cursus purus velit non
+                  dolor. Aliquam elit magna, tempor eu dui non, aliquet dapibus est.
+                  Aenean ut neque in dolor consequat laoreet. Quisque eu orci nisi.
+                  Fusce et vulputate nibh, at sagittis mi. Donec tortor ipsum,
+                  bibendum hendrerit pharetra eget, ultricies at justo. Quisque
+                  efficitur, tortor a maximus mollis, enim odio feugiat lorem, ac
+                  tempus risus massa in sem. Quisque id metus enim. Duis fringilla
+                  velit non nibh euismod rhoncus. Nullam sit amet suscipit nulla,
+                  at molestie massa. Praesent elementum scelerisque enim vel
+                  consequat. Nam ac metus facilisis, varius nulla vel, rhoncus
+                  magna. Proin turpis enim, gravida nec orci vitae, volutpat
+                  pretium lacus. Ut aliquet finibus placerat. In lorem urna,
+                  posuere non tortor posuere, tristique molestie quam.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-item">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>Project #5</h5>
+              </div>
+              <div class="ibox-content" style="display: block;">
+                <p>
+                  Nullam nec fermentum ligula. Phasellus tortor elit, egestas in
+                  interdum sed, hendrerit et tellus. In lobortis enim id dolor
+                  porta, a efficitur lectus efficitur. Proin at est maximus,
+                  lobortis risus sit amet, feugiat nunc. Aliquam nec fringilla
+                  sapien. Quisque laoreet sem leo, ac egestas justo elementum vel.
+                  Etiam mollis molestie dolor. Nam volutpat lobortis urna ut
+                  molestie. Proin suscipit odio nec leo rhoncus consectetur.
+                  Suspendisse eget convallis quam. Morbi egestas sit amet leo non
+                  maximus. Etiam blandit dolor at quam dignissim interdum. Aenean
+                  leo neque, ultrices quis nibh at, mattis efficitur urna. Mauris
+                  at neque gravida, porta ex nec, finibus nunc. Proin blandit urna
+                  sed pretium consequat.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-item">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>Project #6</h5>
+              </div>
+              <div class="ibox-content" style="display: block;">
+                <p>
+                  Nullam nec fermentum ligula. Phasellus tortor elit, egestas in
+                  interdum sed, hendrerit et tellus. In lobortis enim id dolor
+                  porta, a efficitur lectus efficitur. Proin at est maximus,
+                  lobortis risus sit amet, feugiat nunc. Aliquam nec fringilla
+                  sapien. Quisque laoreet sem leo, ac egestas justo elementum vel.
+                  Etiam mollis molestie dolor. Nam volutpat lobortis urna ut
+                  molestie. Proin suscipit odio nec leo rhoncus consectetur.
+                  Suspendisse eget convallis quam. Morbi egestas sit amet leo non
+                  maximus. Etiam blandit dolor at quam dignissim interdum. Aenean
+                  leo neque, ultrices quis nibh at, mattis efficitur urna. Mauris
+                  at neque gravida, porta ex nec, finibus nunc. Proin blandit urna
+                  sed pretium consequat.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- End page wrapper-->
+    </div>
+  </section>
 
-  </div>
-  <!-- End wrapper-->
+  <section id="signup" class="gray-section signup">
+    <div class="container">
+      <div class="row m-b-lg">
+        <div class="col-lg-6 col-lg-offset-3 text-center">
+          <div class="navy-line"></div>
+          <h1>Sign up</h1>
+          <p>
+            You can sign up for projects individually or with members of your
+            family. We'll need to take an email address and mobile phone number
+            so that we can keep you informed.
+          </p>
+          <p>
+            If you started to sign up but didn't complete the process for some
+            reason, you can continue from where you left off using the email
+            address and secret that you provided originally.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-lg-offset-2 col-md-4 col-md-offset-1 col-sm-6" style="margin-bottom: 40px;">
+          <fieldset>
+            <legend>New sign up</legend>
+            <a href="" class="btn btn-lg btn-primary"><span class="text-uppercase">Sign up now!</span></a>
+          </fieldset>
+        </div>
+        <div class="col-lg-3 col-lg-offset-2 col-md-4 col-md-offset-2 col-sm-6">
+          <form>
+            <fieldset>
+              <legend>Continue sign up</legend>
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" placeholder="Email address" id="email">
+              </div>
+              <div class="form-group">
+                <label for="secret">Secret</label>
+                <input type="password" class="form-control" placeholder="Secret" id="secret">
+              </div>
+              <button type="submit" class="btn btn-primary"><span class="text-uppercase">Continue</span></button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        &nbsp;
+      </div>
+    </div>
+  </section>
 
-  <%= toastr_flash %>
+  <section id="contact" class="gray-section contact">
+    <div class="container">
+      <div class="row m-b-lg">
+        <div class="col-lg-12 text-center">
+          <div class="navy-line"></div>
+          <h1>Contact us</h1>
+        </div>
+      </div>
+      <div class="row m-b-lg">
+        <div class="col-lg-3 col-lg-offset-3">
+          <address>
+            <strong><span class="navy">Causeway Coast Vineyard</span></strong><br/>
+            10 Hillmans Way, Coleraine,<br/>
+            BT52 2ED, Northern Ireland<br/>
+            <abbr title="Phone">P:</abbr> +44 (0)28 70 326161
+          </address>
+          <a class="navy-link"
+             href="https://www.google.co.uk/maps/place/Causeway+Coast+Vineyard/@55.129649,-6.6633903,15z/data=!4m5!3m4!1s0x486024ccc9db9b2b:0xd2cde95bab55e3d0!8m2!3d55.129649!4d-6.6546356"
+             target="_blank"
+             role="button">Find us with Google maps <span class="fa fa-google"> </span></a>
+
+        </div>
+        <div class="col-lg-4">
+          <p class="text-color">
+            Our church office is open Monday - Friday from 9am to 5pm. Or
+            you can come chat to us at our information point at the back of church
+            after any Sunday service.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <p class="m-t-sm">
+            Follow us on social media
+          </p>
+          <ul class="list-inline social-icon">
+            <li><a href="https://twitter.com/CCVChurch"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="https://www.facebook.com/ccvchurch"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="https://instagram.com/ccvchurch"><i class="fa fa-instagram"></i></a></li>
+            <li><a href="https://www.youtube.com/channel/UC8E1jwNcHryTPfeJiBxactw"><i class="fa fa-youtube-play"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row m-b-lg">
+        <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+          <p><strong>&copy; 2017 Alan Gibson</strong><br/></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+            $("#navbar").collapse('hide');
+        });
+
+        $('.grid').masonry({
+          itemSelector: '.grid-item',
+          columnWidth: '.grid-sizer',
+          percentPosition: true,
+          gutter: '.gutter-sizer',
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 200;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+
+    })();
+
+    // Activate WOW.js plugin for animation on scrol
+
+</script>
 
 </body>
 </html>

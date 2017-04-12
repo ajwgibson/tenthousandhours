@@ -22,6 +22,7 @@
 //= require datepicker/bootstrap-datepicker.js
 //= require sweetalert/sweetalert.min.js
 //= require showdown/showdown.min.js
+//= require masonary/masonry.pkgd.min.js
 //= require_tree .
 
 $(function() {

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Admin | 10,000 Hours | Causeway Coast Vineyard</title>
+
+  <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track' => true %>
+
+  <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <%= csrf_meta_tags %>
+
+</head>
+
+<body class="fixed-nav">
+
+  <!-- Wrapper-->
+  <div id="wrapper">
+
+      <!-- Navigation -->
+      <%= render 'admin/navigation' %>
+
+      <!-- Page wraper -->
+      <div id="page-wrapper" class="gray-bg">
+
+          <!-- Page wrapper -->
+          <%= render 'admin/topnavbar' %>
+
+          <!-- Main view  -->
+          <div class="wrapper wrapper-content animated fadeInRight">
+          <%= yield %>
+          </div>
+
+      </div>
+      <!-- End page wrapper-->
+
+  </div>
+  <!-- End wrapper-->
+
+  <%= toastr_flash %>
+
+</body>
+</html>

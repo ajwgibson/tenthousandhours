@@ -1,0 +1,60 @@
+/*
+ *= require_self
+ *= require font-awesome
+ *= require animate/animate.css
+ *= require toastr/toastr.min.css
+ *= require awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css
+ *= require jasny/jasny-bootstrap.min.css
+ *= require select2/select2.min.css
+ *= require datepicker/bootstrap-datepicker3.css
+ *= require sweetalert/sweetalert.css
+ *= require inspinia
+ */
+
+ body.fixed-nav #wrapper .navbar-static-side,
+ body.fixed-nav #wrapper #page-wrapper {
+   margin-top: 60px;
+ }
+
+ .nav-header {
+  .logo-element {
+    img {
+      max-height: 35px;
+    }
+  }
+ }
+
+ .form-group .control-label.required:before,
+ p.required-legend:before {
+  margin-right: 5px;
+  font-family: 'FontAwesome';
+  content: "\f069";
+ }
+
+ fieldset {
+  margin-top: 20px !important;
+ }
+
+ .form-static {
+  .form-group { margin-bottom: 0 !important; }
+  fieldset {
+    legend { font-size: 12px; }
+  }
+ }
+
+ p.required-legend {
+  margin-bottom: 20px;
+ }
+
+ dd {
+  margin-bottom: 5px;
+ }
+
+ .list-group li:nth-child(odd) {
+  background-color: #f9f9f9;
+ }
+
+ .form-inline>* {
+  margin-left:5px;
+  margin-top:10px;
+ }

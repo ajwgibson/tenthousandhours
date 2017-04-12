@@ -1,0 +1,27 @@
+
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h3>Project summary</h3>
+  </div>
+  <div class="ibox-content">
+    <dl>
+      <dt>Organisation</dt>
+      <dd><%= @project.organisation_name %></dd>
+      <dt>Contact</dt>
+      <dd><%= @project.contact_name %></dd>
+      <dt>Telephone</dt>
+      <dd><%= @project.contact_phone %></dd>
+      <dt>Email</dt>
+      <dd><%= @project.contact_email %></dd>
+      <dt>Start date</dt>
+      <dd><%= l(@project.start_date, :format => :short) unless @project.start_date.nil? %></dd>
+      <dt>End date</dt>
+      <dd><%= l(@project.end_date, :format => :short) unless @project.end_date.nil? %></dd>
+    </dl>
+    <div>
+      <%= link_to admin_project_path(@project), :class => 'btn btn-default' do %>
+        <i class="fa fa-reply"></i> Back to project
+      <% end %>
+    </div>
+  </div>
+</div>
