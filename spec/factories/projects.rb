@@ -50,4 +50,8 @@ FactoryGirl.define do
     end
   end
 
+  factory :published_project, parent: :default_project do
+    status              :published
+  end
+
 end

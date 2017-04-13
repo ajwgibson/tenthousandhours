@@ -1,8 +1,50 @@
 
-  <div class="row">
-    <div class="col-lg-10">
-        <h2>Home</h2>
+<section id="projects" class="gray-section projects">
+  <div class="container">
+    <div class="row m-b-lg">
+      <div class="col-lg-12 text-center">
+        <div class="navy-line"></div>
+        <h1>Projects</h1>
+        <% if @projects.size == 0 %>
+        <p>
+          We're still in the planning stage and haven't released any project dates
+          yet. Please come back and check again soon.
+        </p>
+        <% else %>
+        <p>
+          These are the projects that are running this year. We have
+          a wide variety so hopefully there is something for everyone!
+        </p>
+        <% end %>
+      </div>
     </div>
-    <div class="col-lg-2">
+    <% if @projects.size > 0 %>
+    <div class="row">
+      <% @projects.each do |project| %>
+      <div class="col-xs-12 col-sm-6 col-lg-4">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5><%= project.organisation_name %></h5>
+          </div>
+          <div class="ibox-content" style="display: block;">
+            <p><%= styled_project_dates(project) %></p>
+            <%= markdown(project.summary) %>
+          </div>
+          <div class="ibox-footer">
+            <ul class="list-group">
+              <li class="list-group-item"><strong>Slots</strong></li>
+              <% project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+              <li class="list-group-item">
+                <%= project_slot.slot_date.strftime("%A #{project_slot.slot_date.day.ordinalize} %B") %>
+                <span class="badge"><%= project_slot.humanized_slot_type %></span>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <% end %>
     </div>
+    <% end %>
   </div>
+</section>
