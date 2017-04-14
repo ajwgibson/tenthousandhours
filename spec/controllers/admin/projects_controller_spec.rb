@@ -116,6 +116,25 @@ RSpec.describe Admin::ProjectsController, type: :controller do
   end
 
 
+  describe "GET #print_list" do
+    it "returns http success" do
+      get :print_list
+      expect(response).to have_http_status(:success)
+    end
+    it "renders the :print_list view" do
+      get :print_list
+      expect(response).to render_template :print_list
+    end
+    it "populates an array of projects using the current filter settings" do
+      a = FactoryGirl.create(:default_project, organisation_type: 'a', organisation_name: 'a')
+      b = FactoryGirl.create(:default_project, organisation_type: 'b', organisation_name: 'b')
+      c = FactoryGirl.create(:default_project, organisation_type: 'a', organisation_name: 'c')
+      get :print_list, { }, { :filter_projects => {'of_type' => 'a', 'order_by' => 'organisation_name desc'} }
+      expect(assigns(:projects).map { |p| p.organisation_name }).to eq(['c','a'])
+    end
+  end
+
+
   describe "GET #import" do
     it "renders a file_upload form" do
       get :import

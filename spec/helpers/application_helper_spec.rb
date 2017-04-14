@@ -13,6 +13,7 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+
   describe "markdown" do
     it "converts the text to html" do
       output = helper.markdown('__bold__')
@@ -21,6 +22,22 @@ RSpec.describe ApplicationHelper, type: :helper do
     it "can accept nil" do
       output = helper.markdown(nil)
       expect(output).to_not eq(nil)
+    end
+  end
+
+
+  describe "filter" do
+    it "returns nil if the filter has no values" do
+      output = helper.filter Hash.new
+      expect(output).to eq(nil)
+    end
+    it "humanizes the map keys" do
+      output = helper.filter({ something_a_bit_different: 'A value' })
+      expect(output).to include('<dt>Something a bit different</dt>')
+    end
+    it "outputs boolean values as yes or no" do
+      output = helper.filter({ a_boolean: 'true' })
+      expect(output).to include('<dd>Yes</dd>')
     end
   end
 

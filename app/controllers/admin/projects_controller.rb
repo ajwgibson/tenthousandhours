@@ -15,6 +15,12 @@ class Admin::ProjectsController < Admin::BaseController
   end
 
 
+  def print_list
+    @filter = get_filter
+    @projects = Project.filter(@filter).order :organisation_name
+  end
+
+
   def import
     @file_upload = FileUpload.new
   end

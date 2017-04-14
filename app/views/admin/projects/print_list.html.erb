@@ -1,0 +1,85 @@
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <div class="ibox-tools pull-right hidden-print">
+          <a href="javascript:window.print();" class="btn btn-primary">
+            <i class="fa fa-print"></i> Print now!</a>
+          <%= link_to admin_projects_path, :class => 'btn btn-outline btn-default' do %>
+            <i class="fa fa-reply"></i> Back to projects
+          <% end %>
+        </div>
+        <h2>Projects</h2>
+      </div>
+      <div class="ibox-content" style="display: block;">
+        <h4>Current filter settings</h4>
+        <%= filter(@filter) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% @projects.each do |project| %>
+<div class="row page-break-avoid">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5><%= project.organisation_name %></h5>
+      </div>
+      <div class="ibox-content" style="display: block;">
+        <dl class="dl-horizontal">
+
+          <dt>Contact details</dt>
+          <dd>
+            <%= project.contact_name %>,
+            <%= project.contact_phone %>,
+            <%= project.contact_email %>
+          </dd>
+
+          <dt>Activity #1</dt>
+          <dd>
+            <%= project.project_1_summary %><br />
+            <% if project.project_1_information %>
+            <%= project.project_1_information %><br />
+            <% end %>
+            Under 18s: <%= yes_no_icon project.project_1_under_18 %><br />
+          </dd>
+
+          <% if project.project_2_summary %>
+          <dt>Activity #2</dt>
+          <dd>
+            <%= project.project_2_summary %><br />
+            <% if project.project_2_information %>
+            <%= project.project_2_information %><br />
+            <% end %>
+            Under 18s: <%= yes_no_icon project.project_2_under_18 %><br />
+          </dd>
+          <% end %>
+
+          <% if project.project_3_summary %>
+          <dt>Activity #3</dt>
+          <dd>
+            <%= project.project_3_summary %><br />
+            <% if project.project_3_information %>
+            <%= project.project_3_information %><br />
+            <% end %>
+            Under 18s: <%= yes_no_icon project.project_3_under_18 %><br />
+          </dd>
+          <% end %>
+
+          <dt>Preferred dates &amp; times</dt>
+          <dd>
+            July 3rd: <%= yes_no_icon(project.july_3 || project.any_week) %><br/>
+            July 10th: <%= yes_no_icon(project.july_10 || project.any_week) %><br/>
+            July 17th: <%= yes_no_icon(project.july_17 || project.any_week) %><br/>
+            July 24th: <%= yes_no_icon(project.july_24 || project.any_week) %><br/>
+            Evenings: <%= yes_no_icon project.evenings %><br/>
+            Saturdays: <%= yes_no_icon project.saturday %>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

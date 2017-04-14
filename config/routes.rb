@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
     get '/not_authorized', to: 'home#not_authorized'
 
+    get  'projects/print_list',  as: 'print_project_list'
     get  'projects/clear_filter'
     get  'projects/import'
     post 'projects/import',      to: 'projects#do_import'

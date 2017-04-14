@@ -54,6 +54,18 @@ module ApplicationHelper
   end
 
 
+  def filter(filter)
+    return nil if filter.empty?
+    content_tag :dl, class: 'dl-horizontal' do
+      filter.each do |key, value|
+        concat content_tag :dt, key.to_s.humanize
+        concat content_tag :dd, value unless ['true', 'false'].include? value
+        concat content_tag :dd, value == 'true' ? 'Yes' : 'No' if ['true', 'false'].include? value
+      end
+    end
+  end
+
+
   #
   # Toastr messages used for application flashes
   #
