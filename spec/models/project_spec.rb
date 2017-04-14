@@ -13,8 +13,8 @@ RSpec.describe Project, type: :model do
     expect(FactoryGirl.build(:default_project, organisation_type: nil)).not_to be_valid
   end
 
-  it "is not valid without an organisation name" do
-    expect(FactoryGirl.build(:default_project, organisation_name: nil)).not_to be_valid
+  it "is not valid without a project name" do
+    expect(FactoryGirl.build(:default_project, project_name: nil)).not_to be_valid
   end
 
   it "is not valid when adults is not a number" do
@@ -43,7 +43,7 @@ RSpec.describe Project, type: :model do
     expect(FactoryGirl.build(:default_project, youth: 2.5)).not_to be_valid
   end
   it "is valid when youth >= 0" do
-    expect(FactoryGirl.build(:default_project, youth: 2, project_1_under_18: true)).to be_valid
+    expect(FactoryGirl.build(:default_project, youth: 2, activity_1_under_18: true)).to be_valid
   end
   it "is valid when youth is nil" do
     expect(FactoryGirl.build(:default_project, youth: nil)).to be_valid
@@ -51,9 +51,9 @@ RSpec.describe Project, type: :model do
 
   it "is not valid when youth is > zero but none of the sub-projects are for youth" do
     expect(FactoryGirl.build(:default_project,
-                              project_1_under_18: false,
-                              project_2_under_18: false,
-                              project_3_under_18: false,
+                              activity_1_under_18: false,
+                              activity_2_under_18: false,
+                              activity_3_under_18: false,
                               youth: 1)).not_to be_valid
   end
 
@@ -116,32 +116,32 @@ RSpec.describe Project, type: :model do
       it "captures contact_phone" do
         expect(project.contact_phone).to eq('02870123456')
       end
-      it "captures project_1_summary" do
-        expect(project.project_1_summary).to eq('Gardening and general tidy-up')
+      it "captures activity_1_summary" do
+        expect(project.activity_1_summary).to eq('Gardening and general tidy-up')
       end
-      it "captures project_1_information" do
-        expect(project.project_1_information).to eq('This could contain all sorts of stuff. Including full stops.')
+      it "captures activity_1_information" do
+        expect(project.activity_1_information).to eq('This could contain all sorts of stuff. Including full stops.')
       end
-      it "captures project_1_under_18" do
-        expect(project.project_1_under_18).to be_truthy
+      it "captures activity_1_under_18" do
+        expect(project.activity_1_under_18).to be_truthy
       end
-      it "captures project_2_summary" do
-        expect(project.project_2_summary).to eq('Painting and decorating')
+      it "captures activity_2_summary" do
+        expect(project.activity_2_summary).to eq('Painting and decorating')
       end
-      it "captures project_2_information" do
-        expect(project.project_2_information).to eq('Please use nice colours.')
+      it "captures activity_2_information" do
+        expect(project.activity_2_information).to eq('Please use nice colours.')
       end
-      it "captures project_2_under_18" do
-        expect(project.project_2_under_18).to be_falsey
+      it "captures activity_2_under_18" do
+        expect(project.activity_2_under_18).to be_falsey
       end
-      it "captures project_3_summary" do
-        expect(project.project_3_summary).to eq('Mural painting')
+      it "captures activity_3_summary" do
+        expect(project.activity_3_summary).to eq('Mural painting')
       end
-      it "captures project_3_information" do
-        expect(project.project_3_information).to eq('Like the one you did somewhere else.')
+      it "captures activity_3_information" do
+        expect(project.activity_3_information).to eq('Like the one you did somewhere else.')
       end
-      it "captures project_3_under_18" do
-        expect(project.project_3_under_18).to be_truthy
+      it "captures activity_3_under_18" do
+        expect(project.activity_3_under_18).to be_truthy
       end
       it "captures any_week" do
         expect(project.any_week).to be_truthy
@@ -177,8 +177,8 @@ RSpec.describe Project, type: :model do
       before do
         Project.import(file_fixture('project_imports/pre_school.csv'))
       end
-      it "captures organisation_name from the pre-school name" do
-        expect(project.organisation_name).to eq('Causeway Coast Pre-school')
+      it "captures project_name from the pre-school name" do
+        expect(project.project_name).to eq('Causeway Coast Pre-school')
       end
     end
 
@@ -187,8 +187,8 @@ RSpec.describe Project, type: :model do
       before do
         Project.import(file_fixture('project_imports/school.csv'))
       end
-      it "captures organisation_name from the school name" do
-        expect(project.organisation_name).to eq('Causeway Coast School')
+      it "captures project_name from the school name" do
+        expect(project.project_name).to eq('Causeway Coast School')
       end
     end
 
@@ -197,8 +197,8 @@ RSpec.describe Project, type: :model do
       before do
         Project.import(file_fixture('project_imports/agency_charity.csv'))
       end
-      it "captures organisation_name from the agency name" do
-        expect(project.organisation_name).to eq('Causeway Agency')
+      it "captures project_name from the agency name" do
+        expect(project.project_name).to eq('Causeway Agency')
       end
     end
 
@@ -207,8 +207,8 @@ RSpec.describe Project, type: :model do
       before do
         Project.import(file_fixture('project_imports/business.csv'))
       end
-      it "captures organisation_name from the business name" do
-        expect(project.organisation_name).to eq('Causeway Business')
+      it "captures project_name from the business name" do
+        expect(project.project_name).to eq('Causeway Business')
       end
     end
 
@@ -217,8 +217,8 @@ RSpec.describe Project, type: :model do
       before do
         Project.import(file_fixture('project_imports/residential.csv'))
       end
-      it "captures organisation_name from the residential centre name" do
-        expect(project.organisation_name).to eq('Causeway Residential')
+      it "captures project_name from the residential centre name" do
+        expect(project.project_name).to eq('Causeway Residential')
       end
     end
 
@@ -263,14 +263,14 @@ RSpec.describe Project, type: :model do
     context "for an existing project" do
       let(:project) { Project.first }
       before do
-        Project.create!({ typeform_id: '1234', organisation_type: 'School', organisation_name: 'A school' })
+        Project.create!({ typeform_id: '1234', organisation_type: 'School', project_name: 'A school' })
         Project.import(file_fixture('project_imports/pre_school.csv'))
       end
       it "does not create a new record" do
         expect(Project.count).to eq(1)
       end
       it "does not update the existing project" do
-        expect(project.organisation_name).to eq('A school')
+        expect(project.project_name).to eq('A school')
       end
     end
 
@@ -454,10 +454,10 @@ RSpec.describe Project, type: :model do
     end
   end
   describe 'scope:with_name' do
-    it 'includes records where the organisation_name contains the value' do
-      aaa    = FactoryGirl.create(:default_project, organisation_name: 'aaa')
-      bab    = FactoryGirl.create(:default_project, organisation_name: 'bab')
-      bbb    = FactoryGirl.create(:default_project, organisation_name: 'bbb')
+    it 'includes records where the project_name contains the value' do
+      aaa    = FactoryGirl.create(:default_project, project_name: 'aaa')
+      bab    = FactoryGirl.create(:default_project, project_name: 'bab')
+      bbb    = FactoryGirl.create(:default_project, project_name: 'bbb')
       filtered = Project.with_name('a')
       expect(filtered).to include(aaa)
       expect(filtered).to include(bab)

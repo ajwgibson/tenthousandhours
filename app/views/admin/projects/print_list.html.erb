@@ -25,7 +25,7 @@
   <div class="col-lg-12">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h5><%= project.organisation_name %></h5>
+        <h5><%= project.project_name %></h5>
       </div>
       <div class="ibox-content" style="display: block;">
         <dl class="dl-horizontal">
@@ -39,32 +39,32 @@
 
           <dt>Activity #1</dt>
           <dd>
-            <%= project.project_1_summary %><br />
-            <% if project.project_1_information %>
-            <%= project.project_1_information %><br />
+            <%= project.activity_1_summary %><br />
+            <% if project.activity_1_information %>
+            <%= project.activity_1_information %><br />
             <% end %>
-            Under 18s: <%= yes_no_icon project.project_1_under_18 %><br />
+            Under 18s: <%= yes_no_icon project.activity_1_under_18 %><br />
           </dd>
 
-          <% if project.project_2_summary %>
+          <% if project.activity_2_summary %>
           <dt>Activity #2</dt>
           <dd>
-            <%= project.project_2_summary %><br />
-            <% if project.project_2_information %>
-            <%= project.project_2_information %><br />
+            <%= project.activity_2_summary %><br />
+            <% if project.activity_2_information %>
+            <%= project.activity_2_information %><br />
             <% end %>
-            Under 18s: <%= yes_no_icon project.project_2_under_18 %><br />
+            Under 18s: <%= yes_no_icon project.activity_2_under_18 %><br />
           </dd>
           <% end %>
 
-          <% if project.project_3_summary %>
+          <% if project.activity_3_summary %>
           <dt>Activity #3</dt>
           <dd>
-            <%= project.project_3_summary %><br />
-            <% if project.project_3_information %>
-            <%= project.project_3_information %><br />
+            <%= project.activity_3_summary %><br />
+            <% if project.activity_3_information %>
+            <%= project.activity_3_information %><br />
             <% end %>
-            Under 18s: <%= yes_no_icon project.project_3_under_18 %><br />
+            Under 18s: <%= yes_no_icon project.activity_3_under_18 %><br />
           </dd>
           <% end %>
 

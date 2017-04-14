@@ -4,7 +4,7 @@ class Admin::ProjectsController < Admin::BaseController
 
   def index
     @filter = get_filter
-    @projects = Project.filter(@filter).order :organisation_name
+    @projects = Project.filter(@filter).order :project_name
     set_filter @filter
   end
 
@@ -17,7 +17,7 @@ class Admin::ProjectsController < Admin::BaseController
 
   def print_list
     @filter = get_filter
-    @projects = Project.filter(@filter).order :organisation_name
+    @projects = Project.filter(@filter).order :project_name
   end
 
 
@@ -134,21 +134,21 @@ class Admin::ProjectsController < Admin::BaseController
         .require(:project)
         .permit(
           :organisation_type,
-          :organisation_name,
+          :project_name,
           :notes,
           :contact_name,
           :contact_role,
           :contact_email,
           :contact_phone,
-          :project_1_summary,
-          :project_1_information,
-          :project_1_under_18,
-          :project_2_summary,
-          :project_2_information,
-          :project_2_under_18,
-          :project_3_summary,
-          :project_3_information,
-          :project_3_under_18,
+          :activity_1_summary,
+          :activity_1_information,
+          :activity_1_under_18,
+          :activity_2_summary,
+          :activity_2_information,
+          :activity_2_under_18,
+          :activity_3_summary,
+          :activity_3_information,
+          :activity_3_under_18,
           :any_week,
           :evenings,
           :saturday,
@@ -172,15 +172,15 @@ class Admin::ProjectsController < Admin::BaseController
       params
         .require(:project)
         .permit(
-          :project_1_summary,
-          :project_1_information,
-          :project_1_under_18,
-          :project_2_summary,
-          :project_2_information,
-          :project_2_under_18,
-          :project_3_summary,
-          :project_3_information,
-          :project_3_under_18,
+          :activity_1_summary,
+          :activity_1_information,
+          :activity_1_under_18,
+          :activity_2_summary,
+          :activity_2_information,
+          :activity_2_under_18,
+          :activity_3_summary,
+          :activity_3_information,
+          :activity_3_under_18,
           :adults,
           :youth,
           :materials,
@@ -202,7 +202,7 @@ class Admin::ProjectsController < Admin::BaseController
           :order_by,
         )
       filter = session[:filter_projects].symbolize_keys! if filter.empty? && session.key?(:filter_projects)
-      filter = { :order_by => 'organisation_name' } if filter.empty?
+      filter = { :order_by => 'project_name' } if filter.empty?
       filter.delete_if { |key, value| value.blank? }
     end
 

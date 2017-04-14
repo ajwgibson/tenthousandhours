@@ -31,7 +31,7 @@
 
               <fieldset>
                 <legend>Overall details</legend>
-                <%= f.text_field :organisation_name, :label => 'Organisation name' %>
+                <%= f.text_field :project_name, :label => 'Project name' %>
                 <%= f.select :organisation_type,
                               options_for_select(Project::ORG_TYPES, @project.organisation_type),
                               { prompt: "Please select an organisation type..." } %>
@@ -46,7 +46,7 @@
                 <%= f.telephone_field :contact_phone, :label => 'Telephone' %>
               </fieldset>
 
-              <%= render partial: "projects",  locals: { f: f, project: @project } %>
+              <%= render partial: "activities",  locals: { f: f, project: @project } %>
 
               <fieldset>
                 <legend>Preferred dates and times</legend>

@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
   has_many :project_slots
 
   validates :organisation_type, :presence => true
-  validates :organisation_name, :presence => true
+  validates :project_name, :presence => true
   validates :adults, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 2 }
   validates :youth,  numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validate  :youth_need_youth_projects
@@ -21,11 +21,12 @@ class Project < ActiveRecord::Base
   scope :could_run_wc_july_24th, ->(value) { where('july_24=? OR any_week=?', true, true) }
   scope :could_run_evenings, ->(value) { where evenings: true }
   scope :could_run_saturday, ->(value) { where saturday: true }
-  scope :with_name,   ->(value) { where("lower(organisation_name) like lower(?)", "%#{value}%") }
+  scope :with_name,   ->(value) { where("lower(project_name) like lower(?)", "%#{value}%") }
   scope :of_type,     ->(value) { where organisation_type: value }
   scope :with_status, ->(value) { where status: value }
 
   ORG_TYPES = [
+    "N/A",
     "Agency/Charity",
     "Business",
     "Pre-school",
@@ -71,32 +72,32 @@ class Project < ActiveRecord::Base
         next if i.zero?
 
         params = {}
-        params['typeform_id']           = row[0]
-        params['organisation_type']     = self.organisation_type row
-        params['organisation_name']     = self.organisation_name row
+        params['typeform_id']       = row[0]
+        params['organisation_type'] = self.organisation_type row
+        params['project_name']      = self.project_name row
         contact_offset = (row[7].eql? '1') ? 0 : 4
-        params['contact_name']          = row[8  + contact_offset]
-        params['contact_role']          = row[9  + contact_offset]
-        params['contact_email']         = row[10 + contact_offset]
-        params['contact_phone']         = row[11 + contact_offset]
-        params['project_1_summary']     = row[16]
-        params['project_1_information'] = row[17]
-        params['project_1_under_18']    = row[18].eql? '1'
-        params['project_2_summary']     = row[19]
-        params['project_2_information'] = row[20]
-        params['project_2_under_18']    = row[21].eql? '1'
-        params['project_3_summary']     = row[22]
-        params['project_3_information'] = row[23]
-        params['project_3_under_18']    = row[24].eql? '1'
-        params['any_week']              = self.any_week row
-        params['july_3']                = !row[25].blank? && !params['any_week']
-        params['july_10']               = !row[26].blank? && !params['any_week']
-        params['july_17']               = !row[27].blank? && !params['any_week']
-        params['july_24']               = !row[28].blank? && !params['any_week']
-        params['evenings']              = row[30].eql? '1'
-        params['saturday']              = row[31].eql? '1'
-        params['notes']                 = row[32]
-        params['submitted_at']          = self.parse_submitted_at row[34]
+        params['contact_name']           = row[8  + contact_offset]
+        params['contact_role']           = row[9  + contact_offset]
+        params['contact_email']          = row[10 + contact_offset]
+        params['contact_phone']          = row[11 + contact_offset]
+        params['activity_1_summary']     = row[16]
+        params['activity_1_information'] = row[17]
+        params['activity_1_under_18']    = row[18].eql? '1'
+        params['activity_2_summary']     = row[19]
+        params['activity_2_information'] = row[20]
+        params['activity_2_under_18']    = row[21].eql? '1'
+        params['activity_3_summary']     = row[22]
+        params['activity_3_information'] = row[23]
+        params['activity_3_under_18']    = row[24].eql? '1'
+        params['any_week']               = self.any_week row
+        params['july_3']                 = !row[25].blank? && !params['any_week']
+        params['july_10']                = !row[26].blank? && !params['any_week']
+        params['july_17']                = !row[27].blank? && !params['any_week']
+        params['july_24']                = !row[28].blank? && !params['any_week']
+        params['evenings']               = row[30].eql? '1'
+        params['saturday']               = row[31].eql? '1'
+        params['notes']                  = row[32]
+        params['submitted_at']           = self.parse_submitted_at row[34]
 
         unless params['contact_phone'].blank? ||
                params['contact_phone'].start_with?('0') then
@@ -116,7 +117,7 @@ class Project < ActiveRecord::Base
 private
 
   def youth_need_youth_projects
-    if !youth.nil? && youth > 0 && !project_1_under_18 && !project_2_under_18 && !project_3_under_18
+    if !youth.nil? && youth > 0 && !activity_1_under_18 && !activity_2_under_18 && !activity_3_under_18
       errors.add(:youth, "can't be more than zero when none of the projects are suitable for youth")
     end
   end
@@ -127,7 +128,7 @@ private
   end
 
 
-  def self.organisation_name(row)
+  def self.project_name(row)
     org_type = self.organisation_type(row).downcase
     return row[6] if org_type.eql? 'residential centre'
     return row[5] if org_type.eql? 'business'

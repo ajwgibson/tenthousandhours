@@ -18,18 +18,18 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       get :index
       expect(assigns(:projects)).to eq([project])
     end
-    it "orders projects by organisation_name by default" do
-      b = FactoryGirl.create(:default_project, organisation_name: 'b')
-      c = FactoryGirl.create(:default_project, organisation_name: 'c')
-      a = FactoryGirl.create(:default_project, organisation_name: 'a')
+    it "orders projects by project_name by default" do
+      b = FactoryGirl.create(:default_project, project_name: 'b')
+      c = FactoryGirl.create(:default_project, project_name: 'c')
+      a = FactoryGirl.create(:default_project, project_name: 'a')
       get :index
       expect(assigns(:projects)).to eq([a,b,c])
     end
     it "applies the 'order_by' parameter" do
-      b = FactoryGirl.create(:default_project, organisation_name: 'b')
-      c = FactoryGirl.create(:default_project, organisation_name: 'c')
-      a = FactoryGirl.create(:default_project, organisation_name: 'a')
-      get :index, order_by: 'organisation_name desc'
+      b = FactoryGirl.create(:default_project, project_name: 'b')
+      c = FactoryGirl.create(:default_project, project_name: 'c')
+      a = FactoryGirl.create(:default_project, project_name: 'a')
+      get :index, order_by: 'project_name desc'
       expect(assigns(:projects)).to eq([c,b,a])
     end
     it "applies the 'could_run_wc_july_3rd' filter" do
@@ -69,8 +69,8 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'with_name' filter" do
-      a = FactoryGirl.create(:default_project, organisation_name: 'a')
-      b = FactoryGirl.create(:default_project, organisation_name: 'b')
+      a = FactoryGirl.create(:default_project, project_name: 'a')
+      b = FactoryGirl.create(:default_project, project_name: 'b')
       get :index, with_name: 'a'
       expect(assigns(:projects)).to eq([a])
     end
@@ -126,11 +126,11 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       expect(response).to render_template :print_list
     end
     it "populates an array of projects using the current filter settings" do
-      a = FactoryGirl.create(:default_project, organisation_type: 'a', organisation_name: 'a')
-      b = FactoryGirl.create(:default_project, organisation_type: 'b', organisation_name: 'b')
-      c = FactoryGirl.create(:default_project, organisation_type: 'a', organisation_name: 'c')
-      get :print_list, { }, { :filter_projects => {'of_type' => 'a', 'order_by' => 'organisation_name desc'} }
-      expect(assigns(:projects).map { |p| p.organisation_name }).to eq(['c','a'])
+      a = FactoryGirl.create(:default_project, organisation_type: 'a', project_name: 'a')
+      b = FactoryGirl.create(:default_project, organisation_type: 'b', project_name: 'b')
+      c = FactoryGirl.create(:default_project, organisation_type: 'a', project_name: 'c')
+      get :print_list, { }, { :filter_projects => {'of_type' => 'a', 'order_by' => 'project_name desc'} }
+      expect(assigns(:projects).map { |p| p.project_name }).to eq(['c','a'])
     end
   end
 
@@ -183,20 +183,20 @@ RSpec.describe Admin::ProjectsController, type: :controller do
         attrs = {
           typeform_id:           '12345',
           organisation_type:     'School',
-          organisation_name:     'A school',
+          project_name:     'A school',
           contact_name:          'Joe Bloggs',
           contact_role:          'Teacher',
           contact_email:         'joe.bloggs@a-school.com',
           contact_phone:         '02870341234',
-          project_1_summary:     'The first project',
-          project_1_information: 'More info about the first project',
-          project_1_under_18:    true,
-          project_2_summary:     'The second project',
-          project_2_information: 'More info about the second project',
-          project_2_under_18:    false,
-          project_3_summary:     'The third project',
-          project_3_information: 'More info about the third project',
-          project_3_under_18:    true,
+          activity_1_summary:     'The first project',
+          activity_1_information: 'More info about the first project',
+          activity_1_under_18:    true,
+          activity_2_summary:     'The second project',
+          activity_2_information: 'More info about the second project',
+          activity_2_under_18:    false,
+          activity_3_summary:     'The third project',
+          activity_3_information: 'More info about the third project',
+          activity_3_under_18:    true,
           any_week:              false,
           july_3:                true,
           july_10:               false,
@@ -235,20 +235,20 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "does not use the supplied submitted_at" do expect(project.submitted_at.to_date).to eq(Date.today.to_date) end
 
       it "stores organisation_type" do expect(project.organisation_type).to eq('School') end
-      it "stores organisation_name" do expect(project.organisation_name).to eq('A school') end
+      it "stores project_name" do expect(project.project_name).to eq('A school') end
       it "stores contact_name" do expect(project.contact_name).to eq('Joe Bloggs') end
       it "stores contact_role" do expect(project.contact_role).to eq('Teacher') end
       it "stores contact_email" do expect(project.contact_email).to eq('joe.bloggs@a-school.com') end
       it "stores contact_phone" do expect(project.contact_phone).to eq('02870341234') end
-      it "stores project_1_summary" do expect(project.project_1_summary).to eq('The first project') end
-      it "stores project_1_information" do expect(project.project_1_information).to eq('More info about the first project') end
-      it "stores project_1_under_18" do expect(project.project_1_under_18).to be_truthy end
-      it "stores project_2_summary" do expect(project.project_2_summary).to eq('The second project') end
-      it "stores project_2_information" do expect(project.project_2_information).to eq('More info about the second project') end
-      it "stores project_2_under_18" do expect(project.project_2_under_18).to be_falsey end
-      it "stores project_3_summary" do expect(project.project_3_summary).to eq('The third project') end
-      it "stores project_3_information" do expect(project.project_3_information).to eq('More info about the third project') end
-      it "stores project_3_under_18" do expect(project.project_3_under_18).to be_truthy end
+      it "stores activity_1_summary" do expect(project.activity_1_summary).to eq('The first project') end
+      it "stores activity_1_information" do expect(project.activity_1_information).to eq('More info about the first project') end
+      it "stores activity_1_under_18" do expect(project.activity_1_under_18).to be_truthy end
+      it "stores activity_2_summary" do expect(project.activity_2_summary).to eq('The second project') end
+      it "stores activity_2_information" do expect(project.activity_2_information).to eq('More info about the second project') end
+      it "stores activity_2_under_18" do expect(project.activity_2_under_18).to be_falsey end
+      it "stores activity_3_summary" do expect(project.activity_3_summary).to eq('The third project') end
+      it "stores activity_3_information" do expect(project.activity_3_information).to eq('More info about the third project') end
+      it "stores activity_3_under_18" do expect(project.activity_3_under_18).to be_truthy end
       it "stores any_week" do expect(project.any_week).to be_falsey end
       it "stores july_3" do expect(project.july_3).to be_truthy end
       it "stores july_10" do expect(project.july_10).to be_falsey end
@@ -264,7 +264,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with invalid data" do
       def post_create
-        attrs = FactoryGirl.attributes_for(:project, :organisation_name => 'A')
+        attrs = FactoryGirl.attributes_for(:project, :project_name => 'A')
         post :create, { project: attrs }
       end
       it "does not create a new record" do
@@ -275,7 +275,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "re-renders the form with the posted data" do
         post_create
         expect(response).to render_template(:edit)
-        expect(assigns(:project).organisation_name).to eq('A')
+        expect(assigns(:project).project_name).to eq('A')
       end
     end
   end
@@ -305,10 +305,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with valid data" do
 
-      let(:project) { FactoryGirl.create(:default_project, :organisation_name => 'Original') }
+      let(:project) { FactoryGirl.create(:default_project, :project_name => 'Original') }
 
       def post_update
-        put :update, :id => project.id, :project => { :organisation_name => 'Changed' }
+        put :update, :id => project.id, :project => { :project_name => 'Changed' }
         project.reload
       end
 
@@ -317,7 +317,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       end
 
       it "updates the project details" do
-        expect(project.organisation_name).to eq('Changed')
+        expect(project.project_name).to eq('Changed')
       end
 
       it "redirects to the show action" do
@@ -332,10 +332,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with invalid data" do
 
-      let(:project) { FactoryGirl.create(:default_project, :organisation_name => 'Original') }
+      let(:project) { FactoryGirl.create(:default_project, :project_name => 'Original') }
 
       def post_update
-        put :update, :id => project.id, :project => { :organisation_name => nil }
+        put :update, :id => project.id, :project => { :project_name => nil }
         project.reload
       end
 
@@ -344,12 +344,12 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       end
 
       it "does not update the project details" do
-        expect(project.organisation_name).to eq('Original')
+        expect(project.project_name).to eq('Original')
       end
 
       it "re-renders the form with the posted data" do
         expect(response).to render_template(:edit)
-        expect(assigns(:project).organisation_name).to be_nil
+        expect(assigns(:project).project_name).to be_nil
       end
 
     end
@@ -404,15 +404,15 @@ RSpec.describe Admin::ProjectsController, type: :controller do
           adults:                4,
           youth:                 2,
           materials:             'Stuff',
-          project_1_summary:     'The first project',
-          project_1_information: 'More info about the first project',
-          project_1_under_18:    true,
-          project_2_summary:     'The second project',
-          project_2_information: 'More info about the second project',
-          project_2_under_18:    true,
-          project_3_summary:     'The third project',
-          project_3_information: 'More info about the third project',
-          project_3_under_18:    true,
+          activity_1_summary:     'The first project',
+          activity_1_information: 'More info about the first project',
+          activity_1_under_18:    true,
+          activity_2_summary:     'The second project',
+          activity_2_information: 'More info about the second project',
+          activity_2_under_18:    true,
+          activity_3_summary:     'The third project',
+          activity_3_information: 'More info about the third project',
+          activity_3_under_18:    true,
         }
         project.reload
       end
@@ -424,15 +424,15 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "updates adults"                do expect(project.adults).to                eq(4) end
       it "updates youth"                 do expect(project.youth).to                 eq(2) end
       it "updates materials"             do expect(project.materials).to             eq('Stuff') end
-      it "updates project_1_summary"     do expect(project.project_1_summary).to     eq('The first project') end
-      it "updates project_1_information" do expect(project.project_1_information).to eq('More info about the first project') end
-      it "updates project_1_under_18"    do expect(project.project_1_under_18).to    be_truthy end
-      it "updates project_2_summary"     do expect(project.project_2_summary).to     eq('The second project') end
-      it "updates project_2_information" do expect(project.project_2_information).to eq('More info about the second project') end
-      it "updates project_2_under_18"    do expect(project.project_2_under_18).to    be_truthy end
-      it "updates project_3_summary"     do expect(project.project_3_summary).to     eq('The third project') end
-      it "updates project_3_information" do expect(project.project_3_information).to eq('More info about the third project') end
-      it "updates project_3_under_18"    do expect(project.project_3_under_18).to    be_truthy end
+      it "updates activity_1_summary"     do expect(project.activity_1_summary).to     eq('The first project') end
+      it "updates activity_1_information" do expect(project.activity_1_information).to eq('More info about the first project') end
+      it "updates activity_1_under_18"    do expect(project.activity_1_under_18).to    be_truthy end
+      it "updates activity_2_summary"     do expect(project.activity_2_summary).to     eq('The second project') end
+      it "updates activity_2_information" do expect(project.activity_2_information).to eq('More info about the second project') end
+      it "updates activity_2_under_18"    do expect(project.activity_2_under_18).to    be_truthy end
+      it "updates activity_3_summary"     do expect(project.activity_3_summary).to     eq('The third project') end
+      it "updates activity_3_information" do expect(project.activity_3_information).to eq('More info about the third project') end
+      it "updates activity_3_under_18"    do expect(project.activity_3_under_18).to    be_truthy end
 
       it "redirects to the show action" do
         expect(response).to redirect_to(admin_project_path(assigns(:project)))

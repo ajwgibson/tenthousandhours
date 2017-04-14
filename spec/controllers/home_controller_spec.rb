@@ -18,11 +18,11 @@ RSpec.describe HomeController, type: :controller do
       expect(assigns(:projects)).to eq([p2])
     end
     it "sorts the projects by name" do
-      FactoryGirl.create(:published_project, organisation_name: 'b')
-      FactoryGirl.create(:published_project, organisation_name: 'a')
-      FactoryGirl.create(:published_project, organisation_name: 'c')
+      FactoryGirl.create(:published_project, project_name: 'b')
+      FactoryGirl.create(:published_project, project_name: 'a')
+      FactoryGirl.create(:published_project, project_name: 'c')
       get :index
-      expect(assigns(:projects).map { |p| p.organisation_name }).to eq(['a','b','c'])
+      expect(assigns(:projects).map { |p| p.project_name }).to eq(['a','b','c'])
     end
   end
 
