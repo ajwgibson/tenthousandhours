@@ -6,12 +6,12 @@
         <div class="navy-line"></div>
         <h1>Projects</h1>
         <% if @projects.size == 0 %>
-        <p>
+        <p class="landing-section-paragraph">
           We're still in the planning stage and haven't released any project dates
           yet. Please come back and check again soon.
         </p>
         <% else %>
-        <p>
+        <p class="landing-section-paragraph">
           These are the projects that are running this year. We have
           a wide variety so hopefully there is something for everyone!
         </p>
@@ -26,9 +26,13 @@
           <div class="ibox-title">
             <h5><%= project.project_name %></h5>
           </div>
-          <div class="ibox-content" style="display: block;">
+          <div class="ibox-content" style="color: inherit;">
             <p><%= styled_project_dates(project) %></p>
             <%= markdown(project.summary) %>
+            <p style="margin-top: 20px;">
+              Suitable for youth (11 - 18): <%= yes_no_icon project.suitable_for_youth? %><br/>
+              Suitable for kids (under 11): <%= yes_no_icon project.suitable_for_kids? %>
+            </p>
           </div>
           <div class="ibox-footer">
             <ul class="list-group">

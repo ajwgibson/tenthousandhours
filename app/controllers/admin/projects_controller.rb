@@ -158,6 +158,7 @@ class Admin::ProjectsController < Admin::BaseController
           :july_24,
           :adults,
           :youth,
+          :kids,
           :materials,
         )
     end
@@ -183,6 +184,7 @@ class Admin::ProjectsController < Admin::BaseController
           :activity_3_under_18,
           :adults,
           :youth,
+          :kids,
           :materials,
         )
     end

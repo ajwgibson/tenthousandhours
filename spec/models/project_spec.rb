@@ -49,12 +49,36 @@ RSpec.describe Project, type: :model do
     expect(FactoryGirl.build(:default_project, youth: nil)).to be_valid
   end
 
-  it "is not valid when youth is > zero but none of the sub-projects are for youth" do
+  it "is not valid when youth is > zero but none of the activities are suitable for under 18s" do
     expect(FactoryGirl.build(:default_project,
                               activity_1_under_18: false,
                               activity_2_under_18: false,
                               activity_3_under_18: false,
                               youth: 1)).not_to be_valid
+  end
+
+  it "is not valid when kids is not a number" do
+    expect(FactoryGirl.build(:default_project, kids: 'yes')).not_to be_valid
+  end
+  it "is not valid when kids < 0" do
+    expect(FactoryGirl.build(:default_project, kids: -1)).not_to be_valid
+  end
+  it "is not valid when kids is not a whole number" do
+    expect(FactoryGirl.build(:default_project, kids: 2.5)).not_to be_valid
+  end
+  it "is valid when kids >= 0" do
+    expect(FactoryGirl.build(:default_project, kids: 2, activity_1_under_18: true)).to be_valid
+  end
+  it "is valid when kids is nil" do
+    expect(FactoryGirl.build(:default_project, kids: nil)).to be_valid
+  end
+
+  it "is not valid when kids is > zero but none of the activities are suitable for under 18s" do
+    expect(FactoryGirl.build(:default_project,
+                              activity_1_under_18: false,
+                              activity_2_under_18: false,
+                              activity_3_under_18: false,
+                              kids: 1)).not_to be_valid
   end
 
 
@@ -360,9 +384,30 @@ RSpec.describe Project, type: :model do
       end
     end
     context "when the youth counter is more than zero" do
-      it "returns false" do
+      it "returns true" do
         project = FactoryGirl.build(:default_project, youth: 1)
         expect(project.suitable_for_youth?).to eq(true)
+      end
+    end
+  end
+
+  describe "#suitable_for_kids?" do
+    context "when the kids counter is nil" do
+      it "returns false" do
+        project = FactoryGirl.build(:default_project, kids: nil)
+        expect(project.suitable_for_kids?).to eq(false)
+      end
+    end
+    context "when the kids counter is zero" do
+      it "returns false" do
+        project = FactoryGirl.build(:default_project, kids: 0)
+        expect(project.suitable_for_kids?).to eq(false)
+      end
+    end
+    context "when the kids counter is more than zero" do
+      it "returns true" do
+        project = FactoryGirl.build(:default_project, kids: 1)
+        expect(project.suitable_for_kids?).to eq(true)
       end
     end
   end

@@ -208,6 +208,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
           submitted_at:          1.days.ago.change(:sec => 0),
           adults:                10,
           youth:                 20,
+          kids:                  30,
           materials:             'Paints and brushes',
         }
         post :create, { project: attrs }
@@ -259,6 +260,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "stores notes" do expect(project.notes).to eq('More notes about the project') end
       it "stores adults" do expect(project.adults).to eq(10) end
       it "stores youth" do expect(project.youth).to eq(20) end
+      it "stores kids" do expect(project.kids).to eq(30) end
       it "stores materials" do expect(project.materials).to eq('Paints and brushes') end
     end
 
@@ -403,6 +405,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
         put :do_review, :id => project.id, :project => {
           adults:                4,
           youth:                 2,
+          kids:                  1,
           materials:             'Stuff',
           activity_1_summary:     'The first project',
           activity_1_information: 'More info about the first project',
@@ -421,9 +424,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
         post_update
       end
 
-      it "updates adults"                do expect(project.adults).to                eq(4) end
-      it "updates youth"                 do expect(project.youth).to                 eq(2) end
-      it "updates materials"             do expect(project.materials).to             eq('Stuff') end
+      it "updates adults"                 do expect(project.adults).to                 eq(4) end
+      it "updates youth"                  do expect(project.youth).to                  eq(2) end
+      it "updates kids "                  do expect(project.kids).to                   eq(1) end
+      it "updates materials"              do expect(project.materials).to              eq('Stuff') end
       it "updates activity_1_summary"     do expect(project.activity_1_summary).to     eq('The first project') end
       it "updates activity_1_information" do expect(project.activity_1_information).to eq('More info about the first project') end
       it "updates activity_1_under_18"    do expect(project.activity_1_under_18).to    be_truthy end

@@ -13,7 +13,9 @@ class Project < ActiveRecord::Base
   validates :project_name, :presence => true
   validates :adults, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 2 }
   validates :youth,  numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
-  validate  :youth_need_youth_projects
+  validates :kids,   numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
+
+  validate :under_18s_need_suitable_activities
 
   scope :could_run_wc_july_3rd,  ->(value) { where('july_3=? OR any_week=?',  true, true) }
   scope :could_run_wc_july_10th, ->(value) { where('july_10=? OR any_week=?', true, true) }
@@ -47,6 +49,12 @@ class Project < ActiveRecord::Base
 
   def suitable_for_youth?
     return false if youth.nil? || youth == 0
+    return true
+  end
+
+
+  def suitable_for_kids?
+    return false if kids.nil? || kids == 0
     return true
   end
 
@@ -116,9 +124,12 @@ class Project < ActiveRecord::Base
 
 private
 
-  def youth_need_youth_projects
+  def under_18s_need_suitable_activities
     if !youth.nil? && youth > 0 && !activity_1_under_18 && !activity_2_under_18 && !activity_3_under_18
-      errors.add(:youth, "can't be more than zero when none of the projects are suitable for youth")
+      errors.add(:youth, "can't be more than zero when none of the projects are suitable for under 18s")
+    end
+    if !kids.nil? && kids > 0 && !activity_1_under_18 && !activity_2_under_18 && !activity_3_under_18
+      errors.add(:kids, "can't be more than zero when none of the projects are suitable for under 18s")
     end
   end
 

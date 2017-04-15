@@ -29,6 +29,7 @@ FactoryGirl.define do
     submitted_at           1.days.ago.change(:sec => 0)
     adults                 nil
     youth                  nil
+    kids                   nil
     materials              nil
   end
 
