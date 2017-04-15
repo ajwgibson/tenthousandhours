@@ -1,7 +1,194 @@
 <div class="row">
-  <div class="col-lg-10">
-      <h2>Admin home</h2>
-  </div>
-  <div class="col-lg-2">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h2>Project administration</h2>
+      </div>
+    </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h4>Projects by type</h4>
+      </div>
+      <div class="ibox-content">
+        <canvas id="projectsByType" width="50" height="50"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h4>Projects by requested week</h4>
+      </div>
+      <div class="ibox-content">
+        <canvas id="projectsByRequestedWeek" width="50" height="50"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h4>Evening projects</h4>
+      </div>
+      <div class="ibox-content">
+        <canvas id="projectsByEvening" width="50" height="50"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h4>Saturday projects</h4>
+      </div>
+      <div class="ibox-content">
+        <canvas id="projectsBySaturday" width="50" height="50"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h4>Project submissions over time</h4>
+      </div>
+      <div class="ibox-content">
+        <canvas id="projectSubmissions" width="50" height="250"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<% content_for :scripts do %>
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+
+      var colours = {
+        blue:   { normal: "rgba(93,  165, 218, 1)", highlight: "rgba(93,  165, 218, 0.9)", lowlight: "rgba(93,  165, 218, 0.5)" },
+        orange: { normal: "rgba(250, 164, 58,  1)", highlight: "rgba(250, 164, 58,  0.9)", lowlight: "rgba(250, 164, 58,  0.5)" },
+        green:  { normal: "rgba(96,  189, 104, 1)", highlight: "rgba(96,  189, 104, 0.9)", lowlight: "rgba(96,  189, 104, 0.5)" },
+        pink:   { normal: "rgba(241, 124, 176, 1)", highlight: "rgba(241, 124, 176, 0.9)", lowlight: "rgba(241, 124, 176, 0.5)" },
+        brown:  { normal: "rgba(178, 145, 47,  1)", highlight: "rgba(178, 145, 47,  0.9)", lowlight: "rgba(178, 145, 47,  0.5)" },
+        purple: { normal: "rgba(178, 118, 178, 1)", highlight: "rgba(178, 118, 178, 0.9)", lowlight: "rgba(178, 118, 178, 0.5)" },
+        yellow: { normal: "rgba(222, 207, 63,  1)", highlight: "rgba(222, 207, 63,  0.9)", lowlight: "rgba(222, 207, 63,  0.5)" },
+        red:    { normal: "rgba(241, 88,  84,  1)", highlight: "rgba(241, 88,  84,  0.9)", lowlight: "rgba(241, 88,  84,  0.5)" },
+        gray:   { normal: "rgba(77,  77,  77,  1)", highlight: "rgba(77,  77,  77,  0.9)", lowlight: "rgba(77,  77,  77,  0.5)" },
+      };
+
+      var normal_colours    = Object.values(colours).map(function(item) { return item['normal']; });
+      var highlight_colours = Object.values(colours).map(function(item) { return item['highlight']; });
+
+      var pieChartOptions = {
+        legend: {
+          position: 'bottom'
+        }
+      };
+
+      new Chart("projectsByType", {
+        type: 'pie',
+        data: {
+          labels: <%= raw @projects_by_organisation_type.keys %>,
+          datasets: [{
+            data: <%= raw @projects_by_organisation_type.values %>,
+            backgroundColor: normal_colours,
+            hoverBackgroundColor: highlight_colours,
+          }]
+        },
+        options: pieChartOptions
+      });
+
+      new Chart("projectsByRequestedWeek", {
+        type: 'pie',
+        data: {
+          labels: <%= raw @projects_by_requested_week.keys %>,
+          datasets: [{
+            data: <%= raw @projects_by_requested_week.values %>,
+            backgroundColor: normal_colours,
+            hoverBackgroundColor: highlight_colours,
+          }]
+        },
+        options: pieChartOptions
+      });
+
+      new Chart("projectsByEvening", {
+        type: 'pie',
+        data: {
+          labels: <%= raw @projects_by_evening.keys %>,
+          datasets: [{
+            data: <%= raw @projects_by_evening.values %>,
+            backgroundColor: normal_colours,
+            hoverBackgroundColor: highlight_colours,
+          }]
+        },
+        options: pieChartOptions
+      });
+
+      new Chart("projectsBySaturday", {
+        type: 'pie',
+        data: {
+          labels: <%= raw @projects_by_saturday.keys %>,
+          datasets: [{
+            data: <%= raw @projects_by_saturday.values %>,
+            backgroundColor: normal_colours,
+            hoverBackgroundColor: highlight_colours,
+          }]
+        },
+        options: pieChartOptions
+      });
+
+      new Chart('projectSubmissions', {
+        type: 'line',
+        data: {
+          labels: <%= raw @projects_cumulative.keys %>,
+          datasets: [{
+              fill: true,
+              lineTension: 0,
+              backgroundColor: colours["blue"]["lowlight"],
+              borderColor: colours["blue"]["normal"],
+              borderCapStyle: 'butt',
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: colours["blue"]["normal"],
+              pointBackgroundColor: colours["blue"]["highlight"],
+              pointBorderWidth: 1,
+              pointHoverRadius: 5,
+              pointHoverBackgroundColor: colours["blue"]["normal"],
+              pointHoverBorderColor: colours["blue"]["highlight"],
+              pointHoverBorderWidth: 2,
+              pointRadius: 3,
+              pointHitRadius: 10,
+              data: <%= raw @projects_cumulative.values %>,
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          scales: {
+              xAxes: [{
+                  type: 'time',
+                  time: {
+                    unit: 'day',
+                    parser: 'DD/MM/YYYY',
+                    displayFormats: {
+                        day: 'MMM DD'
+                    }
+                  }
+                }
+              ]
+          },
+          legend: { display: false }
+        }
+      });
+
+    });
+  </script>
+<% end %>
