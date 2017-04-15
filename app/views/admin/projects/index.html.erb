@@ -5,7 +5,7 @@
     <div class="ibox float-e-margins">
 
       <div class="ibox-title">
-        <div class="ibox-tools pull-right">
+        <div class="ibox-tools pull-right hidden-print">
           <a class="btn btn-<%= @filter.except(:order_by).empty? ? "default" : "warning btn-outline" %> btn-sm"
                data-toggle="collapse" data-target="#filter"><i class="fa fa-filter"></i></a>
         </div>
@@ -14,7 +14,7 @@
 
       <div class="ibox-content" style="display: block;">
 
-        <div id="filter" class="filter collapse">
+        <div id="filter" class="filter collapse hidden-print">
 
           <%= form_tag admin_projects_path, method: :get, class: "filter" do |f| %>
 
@@ -103,6 +103,7 @@
 
         </div>
 
+        <div class="hidden-print">
         <% if can? :create, Project %>
           <%= link_to new_admin_project_path, :class => 'btn btn-primary btn-sm' do %>
             <i class="fa fa-plus"></i> Add a project
@@ -120,12 +121,18 @@
             <i class="fa fa-print"></i> Printable list
           <% end %>
         <% end %>
+        </div>
+
+        <div class="visible-print">
+          <h4>Current filter settings</h4>
+          <%= filter(@filter) %>
+        </div>
 
         <div class="table-responsive">
           <table class="table table-striped table-responsive">
 
             <thead>
-              <tr>
+              <tr class="hidden-print">
                 <th><%= sortable 'project_name', @filter, admin_projects_path, 'Project name' %></th>
                 <th><%= sortable 'organisation_type', @filter, admin_projects_path, 'Organisation type' %></th>
                 <th><%= sortable 'contact_name', @filter, admin_projects_path, 'Contact name' %></th>
@@ -133,6 +140,14 @@
                 <th>Planned slots</th>
                 <th><%= sortable 'status', @filter, admin_projects_path, 'Status' %></th>
                 <th>Links</th>
+              </tr>
+              <tr class="visible-print">
+                <th>Project name</th>
+                <th>Organisation type</th>
+                <th>Contact name</th>
+                <th>Planned dates</th>
+                <th>Planned slots</th>
+                <th>Status</th>
               </tr>
             </thead>
 
@@ -145,7 +160,7 @@
                 <td><%= project_dates(project) %></td>
                 <td><%= project.project_slots.size %> </td>
                 <td><%= project.status.humanize %> </td>
-                <td>
+                <td class="hidden-print">
                   <%= link_to admin_project_path(project), :class => '' do %>
                   <i class="fa fa-info-circle"></i> View details
                   <% end %>
@@ -153,15 +168,6 @@
               </tr>
               <% end %>
             </tbody>
-
-            <tfoot>
-              <tr>
-                <td colspan="6">
-                  <div class="pull-right">
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
 
           </table>
         </div>
