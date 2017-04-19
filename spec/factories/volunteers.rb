@@ -19,6 +19,7 @@ FactoryGirl.define do
     last_name             Faker::Name.last_name
     mobile                Faker::PhoneNumber.cell_phone
     age_category          :adult
+    skills                []
   end
 
 end

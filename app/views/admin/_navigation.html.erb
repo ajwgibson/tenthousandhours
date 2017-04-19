@@ -9,17 +9,22 @@
           <%= image_tag 'ccv-icon-white.png', :class => '', :alt => 'Ten thousand hours' %>
         </div>
       </li>
-      <li class="<%= 'active' if current_page?(controller: 'home') %>">
+      <li class="<%= 'active' if controller_name.eql?('home') %>">
         <%= link_to controller: "home" do %>
         <i class="fa fa-home"></i> <span class="nav-label">Home</span>
         <% end %>
       </li>
-      <li class="<%= 'active' if current_page?(controller: 'projects') %>">
+      <li class="<%= 'active' if controller_name.eql?('projects') || controller_name.eql?('project_slots') %>">
         <%= link_to controller: "projects" do %>
         <i class="fa fa-address-card"></i> <span class="nav-label">Projects</span>
         <% end %>
       </li>
-      <li class="<%= 'active' if current_page?(controller: 'users') %>">
+      <li class="<%= 'active' if controller_name.eql?('volunteers') %>">
+        <%= link_to controller: "volunteers" do %>
+        <i class="fa fa-users"></i> <span class="nav-label">Volunteers</span>
+        <% end %>
+      </li>
+      <li class="<%= 'active' if controller_name.eql?('users') %>">
         <%= link_to controller: "users" do %>
         <i class="fa fa-user-circle"></i> <span class="nav-label">Users</span>
         <% end %>

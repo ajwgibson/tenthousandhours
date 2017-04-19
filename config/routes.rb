@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     root 'home#index'
 
     resources  :users
+    
+    resources  :volunteers
 
     get '/not_authorized', to: 'home#not_authorized'
 

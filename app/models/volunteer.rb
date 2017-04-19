@@ -25,4 +25,10 @@ class Volunteer < ActiveRecord::Base
      email
    end
 
+   def humanized_age_category
+     return nil if age_category.nil?
+     age_category.eql?(:adult.to_s) ? 'Over 18' :
+        age_category.eql?(:youth.to_s) ? '11 to 18' : 'Under 11'
+   end
+
 end
