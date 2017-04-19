@@ -61,7 +61,9 @@
             family. We'll need to take an email address and mobile phone number
             so that we can keep you informed.
           </p>
-          <a href="" class="btn btn-lg btn-primary"><span class="text-uppercase">Sign up now!</span></a>
+          <%= link_to new_volunteer_session_path, class: 'btn btn-lg btn-primary' do %>
+            <span class="text-uppercase">Log in or sign up now</span>
+          <% end %>
         </div>
       </div>
       <div class="row">
