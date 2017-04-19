@@ -1,0 +1,43 @@
+
+<div class="middle-box text-center loginscreen animated fadeInDown">
+  <div>
+    <div>
+      <h1 class="logo-name">CCV</h1>
+    </div>
+
+    <h3>Change password</h3>
+
+    <%= bootstrap_flash %>
+
+    <%= form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }, class: "m-t") do |f| %>
+
+      <%= devise_error_messages! %>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :current_password, "Current password" %>
+        <%= f.password_field :current_password, autocomplete: "off", class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password, "New password" %>
+        <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation, "Repeat new password" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+      </div>
+
+      <%= f.submit "Update", class: "btn btn-primary block full-width m-b" %>
+
+    <% end %>
+
+    <%= link_to "Back", :back %>
+
+  </div>
+
+</div>

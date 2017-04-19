@@ -18,11 +18,12 @@
     <%= csrf_meta_tags %>
 </head>
 
-<body id="page-top" class="landing-page no-skin-config">
+<body id="page-top" class="landing-page no-skin-config" style="padding-top: 100px;">
+
   <div class="navbar-wrapper">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-scroll" role="navigation">
       <div class="container">
-        <div class="navbar-header page-scroll">
+        <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
@@ -32,174 +33,28 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a class="page-scroll" href="#page-top">Home</a></li>
-            <li><a class="page-scroll" href="#projects">Projects</a></li>
-            <li><a class="page-scroll" href="#signup">Sign up</a></li>
-            <li><a class="page-scroll" href="#contact">Contact</a></li>
+            <li><%= link_to 'Home', root_url %></li>
+            <li><%= link_to 'Projects', root_url + '#projects' %></li>
+            <li><%= link_to 'Volunteering', root_url + '#volunteering' %></li>
+            <li><%= link_to 'Contact', root_url + '#contact' %></li>
+            <%= render 'user_menu' %>
           </ul>
         </div>
       </div>
     </nav>
   </div>
 
-  <div class="banner">
-    <%= image_tag('banner.jpg') %>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-8">
+        <%= yield %>
+      </div>
+      <div class="col-xs-4 hidden-xs hidden-sm hidden-md">
+        <%= image_tag('banner.jpg', class: 'img-responsive') %>
+      </div>
+    </div>
   </div>
 
-  <%= yield %>
-
-  <section id="signup" class="signup">
-    <div class="container">
-      <div class="row m-b-lg">
-        <div class="col-lg-6 col-lg-offset-3 text-center">
-          <div class="navy-line"></div>
-          <h1>Sign up</h1>
-          <p class="landing-section-paragraph">
-            You can sign up for projects individually or with members of your
-            family. We'll need to take an email address and mobile phone number
-            so that we can keep you informed.
-          </p>
-          <p class="landing-section-paragraph">
-            If you started to sign up but didn't complete the process for some
-            reason, you can continue from where you left off using the email
-            address and secret that you provided originally.
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-3 col-lg-offset-2 col-md-4 col-md-offset-1 col-sm-6" style="margin-bottom: 40px;">
-          <fieldset>
-            <legend>New sign up</legend>
-            <a href="" class="btn btn-lg btn-primary"><span class="text-uppercase">Sign up now!</span></a>
-          </fieldset>
-        </div>
-        <div class="col-lg-3 col-lg-offset-2 col-md-4 col-md-offset-2 col-sm-6">
-          <form>
-            <fieldset>
-              <legend>Continue sign up</legend>
-              <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" placeholder="Email address" id="email">
-              </div>
-              <div class="form-group">
-                <label for="secret">Secret</label>
-                <input type="password" class="form-control" placeholder="Secret" id="secret">
-              </div>
-              <button type="submit" class="btn btn-primary"><span class="text-uppercase">Continue</span></button>
-            </fieldset>
-          </form>
-        </div>
-      </div>
-      <div class="row">
-        &nbsp;
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="gray-section contact">
-    <div class="container">
-      <div class="row m-b-lg">
-        <div class="col-lg-12 text-center">
-          <div class="navy-line"></div>
-          <h1>Contact us</h1>
-        </div>
-      </div>
-      <div class="row m-b-lg">
-        <div class="col-lg-3 col-lg-offset-3">
-          <address>
-            <strong><span class="navy">Causeway Coast Vineyard</span></strong><br/>
-            10 Hillmans Way, Coleraine,<br/>
-            BT52 2ED, Northern Ireland<br/>
-            <abbr title="Phone">P:</abbr> +44 (0)28 70 326161
-          </address>
-          <a class="navy-link"
-             href="https://www.google.co.uk/maps/place/Causeway+Coast+Vineyard/@55.129649,-6.6633903,15z/data=!4m5!3m4!1s0x486024ccc9db9b2b:0xd2cde95bab55e3d0!8m2!3d55.129649!4d-6.6546356"
-             target="_blank"
-             role="button">Find us with Google maps <span class="fa fa-google"> </span></a>
-
-        </div>
-        <div class="col-lg-4">
-          <p class="text-color">
-            Our church office is open Monday - Friday from 9am to 5pm. Or
-            you can come chat to us at our information point at the back of church
-            after any Sunday service.
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <p class="m-t-sm">
-            Follow us on social media
-          </p>
-          <ul class="list-inline social-icon">
-            <li><a href="https://twitter.com/CCVChurch"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="https://www.facebook.com/ccvchurch"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="https://instagram.com/ccvchurch"><i class="fa fa-instagram"></i></a></li>
-            <li><a href="https://www.youtube.com/channel/UC8E1jwNcHryTPfeJiBxactw"><i class="fa fa-youtube-play"></i></a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="row m-b-lg">
-        <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-          <p><strong>&copy; 2017 Alan Gibson</strong><br/></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<script>
-
-    $(document).ready(function () {
-
-        $('body').scrollspy({
-            target: '.navbar-fixed-top',
-            offset: 80
-        });
-
-        // Page scrolling feature
-        $('a.page-scroll').bind('click', function(event) {
-            var link = $(this);
-            $('html, body').stop().animate({
-                scrollTop: $(link.attr('href')).offset().top - 50
-            }, 500);
-            event.preventDefault();
-            $("#navbar").collapse('hide');
-        });
-    });
-
-    var cbpAnimatedHeader = (function() {
-        var docElem = document.documentElement,
-                header = document.querySelector( '.navbar-default' ),
-                didScroll = false,
-                changeHeaderOn = 200;
-        function init() {
-            window.addEventListener( 'scroll', function( event ) {
-                if( !didScroll ) {
-                    didScroll = true;
-                    setTimeout( scrollPage, 250 );
-                }
-            }, false );
-        }
-        function scrollPage() {
-            var sy = scrollY();
-            if ( sy >= changeHeaderOn ) {
-                $(header).addClass('navbar-scroll')
-            }
-            else {
-                $(header).removeClass('navbar-scroll')
-            }
-            didScroll = false;
-        }
-        function scrollY() {
-            return window.pageYOffset || docElem.scrollTop;
-        }
-        init();
-
-    })();
-
-    // Activate WOW.js plugin for animation on scrol
-
-</script>
 
 </body>
 </html>

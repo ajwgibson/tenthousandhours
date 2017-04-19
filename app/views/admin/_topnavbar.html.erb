@@ -11,6 +11,9 @@
         <li>
             <span class="m-r-sm text-muted welcome-message">Signed in as <%= current_user.email %></span>
         </li>
+        <li><%= link_to edit_user_registration_path do %>
+          <i class="fa fa-unlock-alt"> </i>Change password<% end %>
+        </li>
         <li><%= link_to(destroy_user_session_path, :method => :delete) do %>
           <i class="fa fa-sign-out"> </i>Log out<% end %>
         </li>

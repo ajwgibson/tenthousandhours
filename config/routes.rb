@@ -2,9 +2,16 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
+  devise_for :volunteers, controllers: { registrations: "registrations" }
+
+  get 'projects/index'
 
   scope '/admin' do
     devise_for :users
+    as :user do
+      get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
+      put 'users' => 'devise/registrations#update', :as => 'user_registration'
+    end
   end
 
   namespace :admin do

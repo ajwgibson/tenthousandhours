@@ -41,3 +41,29 @@
   color: #aeaeae;
   font-size: 13px;
 }
+
+.navbar-default {
+  .nav li a {
+    text-transform: none !important;
+  }
+}
+
+.form-group {
+  .control-label.required:before,
+  p.required-legend:before {
+    margin-right: 5px;
+    font-family: 'FontAwesome';
+    content: "\f069";
+  }
+}
+
+fieldset {
+  margin-top: 40px !important;
+  legend {
+    font-size: 1.2em !important;
+  }
+}
+
+.actions {
+  margin-top: 40px !important;
+}

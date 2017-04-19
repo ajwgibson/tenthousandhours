@@ -1,43 +1,51 @@
+<h2>My details</h2>
+<p>
+  If you change your email address here you will have to repeat the
+  email confirmation process.
+</p>
 
-<div class="middle-box text-center loginscreen animated fadeInDown">
-  <div>
-    <div>
-      <h1 class="logo-name">CCV</h1>
-    </div>
+<%= render partial: "layouts/errors", object: resource, as: 'form' %>
 
-    <h3>Change password</h3>
+<%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 
-    <%= bootstrap_flash %>
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div class="actions"><strong><em>Currently waiting confirmation for: <%= resource.unconfirmed_email %></em></strong></div>
+  <% end %>
 
-    <%= form_for(resource, as: resource_name, url: user_registration_path, html: { method: :put }, class: "m-t") do |f| %>
+  <fieldset>
+    <legend>Personal details</legend>
+    <%= f.text_field :first_name, label: 'First name', autofocus: true %>
+    <%= f.text_field :last_name,  label: 'Last name' %>
+    <%= f.phone_field :mobile,    label: 'Mobile number' %>
+    <%= f.select :age_category,
+        options_for_select([['Please select an age category...',''],['Over 18', :adult],['11 to 18', :youth]], resource.age_category),
+        { label: 'Age category' } %>
+    <%= f.email_field :email, label: 'Email' %>
+  </fieldset>
 
-      <%= devise_error_messages! %>
+  <fieldset>
+    <legend>New password</legend>
+    <p><em>Leave these fields blank if you don't want to change your password</em></p>
+    <%= f.password_field :password, label: 'Password', autocomplete: "off",
+        skip_required: true %>
+    <%= f.password_field :password_confirmation, label: 'Password confirmation', autocomplete: "off" %>
+  </fieldset>
 
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-      <% end %>
+  <fieldset>
+    <legend>Current password</legend>
+    <%= f.password_field :current_password,
+        label: 'Current password', label_class: 'required',
+        autocomplete: "off",
+        help: "We need your current password to confirm your changes" %>
+  </fieldset>
 
-      <div class="form-group">
-        <%= f.label :current_password, "Current password" %>
-        <%= f.password_field :current_password, autocomplete: "off", class: "form-control" %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :password, "New password" %>
-        <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :password_confirmation, "Repeat new password" %>
-        <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
-      </div>
-
-      <%= f.submit "Update", class: "btn btn-primary block full-width m-b" %>
-
-    <% end %>
-
-    <%= link_to "Back", :back %>
-
+  <div class="actions">
+    <%= f.submit "Update now!", class: 'btn btn-primary btn-lg' %>
   </div>
 
+<% end %>
+
+
+<div style="margin-top: 20px; margin-bottom: 20px;">
+<%= link_to "Back", :back %>
 </div>
