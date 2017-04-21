@@ -1,5 +1,3 @@
-require 'JSON'
-
 class Volunteer < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
