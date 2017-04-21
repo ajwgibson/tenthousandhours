@@ -9,6 +9,7 @@ FactoryGirl.define do
     mobile                nil
     age_category          nil
     skills                nil
+    family                nil
   end
 
   factory :default_volunteer, parent: :volunteer do

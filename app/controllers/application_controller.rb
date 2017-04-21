@@ -7,6 +7,11 @@ class ApplicationController < ActionController::Base
 
   protected
 
+    def after_sign_in_path_for(resource_or_scope)
+      projects_index_url
+    end
+
+
     def devise_parameter_sanitizer
       if resource_class == Volunteer
         Volunteer::ParameterSanitizer.new(Volunteer, :volunteer, params)
