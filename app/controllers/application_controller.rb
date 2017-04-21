@@ -8,7 +8,19 @@ class ApplicationController < ActionController::Base
   protected
 
     def after_sign_in_path_for(resource_or_scope)
-      projects_index_url
+      if resource.is_a?(User)
+        admin_root_url
+      else
+        projects_index_url
+      end
+    end
+
+    def after_sign_out_path_for(resource_or_scope)
+      if resource_or_scope == :user
+        admin_root_url
+      else
+        super
+      end
     end
 
 
