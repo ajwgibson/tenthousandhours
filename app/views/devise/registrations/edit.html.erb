@@ -23,12 +23,12 @@
         { label: 'Age category' } %>
   </fieldset>
 
+
   <fieldset>
     <legend>Family members</legend>
-    <p>
-      TODO
-    </p>
+    <%= render partial: "volunteer_family", locals: { f: f, volunteer: resource } %>
   </fieldset>
+
 
   <fieldset>
     <legend>Skills</legend>

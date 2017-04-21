@@ -1,0 +1,92 @@
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Family members
+  </div>
+  <div class="panel-body">
+    <div class="form-inline">
+        <label for="family_name" class="control-label">Name : </label>
+        <input type="text" class="form-control" name="family_name"
+               placeholder="Name"
+               data-bind="value: newFamilyMemberName" />
+        <label for="family_age_category" class="control-label">Age : </label>
+        <select class="form-control" name="family_age_category"
+                data-bind="value: newFamilyMemberAge">
+          <option value="">Select ...</option>
+          <option value="adult">Adult (over 18)</option>
+          <option value="youth">Youth (11 to 18)</option>
+          <option value="child">Child (under 11)</option>
+        </select>
+      <button class="btn btn-info btn-outline" data-bind="click: addFamilyMember"/>Add to list</button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age category</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody data-bind="foreach: { data: sortedFamily, as: 'person' }">
+      <tr>
+        <td data-bind="text: person.name"></td>
+        <td data-bind="text: $parent.ageCategory(person)"></td>
+        <td>
+          <span class="text-danger glyphicon glyphicon-remove pull-right"
+                data-bind="click: $parent.removeFamilyMember"> </span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot data-bind="visible: family().length == 0">
+      <tr><td colspan="3"><em>No family members added</em></td></tr>
+    </tfoot>
+  </table>
+</div>
+
+<%= f.hidden_field :family, data: { bind: 'value: familyAsString' } %>
+
+<%= javascript_tag do %>
+
+$(function() {
+
+  var AppViewModel = function(initial) {
+
+    var self = this;
+
+    self.family              = ko.observableArray(JSON.parse(initial));
+    self.newFamilyMemberName = ko.observable('');
+    self.newFamilyMemberAge  = ko.observable('');
+    self.familyAsString      = ko.observable(initial);
+
+    self.sortedFamily = ko.computed(function() {
+      return self.family().sort(function(p1, p2) {
+        return p1.name.localeCompare(p2.name);
+      });
+    });
+
+    self.addFamilyMember = function() {
+      if (self.newFamilyMemberName() == '' || self.newFamilyMemberAge() == '') return;
+      self.family.push({ name: self.newFamilyMemberName(), age_category: self.newFamilyMemberAge() });
+      self.newFamilyMemberName('');
+      self.newFamilyMemberAge('');
+      self.familyAsString(ko.toJSON(self.family()));
+    };
+
+    self.removeFamilyMember = function(person) {
+      self.family.remove(function(p) {
+        return p.name == person.name;
+      });
+      self.familyAsString(ko.toJSON(self.family()));
+    };
+
+    self.ageCategory = function(person) {
+      return person.age_category.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    };
+  };
+
+  ko.applyBindings(new AppViewModel('<%= raw resource.family.blank? ? '[]' : resource.family %>'));
+
+});
+
+<% end %>

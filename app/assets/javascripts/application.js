@@ -23,6 +23,7 @@
 //= require sweetalert/sweetalert.min.js
 //= require showdown/showdown.min.js
 //= require chartJs/Chart.bundle.min.js
+//= require knockoutjs/knockout-3.4.2.js
 //= require_tree .
 
 $(function() {

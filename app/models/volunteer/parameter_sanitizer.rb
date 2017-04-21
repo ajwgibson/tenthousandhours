@@ -12,7 +12,11 @@ class Volunteer::ParameterSanitizer < Devise::ParameterSanitizer
   private
 
   def volunteer_params
-    [:email, :password, :password_confirmation, :first_name, :last_name, :mobile, :age_category, { skills: [] }]
+    [
+      :email, :password, :password_confirmation,
+      :first_name, :last_name, :mobile, :age_category,
+      :family,
+      { skills: [] }]
   end
 
 end
