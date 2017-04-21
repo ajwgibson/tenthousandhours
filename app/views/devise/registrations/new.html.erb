@@ -9,22 +9,59 @@
 
 <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
-  <%= f.text_field :first_name, label: 'First name', autofocus: true %>
-  <%= f.text_field :last_name,  label: 'Last name' %>
-  <%= f.phone_field :mobile,    label: 'Mobile number',
-      help: 'We need a mobile number so we can keep you informed using SMS updates and reminders.' %>
+  <fieldset>
+    <legend>Personal details</legend>
+    <%= f.email_field :email, label: 'Email',
+        help: 'Please ensure this is a valid email address as you will not be able to complete the sign up process with an invalid email.' %>
+    <%= f.text_field :first_name, label: 'First name', autofocus: true %>
+    <%= f.text_field :last_name,  label: 'Last name' %>
+    <%= f.phone_field :mobile,    label: 'Mobile number',
+        help: 'We need a mobile number so we can keep you informed using SMS updates and reminders.' %>
+    <%= f.select :age_category,
+        options_for_select([['Please select an age category...',''],['Over 18', :adult],['11 to 18', :youth]], resource.age_category),
+        { label: 'Age category' } %>
+  </fieldset>
 
-  <%= f.select :age_category,
-      options_for_select([['Please select an age category...',''],['Over 18', :adult],['11 to 18', :youth]], resource.age_category),
-      { label: 'Age category' } %>
+  <fieldset>
+    <legend>Family members</legend>
+    <p>
+      <em>
+      If you are going to be volunteering with family members please add them
+      here so we know how many people there will be in total. Please note
+      that family members over 11 can also register and volunteer separately.
+      </em>
+    </p>
+    <p>
+      TODO
+    </p>
+  </fieldset>
 
-  <%= f.email_field :email, label: 'Email',
-      help: 'Please ensure this is a valid email address as you will not be able to complete the sign up process with an invalid email.' %>
+  <fieldset>
+    <legend>Skills</legend>
+    <p>
+      <em>
+      We'd love to know about specific, practical skills you have that could
+      be of use on our projects. Please choose as many of these as you feel
+      are appropriate.
+      </em>
+    </p>
+    <%= f.form_group :skills do %>
+      <%= f.collection_check_boxes(:skills, Project::SKILLS, :to_s, :to_s) %>
+    <% end %>
+  </fieldset>
 
-  <%= f.password_field :password, label: 'Password', autocomplete: "off",
-      help: @minimum_password_length ? "#{@minimum_password_length} characters minimum" : '' %>
-
-  <%= f.password_field :password_confirmation, label: 'Password confirmation', autocomplete: "off" %>
+  <fieldset>
+    <legend>Password</legend>
+    <p>
+      <em>
+      Please choose a memorable password so that you can sign in again
+      in the future.
+      </em>
+    </p>
+    <%= f.password_field :password, label: 'Password', autocomplete: "off",
+        help: @minimum_password_length ? "#{@minimum_password_length} characters minimum" : '' %>
+    <%= f.password_field :password_confirmation, label: 'Password confirmation', autocomplete: "off" %>
+  </fieldset>
 
   <div class="actions">
     <%= f.submit "Sign up", class: 'btn btn-primary' %>

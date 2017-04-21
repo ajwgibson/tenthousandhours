@@ -36,6 +36,24 @@ class Project < ActiveRecord::Base
     "School",
   ]
 
+  SKILLS = [
+    "Artist",
+    "Builder",
+    "Carpenter",
+    "Catering",
+    "Cleaner",
+    "Electrician",
+    "Gardener",
+    "General handy skills",
+    "Graphic design",
+    "Painter",
+    "Photographer",
+    "Plumber",
+    "Videographer",
+
+    "Nothing specific"
+  ]
+
 
   def start_date
     project_slots.order(:slot_date).first.slot_date unless project_slots.empty?

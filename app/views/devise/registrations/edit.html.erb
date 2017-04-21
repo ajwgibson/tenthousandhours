@@ -14,14 +14,29 @@
 
   <fieldset>
     <legend>Personal details</legend>
+    <%= f.email_field :email, label: 'Email' %>
     <%= f.text_field :first_name, label: 'First name', autofocus: true %>
     <%= f.text_field :last_name,  label: 'Last name' %>
     <%= f.phone_field :mobile,    label: 'Mobile number' %>
     <%= f.select :age_category,
         options_for_select([['Please select an age category...',''],['Over 18', :adult],['11 to 18', :youth]], resource.age_category),
         { label: 'Age category' } %>
-    <%= f.email_field :email, label: 'Email' %>
   </fieldset>
+
+  <fieldset>
+    <legend>Family members</legend>
+    <p>
+      TODO
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Skills</legend>
+    <%= f.form_group :skills do %>
+      <%= f.collection_check_boxes(:skills, Project::SKILLS, :to_s, :to_s) %>
+    <% end %>
+  </fieldset>
+
 
   <fieldset>
     <legend>New password</legend>
@@ -31,13 +46,15 @@
     <%= f.password_field :password_confirmation, label: 'Password confirmation', autocomplete: "off" %>
   </fieldset>
 
+
   <fieldset>
     <legend>Current password</legend>
     <%= f.password_field :current_password,
         label: 'Current password', label_class: 'required',
         autocomplete: "off",
-        help: "We need your current password to confirm your changes" %>
+        help: "We need your current password to confirm any changes" %>
   </fieldset>
+
 
   <div class="actions">
     <%= f.submit "Update now!", class: 'btn btn-primary btn-lg' %>
