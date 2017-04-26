@@ -203,14 +203,14 @@ class Admin::ProjectsController < Admin::BaseController
           :with_status,
           :order_by,
         )
-      filter = session[:filter_projects].symbolize_keys! if filter.empty? && session.key?(:filter_projects)
+      filter = session[:filter_admin_projects].symbolize_keys! if filter.empty? && session.key?(:filter_admin_projects)
       filter = { :order_by => 'project_name' } if filter.empty?
       filter.delete_if { |key, value| value.blank? }
     end
 
     def set_filter(filter)
-      session[:filter_projects] = filter unless filter.nil?
-      session.delete(:filter_projects) if filter.nil?
+      session[:filter_admin_projects] = filter unless filter.nil?
+      session.delete(:filter_admin_projects) if filter.nil?
     end
 
 end

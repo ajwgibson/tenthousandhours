@@ -88,7 +88,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
     end
     it "stores filters to the session" do
       get :index, could_run_wc_july_3rd: true
-      expect(session[:filter_projects]).to eq({'could_run_wc_july_3rd' => true})
+      expect(session[:filter_admin_projects]).to eq({'could_run_wc_july_3rd' => true})
     end
     it "removes blank filter values" do
       get :index, could_run_wc_july_3rd: nil
@@ -97,7 +97,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
     it "retrieves filters from the session if none have been supplied" do
       a = FactoryGirl.create(:default_project, :july_3 => true , any_week: false)
       b = FactoryGirl.create(:default_project, :july_3 => false, any_week: false)
-      get :index, { }, { :filter_projects => {'could_run_wc_july_3rd' => true} }
+      get :index, { }, { :filter_admin_projects => {'could_run_wc_july_3rd' => true} }
       expect(assigns(:projects)).to eq([a])
     end
   end
@@ -109,9 +109,9 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       expect(response).to redirect_to([:admin, :projects])
     end
     it "clears the session entry" do
-      session[:filter_projects] = {'could_run_wc_july_3rd' => true}
+      session[:filter_admin_projects] = {'could_run_wc_july_3rd' => true}
       get :clear_filter
-      expect(session.key?(:filter_projects)).to be false
+      expect(session.key?(:filter_admin_projects)).to be false
     end
   end
 
@@ -129,7 +129,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       a = FactoryGirl.create(:default_project, organisation_type: 'a', project_name: 'a')
       b = FactoryGirl.create(:default_project, organisation_type: 'b', project_name: 'b')
       c = FactoryGirl.create(:default_project, organisation_type: 'a', project_name: 'c')
-      get :print_list, { }, { :filter_projects => {'of_type' => 'a', 'order_by' => 'project_name desc'} }
+      get :print_list, { }, { :filter_admin_projects => {'of_type' => 'a', 'order_by' => 'project_name desc'} }
       expect(assigns(:projects).map { |p| p.project_name }).to eq(['c','a'])
     end
   end

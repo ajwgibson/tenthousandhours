@@ -17,12 +17,14 @@ RSpec.describe HomeController, type: :controller do
       get :index
       expect(assigns(:projects)).to eq([p2])
     end
-    it "sorts the projects by name" do
-      FactoryGirl.create(:published_project, project_name: 'b')
-      FactoryGirl.create(:published_project, project_name: 'a')
-      FactoryGirl.create(:published_project, project_name: 'c')
+    it "populates no more than 4 published projects" do
+      FactoryGirl.create(:published_project)
+      FactoryGirl.create(:published_project)
+      FactoryGirl.create(:published_project)
+      FactoryGirl.create(:published_project)
+      FactoryGirl.create(:published_project)
       get :index
-      expect(assigns(:projects).map { |p| p.project_name }).to eq(['a','b','c'])
+      expect(assigns(:projects).count).to eq(4)
     end
   end
 

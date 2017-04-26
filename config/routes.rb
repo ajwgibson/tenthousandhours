@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
   root 'home#index'
+  get  'home/my_projects', :as => 'my_projects'
 
   devise_for :volunteers, controllers: { registrations: "registrations" }
 
   get 'projects/index'
+  get 'projects/clear_filter'
 
   scope '/admin' do
     devise_for :users
@@ -19,7 +21,7 @@ Rails.application.routes.draw do
     root 'home#index'
 
     resources  :users
-    
+
     resources  :volunteers
 
     get '/not_authorized', to: 'home#not_authorized'

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  layout :layout_by_resource
+  layout :layout
 
   protect_from_forgery with: :exception
 
@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-    def layout_by_resource
+    def layout
       if devise_controller? &&  resource_name == :user
         'devise'
       else

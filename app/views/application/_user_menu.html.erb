@@ -2,7 +2,7 @@
 <li class="dropdown active">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_volunteer.name %> <b class="caret"></b></a>
   <ul class="dropdown-menu">
-    <li><%= link_to('My projects', projects_index_path) %></li>
+    <li><%= link_to('My projects', my_projects_path) %></li>
     <li><%= link_to('My details', edit_volunteer_registration_path) %></li>
     <li><%= link_to('Log out', destroy_volunteer_session_path, :method => :delete) %></li>
   </ul>

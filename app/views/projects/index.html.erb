@@ -1,7 +1,128 @@
-<h2>My projects</h2>
-<div>
-  <em>
-  This will show the projects that the current user has signed up
-  for and allow them to sign up for more!
-  </em>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <div class="ibox-tools pull-right hidden-print">
+          <a class="btn btn-<%= @filter.except(:order_by).empty? ? "default" : "warning btn-outline" %> btn-sm"
+               data-toggle="collapse" data-target="#filter"><i class="fa fa-filter"></i> Filter</a>
+        </div>
+        <h2>Projects</h2>
+      </div>
+      <div class="ibox-content">
+        <div id="filter" class="filter well collapse hidden-print">
+          <%= form_tag projects_index_path, method: :get, class: "filter" do |f| %>
+          <%= hidden_field_tag :order_by, @filter[:order_by] %>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <%= label_tag :with_project_name, 'Project name contains', :class => 'control-label' %>
+                    <%= text_field_tag :with_project_name, @filter[:with_project_name], :class => 'form-control' %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= label_tag :for_week, 'Time of day', :class => 'control-label' %>
+                    <%= select_tag :of_type,
+                          options_for_select({
+                            "Morning" => 'morning',
+                            "Afternoon" => 'afternoon',
+                            "Evening" => 'evening',
+                            }, @filter[:of_type]),
+                          include_blank: true,
+                          :class => 'form-control' %>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <%= label_tag :for_week, 'Week commencing', :class => 'control-label' %>
+                    <%= select_tag :for_week,
+                          options_for_select({
+                            '03/07/2017' => Date.new(2017,7,3).cweek,
+                            '10/07/2017' => Date.new(2017,7,10).cweek,
+                            '17/07/2017' => Date.new(2017,7,17).cweek,
+                            '24/07/2017' => Date.new(2017,7,24).cweek,
+                            }, @filter[:for_week]),
+                          include_blank: true,
+                          :class => 'form-control' %>
+                  </div>
+                  <div class="form-group date days">
+                    <%= label_tag :for_date, 'Exact date', :class => 'control-label' %>
+                    <div class="input-group date">
+                      <span class="input-group-addon date"><i class="fa fa-calendar"></i></span>
+                      <%= text_field_tag :for_date,
+                                        (@filter[:for_date] if @filter.has_key?(:for_date)),
+                                        :placeholder => 'dd/mm/yyyy',
+                                        :class => 'form-control datepicker' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <%= label_tag :for_children, 'Suitable for kids (under 11)?', :class => 'control-label' %>
+                    <div class="checkbox checkbox-primary">
+                      <%= check_box_tag :for_children, 1, @filter[:for_children] %>
+                      <%= label_tag :for_children, 'Yes' %>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <%= label_tag :for_youth, 'Suitable for youth (11 to 18)?', :class => 'control-label' %>
+                    <div class="checkbox checkbox-primary">
+                      <%= check_box_tag :for_youth, 1, @filter[:for_youth] %>
+                      <%= label_tag :for_youth, 'Yes' %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group pull-right">
+                    <%= link_to projects_clear_filter_path, :class => 'btn btn-default' do %>
+                      <i class="fa fa-times"></i> Clear filter
+                    <% end %>
+                    <%= button_tag(type: "submit", class: "btn btn-success btn-outline") do %>
+                      <i class="fa fa-filter"></i> Apply filter
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <% end %>
+        </div>
+
+        <% @projects.each do |project| %>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h5><%= project.project_name %></h5>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <p><%= styled_project_dates(project) %></p>
+                <%= markdown(project.summary) %>
+                <p style="margin-top: 20px;">
+                  Suitable for youth (11 - 18): <%= yes_no_icon project.suitable_for_youth? %><br/>
+                  Suitable for kids (under 11): <%= yes_no_icon project.suitable_for_kids? %>
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <table class="table table-striped table-bordered table-compact">
+                <% project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                  <% if @slots.include? project_slot %>
+                  <tr>
+                    <td><%= project_slot.slot_date.strftime("%A #{project_slot.slot_date.day.ordinalize} %B") %> </td>
+                    <td align="center"><span class="label"><%= project_slot.humanized_slot_type %></span> </td>
+                  </tr>
+                  <% end %>
+                <% end %>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+      <div class="ibox-footer">
+      </div>
+    </div>
+  </div>
 </div>
