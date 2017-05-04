@@ -160,6 +160,7 @@ class Admin::ProjectsController < Admin::BaseController
           :youth,
           :kids,
           :materials,
+          :leader,
         )
     end
 

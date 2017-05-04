@@ -210,6 +210,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
           youth:                 20,
           kids:                  30,
           materials:             'Paints and brushes',
+          leader:                'Joe Bloggs',
         }
         post :create, { project: attrs }
       end
@@ -262,6 +263,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "stores youth" do expect(project.youth).to eq(20) end
       it "stores kids" do expect(project.kids).to eq(30) end
       it "stores materials" do expect(project.materials).to eq('Paints and brushes') end
+      it "stores leader" do expect(project.leader).to eq('Joe Bloggs') end
     end
 
     context "with invalid data" do

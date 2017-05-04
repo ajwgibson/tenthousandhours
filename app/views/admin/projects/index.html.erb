@@ -136,6 +136,7 @@
                 <th><%= sortable 'project_name', @filter, admin_projects_path, 'Project name' %></th>
                 <th><%= sortable 'organisation_type', @filter, admin_projects_path, 'Organisation type' %></th>
                 <th><%= sortable 'contact_name', @filter, admin_projects_path, 'Contact name' %></th>
+                <th>Leader</th>
                 <th>Planned dates</th>
                 <th>Planned slots</th>
                 <th><%= sortable 'status', @filter, admin_projects_path, 'Status' %></th>
@@ -145,6 +146,7 @@
                 <th>Project name</th>
                 <th>Organisation type</th>
                 <th>Contact name</th>
+                <th>Leader</th>
                 <th>Planned dates</th>
                 <th>Planned slots</th>
                 <th>Status</th>
@@ -157,6 +159,7 @@
                 <td><%= project.project_name %> </td>
                 <td><%= project.organisation_type %> </td>
                 <td><%= project.contact_name %> </td>
+                <td><%= project.leader %> </td>
                 <td><%= project_dates(project) %></td>
                 <td><%= project.project_slots.size %> </td>
                 <td><%= project.status.humanize %> </td>
