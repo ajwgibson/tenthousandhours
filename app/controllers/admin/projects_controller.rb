@@ -161,6 +161,9 @@ class Admin::ProjectsController < Admin::BaseController
           :kids,
           :materials,
           :leader,
+          :morning_start_time,
+          :afternoon_start_time,
+          :evening_start_time,
         )
     end
 

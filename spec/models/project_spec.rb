@@ -81,6 +81,29 @@ RSpec.describe Project, type: :model do
                               kids: 1)).not_to be_valid
   end
 
+  it "is not valid when morning_start_time is not a valid 24 hour clock time" do
+    expect(FactoryGirl.build(:default_project, morning_start_time: 'abc')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, morning_start_time: '9 am')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, morning_start_time: '24:00')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, morning_start_time: '00:00')).to be_valid
+    expect(FactoryGirl.build(:default_project, morning_start_time: '23:59')).to be_valid
+  end
+
+  it "is not valid when afternoon_start_time is not a valid 24 hour clock time" do
+    expect(FactoryGirl.build(:default_project, afternoon_start_time: 'abc')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, afternoon_start_time: '9 am')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, afternoon_start_time: '24:00')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, afternoon_start_time: '00:00')).to be_valid
+    expect(FactoryGirl.build(:default_project, afternoon_start_time: '23:59')).to be_valid
+  end
+
+  it "is not valid when evening_start_time is not a valid 24 hour clock time" do
+    expect(FactoryGirl.build(:default_project, evening_start_time: 'abc')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, evening_start_time: '9 am')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, evening_start_time: '24:00')).not_to be_valid
+    expect(FactoryGirl.build(:default_project, evening_start_time: '00:00')).to be_valid
+    expect(FactoryGirl.build(:default_project, evening_start_time: '23:59')).to be_valid
+  end
 
   # IMPORT
 
@@ -352,6 +375,24 @@ RSpec.describe Project, type: :model do
     context "when a project has no slots" do
       it "returns false" do
         project = FactoryGirl.create(:default_project, adults: 10, summary: 'Something')
+        expect(project.can_publish?).to eq(false)
+      end
+    end
+    context "when a project has morning slots but no morning start time" do
+      it "returns false" do
+        project = FactoryGirl.create(:good_to_publish_project, morning_start_time: nil)
+        expect(project.can_publish?).to eq(false)
+      end
+    end
+    context "when a project has afternoon slots but no afternoon start time" do
+      it "returns false" do
+        project = FactoryGirl.create(:good_to_publish_project, afternoon_start_time: nil)
+        expect(project.can_publish?).to eq(false)
+      end
+    end
+    context "when a project has evening slots but no evening start time" do
+      it "returns false" do
+        project = FactoryGirl.create(:good_to_publish_project, evening_start_time: nil)
         expect(project.can_publish?).to eq(false)
       end
     end

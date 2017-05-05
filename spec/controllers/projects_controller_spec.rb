@@ -23,11 +23,9 @@ RSpec.describe ProjectsController, type: :controller do
       it "populates an array of published projects and an array of all slots" do
         project_a = FactoryGirl.create(:published_project)
         project_b = FactoryGirl.create(:default_project)
-        slot_a = FactoryGirl.create(:default_project_slot, project: project_a)
-        slot_b = FactoryGirl.create(:default_project_slot, project: project_b)
         get :index
         expect(assigns(:projects)).to eq([project_a])
-        expect(assigns(:slots)).to eq([slot_a, slot_b])
+        expect(assigns(:slots)).to eq(project_a.project_slots)
       end
     end
     context "with filter in the session" do
@@ -44,29 +42,26 @@ RSpec.describe ProjectsController, type: :controller do
       it "applies the 'with_project_name' filter" do
         project_a = FactoryGirl.create(:published_project, project_name: 'aaa')
         project_b = FactoryGirl.create(:published_project, project_name: 'bbb')
-        slot_a = FactoryGirl.create(:default_project_slot, project: project_a)
-        slot_b = FactoryGirl.create(:default_project_slot, project: project_b)
         get :index, with_project_name: 'a'
-        expect(assigns(:slots)).to eq([slot_a])
-        expect(assigns(:projects)).to eq([project_a])
+        expect(assigns(:projects)).to  eq([project_a])
+        expect(assigns(:slots)).to     include(project_a.project_slots[0])
+        expect(assigns(:slots)).not_to include(project_b.project_slots[0])
       end
       it "applies the 'for_children' filter" do
         project_a = FactoryGirl.create(:published_project, kids: 1, activity_1_under_18: true)
         project_b = FactoryGirl.create(:published_project, kids: 0, activity_1_under_18: true)
-        slot_a = FactoryGirl.create(:default_project_slot, project: project_a)
-        slot_b = FactoryGirl.create(:default_project_slot, project: project_b)
         get :index, for_children: true
-        expect(assigns(:slots)).to eq([slot_a])
         expect(assigns(:projects)).to eq([project_a])
+        expect(assigns(:slots)).to     include(project_a.project_slots[0])
+        expect(assigns(:slots)).not_to include(project_b.project_slots[0])
       end
       it "applies the 'for_youth' filter" do
         project_a = FactoryGirl.create(:published_project, youth: 1, activity_1_under_18: true)
         project_b = FactoryGirl.create(:published_project, youth: 0, activity_1_under_18: true)
-        slot_a = FactoryGirl.create(:default_project_slot, project: project_a)
-        slot_b = FactoryGirl.create(:default_project_slot, project: project_b)
         get :index, for_youth: true
-        expect(assigns(:slots)).to eq([slot_a])
         expect(assigns(:projects)).to eq([project_a])
+        expect(assigns(:slots)).to     include(project_a.project_slots[0])
+        expect(assigns(:slots)).not_to include(project_b.project_slots[0])
       end
       it "applies the 'for_week' filter" do
         project_a = FactoryGirl.create(:published_project)
@@ -78,8 +73,8 @@ RSpec.describe ProjectsController, type: :controller do
         expect(assigns(:projects)).to eq([project_a])
       end
       it "applies the 'for_date' filter" do
-        project_a = FactoryGirl.create(:published_project)
-        project_b = FactoryGirl.create(:published_project)
+        project_a = FactoryGirl.create(:default_project, status: :published)
+        project_b = FactoryGirl.create(:default_project, status: :published)
         slot_a = FactoryGirl.create(:default_project_slot, project: project_a, slot_date: Date.new(2017,7,1))
         slot_b = FactoryGirl.create(:default_project_slot, project: project_b, slot_date: Date.new(2017,7,21))
         get :index, for_date: Date.new(2017,7,1)
@@ -87,8 +82,8 @@ RSpec.describe ProjectsController, type: :controller do
         expect(assigns(:projects)).to eq([project_a])
       end
       it "applies the 'of_type' filter" do
-        project_a = FactoryGirl.create(:published_project)
-        project_b = FactoryGirl.create(:published_project)
+        project_a = FactoryGirl.create(:default_project, status: :published)
+        project_b = FactoryGirl.create(:default_project, status: :published)
         slot_a = FactoryGirl.create(:default_project_slot, project: project_a, slot_type: 'evening')
         slot_b = FactoryGirl.create(:default_project_slot, project: project_b, slot_type: 'morning')
         get :index, of_type: 'evening'

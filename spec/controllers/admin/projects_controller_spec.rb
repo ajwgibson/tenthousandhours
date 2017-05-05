@@ -211,6 +211,9 @@ RSpec.describe Admin::ProjectsController, type: :controller do
           kids:                  30,
           materials:             'Paints and brushes',
           leader:                'Joe Bloggs',
+          morning_start_time:    '09:30',
+          afternoon_start_time:  '14:45',
+          evening_start_time:    '19:15',
         }
         post :create, { project: attrs }
       end
@@ -264,6 +267,9 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "stores kids" do expect(project.kids).to eq(30) end
       it "stores materials" do expect(project.materials).to eq('Paints and brushes') end
       it "stores leader" do expect(project.leader).to eq('Joe Bloggs') end
+      it "stores morning_start_time" do expect(project.morning_start_time).to eq('09:30') end
+      it "stores afternoon_start_time" do expect(project.afternoon_start_time).to eq('14:45') end
+      it "stores evening_start_time" do expect(project.evening_start_time).to eq('19:15') end
     end
 
     context "with invalid data" do

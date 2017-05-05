@@ -24,6 +24,7 @@
 //= require showdown/showdown.min.js
 //= require chartJs/Chart.bundle.min.js
 //= require knockoutjs/knockout-3.4.2.js
+//= require clockpicker/clockpicker.js
 //= require_tree .
 
 $(function() {
@@ -62,6 +63,8 @@ $(function() {
     weekStart: 1,
     defaultViewDate: { year: 2017, month: 6, day: 1 }
   });
+
+  $('.clockpicker').clockpicker();
 
   function warn(e) {
     e.preventDefault();

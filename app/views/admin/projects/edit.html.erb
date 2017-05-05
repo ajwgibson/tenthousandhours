@@ -84,6 +84,44 @@
 
               <%= render partial: "resources", locals: { f: f, project: @project } %>
 
+              <fieldset>
+                <legend>Slot times</legend>
+
+                <div class="form-group <%= "has-error" if @project.errors[:morning_start_time].present? %>">
+                  <%= f.label :morning_start_time, 'Morning start time', :class => 'control-label col-sm-3' %>
+                  <div class="col-sm-9">
+                    <div class="input-group clockpicker" data-autoclose="true">
+                      <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                      <%= f.text_field_without_bootstrap :morning_start_time, { :placeholder => 'hh:mm', :class => 'form-control' } %>
+                    </div>
+                    <div class="help-block">24hr clock please. Leave blank if not applicable.</div>
+                  </div>
+                </div>
+
+                <div class="form-group <%= "has-error" if @project.errors[:afternoon_start_time].present? %>">
+                  <%= f.label :afternoon_start_time, 'Afternoon start time', :class => 'control-label col-sm-3' %>
+                  <div class="col-sm-9">
+                    <div class="input-group clockpicker" data-autoclose="true">
+                      <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                      <%= f.text_field_without_bootstrap :afternoon_start_time, { :placeholder => 'hh:mm', :class => 'form-control' } %>
+                    </div>
+                    <div class="help-block">24hr clock please. Leave blank if not applicable.</div>
+                  </div>
+                </div>
+
+                <div class="form-group <%= "has-error" if @project.errors[:evening_start_time].present? %>">
+                  <%= f.label :evening_start_time, 'Evening start time', :class => 'control-label col-sm-3' %>
+                  <div class="col-sm-9">
+                    <div class="input-group clockpicker" data-autoclose="true">
+                      <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                      <%= f.text_field_without_bootstrap :evening_start_time, { :placeholder => 'hh:mm', :class => 'form-control' } %>
+                    </div>
+                    <div class="help-block">24hr clock please. Leave blank if not applicable.</div>
+                  </div>
+                </div>
+
+              </fieldset>
+
               <div class="form-group" style="margin-top: 20px;">
                 <div class="col-sm-9 col-sm-offset-3">
                   <%= button_tag(type: "submit", class: "btn btn-primary") do %>

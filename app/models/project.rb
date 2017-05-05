@@ -14,6 +14,9 @@ class Project < ActiveRecord::Base
   validates :adults, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 2 }
   validates :youth,  numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :kids,   numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
+  validates :morning_start_time,   allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
+  validates :afternoon_start_time, allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
+  validates :evening_start_time,   allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
 
   validate :under_18s_need_suitable_activities
 
@@ -79,9 +82,27 @@ class Project < ActiveRecord::Base
 
   def can_publish?
     return false if project_slots.size == 0
+    return false if needs_morning_start_time?   && morning_start_time.blank?
+    return false if needs_afternoon_start_time? && afternoon_start_time.blank?
+    return false if needs_evening_start_time?   && evening_start_time.blank?
     return false if summary.blank?
     return false if adults.nil?
     true
+  end
+
+
+  def needs_morning_start_time?
+    has_slots_of_type? ProjectSlot.slot_types['morning']
+  end
+
+
+  def needs_afternoon_start_time?
+    has_slots_of_type? ProjectSlot.slot_types['afternoon']
+  end
+
+
+  def needs_evening_start_time?
+    has_slots_of_type? ProjectSlot.slot_types['evening']
   end
 
 
@@ -149,6 +170,11 @@ private
     if !kids.nil? && kids > 0 && !activity_1_under_18 && !activity_2_under_18 && !activity_3_under_18
       errors.add(:kids, "can't be more than zero when none of the projects are suitable for under 18s")
     end
+  end
+
+
+  def has_slots_of_type?(slot_type)
+    project_slots.pluck('slot_type').include? slot_type
   end
 
 

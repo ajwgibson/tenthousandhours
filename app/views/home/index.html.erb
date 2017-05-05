@@ -33,6 +33,7 @@
               Suitable for youth (11 - 18): <%= yes_no_icon project.suitable_for_youth? %><br/>
               Suitable for kids (under 11): <%= yes_no_icon project.suitable_for_kids? %>
             </p>
+            <%= project_start_times(project) %>
           </div>
           <div class="ibox-footer">
             <ul class="list-group">

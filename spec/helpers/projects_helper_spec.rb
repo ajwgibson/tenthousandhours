@@ -47,4 +47,24 @@ RSpec.describe ProjectsHelper, type: :helper do
     end
   end
 
+
+  describe "project_start_times" do
+    context "without_start_times" do
+      let(:project) { FactoryGirl.create(:default_project) }
+      it "returns nil" do
+        output = helper.project_start_times(project)
+        expect(output).to be_nil
+      end
+    end
+    context "with_start_times" do
+      let(:project) { FactoryGirl.create(:good_to_publish_project) }
+      it "includes the start times" do
+        output = helper.project_start_times(project)
+        expect(output).to include('Morning start time')
+        expect(output).to include('Afternoon start time')
+        expect(output).to include('Evening start time')
+      end
+    end
+  end
+
 end

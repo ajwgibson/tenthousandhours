@@ -40,19 +40,25 @@ FactoryGirl.define do
   end
 
   factory :good_to_publish_project, parent: :default_project do
-    status              :draft
-    organisation_type   "School"
-    project_name        "Causeway Coast Primary"
-    adults              10
-    summary             'Some kind of summary'
+    status               :draft
+    organisation_type    "School"
+    project_name         "Causeway Coast Primary"
+    adults               10
+    summary              'Some kind of summary'
+    morning_start_time   '09:30'
+    afternoon_start_time '14:30'
+    evening_start_time   '19:30'
 
     after(:create) do |project|
-      create(:default_project_slot, project: project)
+      create(:default_project_slot, project: project, slot_type: :morning)
+      create(:default_project_slot, project: project, slot_type: :afternoon)
+      create(:default_project_slot, project: project, slot_type: :evening)
     end
   end
 
-  factory :published_project, parent: :default_project do
-    status              :published
+  factory :published_project, parent: :good_to_publish_project do
+    status :published
   end
+
 
 end
