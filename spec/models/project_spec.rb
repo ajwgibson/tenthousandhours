@@ -408,6 +408,12 @@ RSpec.describe Project, type: :model do
         expect(project.can_publish?).to eq(false)
       end
     end
+    context "when a project has no leader" do
+      it "returns false" do
+        project = FactoryGirl.create(:good_to_publish_project, leader: nil)
+        expect(project.can_publish?).to eq(false)
+      end
+    end
   end
 
 

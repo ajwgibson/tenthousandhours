@@ -48,6 +48,7 @@ FactoryGirl.define do
     morning_start_time   '09:30'
     afternoon_start_time '14:30'
     evening_start_time   '19:30'
+    leader               'John Smith'
 
     after(:create) do |project|
       create(:default_project_slot, project: project, slot_type: :morning)

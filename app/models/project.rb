@@ -87,6 +87,7 @@ class Project < ActiveRecord::Base
     return false if needs_evening_start_time?   && evening_start_time.blank?
     return false if summary.blank?
     return false if adults.nil?
+    return false if leader.blank?
     true
   end
 
