@@ -20,7 +20,10 @@
     </div>
     <% if @projects.size > 0 %>
     <div class="row">
-      <% @projects.each do |project| %>
+      <% @projects.each_with_index do |project,index| %>
+      <% if index > 0 && (index % 2 == 0) %>
+      </div><div class="row">
+      <% end %>
       <div class="col-xs-12 col-sm-6 ">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
