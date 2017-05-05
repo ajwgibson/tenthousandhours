@@ -28,7 +28,8 @@
                 <% current_volunteer.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
                   <tr>
                     <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
-                    <td><%= project_slot.humanized_slot_type %> (<%= project_slot.start_time %>)</td>
+                    <td><%= project_slot.humanized_slot_type %>, <%= project_slot.start_time %>
+                      <%= "(#{project_slot.slot_length} hrs)" unless project_slot.slot_length.nil? %></td>
                     <td><%= project_slot.project.project_name %></td>
                     <td align="right">
                       <%= form_tag decline_from_project_path, method: :post do |f| %>

@@ -214,6 +214,9 @@ RSpec.describe Admin::ProjectsController, type: :controller do
           morning_start_time:    '09:30',
           afternoon_start_time:  '14:45',
           evening_start_time:    '19:15',
+          morning_slot_length:   1.5,
+          afternoon_slot_length: 2.5,
+          evening_slot_length:   3.5,
         }
         post :create, { project: attrs }
       end
@@ -270,6 +273,9 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "stores morning_start_time" do expect(project.morning_start_time).to eq('09:30') end
       it "stores afternoon_start_time" do expect(project.afternoon_start_time).to eq('14:45') end
       it "stores evening_start_time" do expect(project.evening_start_time).to eq('19:15') end
+      it "stores morning_slot_length" do expect(project.morning_slot_length).to eq(1.5) end
+      it "stores afternoon_slot_length" do expect(project.afternoon_slot_length).to eq(2.5) end
+      it "stores evening_slot_length" do expect(project.evening_slot_length).to eq(3.5) end
     end
 
     context "with invalid data" do

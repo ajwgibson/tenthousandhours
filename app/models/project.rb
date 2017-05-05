@@ -14,9 +14,12 @@ class Project < ActiveRecord::Base
   validates :adults, numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 2 }
   validates :youth,  numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
   validates :kids,   numericality: { only_integer: true, allow_nil: true, greater_than_or_equal_to: 0 }
-  validates :morning_start_time,   allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
-  validates :afternoon_start_time, allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
-  validates :evening_start_time,   allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
+  validates :morning_start_time,    allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
+  validates :afternoon_start_time,  allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
+  validates :evening_start_time,    allow_blank: true, format: { with: /\A([01]?[0-9]|2[0-3])\:[0-5][0-9]\z/ }
+  validates :morning_slot_length,   numericality: { allow_nil: true, greater_than_or_equal_to: 0.5, less_than_or_equal_to: 5.0 }
+  validates :afternoon_slot_length, numericality: { allow_nil: true, greater_than_or_equal_to: 0.5, less_than_or_equal_to: 5.0 }
+  validates :evening_slot_length,   numericality: { allow_nil: true, greater_than_or_equal_to: 0.5, less_than_or_equal_to: 5.0 }
 
   validate :under_18s_need_suitable_activities
 
@@ -82,9 +85,9 @@ class Project < ActiveRecord::Base
 
   def can_publish?
     return false if project_slots.size == 0
-    return false if needs_morning_start_time?   && morning_start_time.blank?
-    return false if needs_afternoon_start_time? && afternoon_start_time.blank?
-    return false if needs_evening_start_time?   && evening_start_time.blank?
+    return false if needs_morning_start_time?   && (morning_start_time.blank? || morning_slot_length.nil?)
+    return false if needs_afternoon_start_time? && (afternoon_start_time.blank? || afternoon_slot_length.nil?)
+    return false if needs_evening_start_time?   && (evening_start_time.blank? || evening_slot_length.nil?)
     return false if summary.blank?
     return false if adults.nil?
     return false if leader.blank?

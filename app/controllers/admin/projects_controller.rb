@@ -164,6 +164,9 @@ class Admin::ProjectsController < Admin::BaseController
           :morning_start_time,
           :afternoon_start_time,
           :evening_start_time,
+          :morning_slot_length,
+          :afternoon_slot_length,
+          :evening_slot_length,
         )
     end
 

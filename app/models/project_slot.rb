@@ -45,6 +45,13 @@ class ProjectSlot < ActiveRecord::Base
   end
 
 
+  def slot_length
+    return project.morning_slot_length   if morning?
+    return project.afternoon_slot_length if afternoon?
+    return project.evening_slot_length   if evening?
+  end
+
+
   def volunteer_count
     volunteers.inject(0) { |sum,v| sum + v.family_size }
   end

@@ -272,7 +272,6 @@
         </div>
       </div>
       <div class="ibox-content">
-        <h4>Dates</h4>
         <div class="form-horizontal form-static">
           <div class="form-group">
             <label class="col-lg-3 control-label">Start date</label>
@@ -295,15 +294,33 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="col-lg-3 control-label">Morning slot length (hrs)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.morning_slot_length %></p>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-lg-3 control-label">Afternoon start time</label>
             <div class="col-lg-9">
               <p class="form-control-static"><%= @project.afternoon_start_time %></p>
             </div>
           </div>
           <div class="form-group">
+            <label class="col-lg-3 control-label">Afternoon slot length (hrs)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.afternoon_slot_length %></p>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-lg-3 control-label">Evening start time</label>
             <div class="col-lg-9">
               <p class="form-control-static"><%= @project.evening_start_time %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Evening slot length (hrs)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.evening_slot_length %></p>
             </div>
           </div>
         </div>

@@ -75,6 +75,7 @@ RSpec.describe ProjectSlot, type: :model do
     end
   end
 
+
   describe "#start_time" do
     context "when the slot is in the morning" do
       let(:project) { FactoryGirl.build(:default_project) }
@@ -125,6 +126,36 @@ RSpec.describe ProjectSlot, type: :model do
         it "returns the project evening_start_time value" do
           expect(slot.start_time).to eq('19:45')
         end
+      end
+    end
+  end
+
+
+  describe "#slot_length" do
+    let(:project) {
+      FactoryGirl.build(
+        :default_project,
+        morning_slot_length: 1.5,
+        afternoon_slot_length: 2.5,
+        evening_slot_length: 3.5
+      )
+    }
+    context "when the slot is in the morning" do
+      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :morning, project: project) }
+      it "returns the project morning_slot_length value" do
+        expect(slot.slot_length).to eq(1.5)
+      end
+    end
+    context "when the slot is in the afternoon" do
+      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :afternoon, project: project) }
+      it "returns the project afternoon_slot_length value" do
+        expect(slot.slot_length).to eq(2.5)
+      end
+    end
+    context "when the slot is in the evening" do
+      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :evening, project: project) }
+      it "returns the project evening_slot_length value" do
+        expect(slot.slot_length).to eq(3.5)
       end
     end
   end

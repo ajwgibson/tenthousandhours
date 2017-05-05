@@ -64,6 +64,12 @@
               <p class="form-control-static"><%= @project.morning_start_time %></p>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Morning slot length (hrs)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.morning_slot_length %></p>
+            </div>
+          </div>
           <% end %>
           <% if @project.needs_afternoon_start_time? %>
           <div class="form-group">
@@ -72,12 +78,24 @@
               <p class="form-control-static"><%= @project.afternoon_start_time %></p>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Afternoon slot length (hrs)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.afternoon_slot_length %></p>
+            </div>
+          </div>
           <% end %>
           <% if @project.needs_evening_start_time? %>
           <div class="form-group">
             <label class="col-lg-3 control-label">Evening start time</label>
             <div class="col-lg-9">
               <p class="form-control-static"><%= @project.evening_start_time %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Evening slot length (hrs)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @project.evening_slot_length %></p>
             </div>
           </div>
           <% end %>

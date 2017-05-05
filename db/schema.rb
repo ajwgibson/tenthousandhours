@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505131515) do
+ActiveRecord::Schema.define(version: 20170505162458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20170505131515) do
 
   create_table "projects", force: :cascade do |t|
     t.string   "typeform_id"
-    t.string   "organisation_type",                      null: false
-    t.string   "project_name",                           null: false
+    t.string   "organisation_type",                                              null: false
+    t.string   "project_name",                                                   null: false
     t.string   "contact_name"
     t.string   "contact_role"
     t.string   "contact_email"
@@ -53,28 +53,31 @@ ActiveRecord::Schema.define(version: 20170505131515) do
     t.string   "activity_3_summary"
     t.string   "activity_3_information"
     t.boolean  "activity_3_under_18"
-    t.boolean  "any_week",               default: true
-    t.boolean  "july_3",                 default: false
-    t.boolean  "july_10",                default: false
-    t.boolean  "july_17",                default: false
-    t.boolean  "july_24",                default: false
-    t.boolean  "evenings",               default: false
-    t.boolean  "saturday",               default: false
+    t.boolean  "any_week",                                       default: true
+    t.boolean  "july_3",                                         default: false
+    t.boolean  "july_10",                                        default: false
+    t.boolean  "july_17",                                        default: false
+    t.boolean  "july_24",                                        default: false
+    t.boolean  "evenings",                                       default: false
+    t.boolean  "saturday",                                       default: false
     t.string   "notes"
     t.datetime "submitted_at"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
     t.datetime "deleted_at"
     t.string   "materials"
     t.integer  "adults"
     t.integer  "youth"
-    t.integer  "status",                 default: 0,     null: false
+    t.integer  "status",                                         default: 0,     null: false
     t.string   "summary"
     t.integer  "kids"
     t.string   "leader"
     t.string   "morning_start_time"
     t.string   "afternoon_start_time"
     t.string   "evening_start_time"
+    t.decimal  "morning_slot_length",    precision: 2, scale: 1
+    t.decimal  "afternoon_slot_length",  precision: 2, scale: 1
+    t.decimal  "evening_slot_length",    precision: 2, scale: 1
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
