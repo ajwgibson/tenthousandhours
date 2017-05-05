@@ -5,6 +5,7 @@ class ProjectSlot < ActiveRecord::Base
   include Filterable
 
   belongs_to :project
+  has_and_belongs_to_many :volunteers
 
   validates :slot_date, :presence => true
   validates :slot_type, :presence => true
@@ -34,5 +35,48 @@ class ProjectSlot < ActiveRecord::Base
   def humanized_slot_type
     slot_type.humanize
   end
+
+
+  def start_time
+    return project.morning_start_time   ||= 'tbc' if morning?
+    return project.afternoon_start_time ||= 'tbc' if afternoon?
+    return project.evening_start_time   ||= 'tbc' if evening?
+    'tbc'
+  end
+
+
+  def volunteer_count
+    volunteers.inject(0) { |sum,v| sum + v.family_size }
+  end
+
+  def adults
+    volunteers.inject(0) { |sum,v| sum + v.adults_in_family }
+  end
+
+  def youth
+    volunteers.inject(0) { |sum,v| sum + v.youth_in_family }
+  end
+
+  def children
+    volunteers.inject(0) { |sum,v| sum + v.children_in_family }
+  end
+
+
+  def can_sign_up?(volunteer)
+
+    youth_limit = project.youth ||= 0
+    adult_limit = project.adults ||= 0
+
+    if volunteer.youth?
+      return false unless project.suitable_for_youth?
+      return false if youth >= youth_limit
+      return true
+    end
+
+    return false if adults >= adult_limit
+
+    true
+  end
+
 
 end

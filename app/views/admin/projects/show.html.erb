@@ -324,9 +324,9 @@
             <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
             <td><%= project_slot.slot_date.strftime('%A') %></td>
             <td><%= project_slot.humanized_slot_type %></td>
-            <td><code>todo</code></td>
-            <td><code>todo</code></td>
-            <td><code>todo</code></td>
+            <td><%= project_slot.adults %></td>
+            <td><%= project_slot.youth %></td>
+            <td><%= project_slot.children %></td>
           </tr>
           <% end %>
           <% if @project.project_slots.size == 0 %>

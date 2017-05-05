@@ -1,5 +1,7 @@
 class Volunteer < ActiveRecord::Base
 
+  has_and_belongs_to_many :project_slots
+
   # Include default devise modules. Others available are:
   # :omniauthable
   # :rememberable

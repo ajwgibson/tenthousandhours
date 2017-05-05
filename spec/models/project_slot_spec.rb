@@ -32,6 +32,153 @@ RSpec.describe ProjectSlot, type: :model do
   end
 
 
+  describe "#volunteer_count" do
+    it "returns the sum of the volunteers signed up" do
+      slot = FactoryGirl.build(:default_project_slot)
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      expect(slot.volunteer_count).to eq(11)
+    end
+  end
+
+
+  describe "#adults" do
+    it "returns the sum of the adult volunteers signed up" do
+      slot = FactoryGirl.build(:default_project_slot)
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      expect(slot.adults).to eq(5)
+    end
+  end
+
+
+  describe "#youth" do
+    it "returns the sum of the youth volunteers signed up" do
+      slot = FactoryGirl.build(:default_project_slot)
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"child"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      expect(slot.youth).to eq(2)
+    end
+  end
+
+
+  describe "#children" do
+    it "returns the sum of the child volunteers signed up" do
+      slot = FactoryGirl.build(:default_project_slot)
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"child"},{"age_category":"child"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"}]')
+      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      expect(slot.children).to eq(3)
+    end
+  end
+
+  describe "#start_time" do
+    context "when the slot is in the morning" do
+      let(:project) { FactoryGirl.build(:default_project) }
+      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :morning, project: project) }
+      context "when the project morning_start_time is not set" do
+        it "returns 'tbc'" do
+          expect(slot.start_time).to eq('tbc')
+        end
+      end
+      context "when the project morning_start_time value is set" do
+        before do
+          project.morning_start_time = '09:00'
+        end
+        it "returns the project morning_start_time value" do
+          expect(slot.start_time).to eq('09:00')
+        end
+      end
+    end
+    context "when the slot is in the afternoon" do
+      let(:project) { FactoryGirl.build(:default_project) }
+      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :afternoon, project: project) }
+      context "when the project afternoon_start_time is not set" do
+        it "returns 'tbc'" do
+          expect(slot.start_time).to eq('tbc')
+        end
+      end
+      context "when the project afternoon_start_time value is set" do
+        before do
+          project.afternoon_start_time = '14:30'
+        end
+        it "returns the project afternoon_start_time value" do
+          expect(slot.start_time).to eq('14:30')
+        end
+      end
+    end
+    context "when the slot is in the evening" do
+      let(:project) { FactoryGirl.build(:default_project) }
+      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :evening, project: project) }
+      context "when the project evening_start_time is not set" do
+        it "returns 'tbc'" do
+          expect(slot.start_time).to eq('tbc')
+        end
+      end
+      context "when the project evening_start_time value is set" do
+        before do
+          project.evening_start_time = '19:45'
+        end
+        it "returns the project evening_start_time value" do
+          expect(slot.start_time).to eq('19:45')
+        end
+      end
+    end
+  end
+
+
+  describe "#can_sign_up?(volunteer)" do
+    context "when the volunteer is a youth" do
+      let(:volunteer) { FactoryGirl.build(:default_volunteer, age_category: 'youth') }
+      context "when the project is not suitable for youth" do
+        let(:project) { FactoryGirl.build(:default_project, youth: 0) }
+        let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
+        it "returns false" do
+          expect(slot.can_sign_up?(volunteer)).to be_falsey
+        end
+      end
+      context "when the project is suitable for youth" do
+        let(:project) { FactoryGirl.build(:default_project, youth: 1) }
+        let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
+        context "when the project is already full of youth" do
+          before do
+            slot.volunteers << FactoryGirl.build(:default_volunteer, age_category: 'youth')
+          end
+          it "returns false" do
+            expect(slot.can_sign_up?(volunteer)).to be_falsey
+          end
+        end
+        context "when the project still has youth places available" do
+          it "returns true" do
+            expect(slot.can_sign_up?(volunteer)).to be_truthy
+          end
+        end
+      end
+    end
+    context "when the volunteer is an adult" do
+      let(:volunteer) { FactoryGirl.build(:default_volunteer, age_category: 'adult') }
+      let(:project) { FactoryGirl.build(:default_project, adults: 1) }
+      let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
+      context "when the project is already full" do
+        before do
+          slot.volunteers << FactoryGirl.build(:default_volunteer, age_category: 'adult')
+        end
+        it "returns false" do
+          expect(slot.can_sign_up?(volunteer)).to be_falsey
+        end
+      end
+      context "when the project still has places available" do
+        it "returns true" do
+          expect(slot.can_sign_up?(volunteer)).to be_truthy
+        end
+      end
+    end
+  end
+
+
   # SCOPES
 
   describe 'scope:for_week' do
@@ -108,6 +255,6 @@ RSpec.describe ProjectSlot, type: :model do
       expect(filtered).to      include(a,b)
     end
   end
-  
+
 
 end

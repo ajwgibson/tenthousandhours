@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'projects/index'
   get 'projects/clear_filter'
+  post 'projects/volunteer', as: 'volunteer_for_project'
+  post 'projects/decline',   as: 'decline_from_project'
 
   scope '/admin' do
     devise_for :users

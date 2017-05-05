@@ -9,10 +9,40 @@
       <div class="ibox-content">
         <div class="row">
           <div class="col-xs-12">
+            <% if current_volunteer.project_slots.empty? %>
             <em>
             You are not currently signed up for any projects. Please use
             the information below
             </em>
+            <% else %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Project</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% current_volunteer.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                  <tr>
+                    <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
+                    <td><%= project_slot.humanized_slot_type %> (<%= project_slot.start_time %>)</td>
+                    <td><%= project_slot.project.project_name %></td>
+                    <td align="right">
+                      <%= form_tag decline_from_project_path, method: :post do |f| %>
+                        <%= hidden_field_tag :slot_id, project_slot.id %>
+                        <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline") do %>
+                          <i class="fa fa-times"></i> Decline
+                        <% end %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <% end %>
           </div>
         </div>
       </div>

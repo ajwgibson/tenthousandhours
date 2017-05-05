@@ -34,7 +34,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><%= link_to 'Home', root_url %></li>
-            <li><%= link_to 'Projects', root_url + '#projects' %></li>
+            <li><%= link_to 'Projects', projects_index_url %></li>
             <li><%= link_to 'Volunteering', root_url + '#volunteering' %></li>
             <li><%= link_to 'Contact', root_url + '#contact' %></li>
             <%= render 'user_menu' %>
@@ -53,6 +53,6 @@
   </div>
 
   <%= toastr_flash %>
-  
+
 </body>
 </html>

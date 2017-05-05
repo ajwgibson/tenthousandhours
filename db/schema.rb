@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504180900) do
+ActiveRecord::Schema.define(version: 20170505131515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(version: 20170504180900) do
 
   add_index "project_slots", ["deleted_at"], name: "index_project_slots_on_deleted_at", using: :btree
   add_index "project_slots", ["project_id"], name: "index_project_slots_on_project_id", using: :btree
+
+  create_table "project_slots_volunteers", id: false, force: :cascade do |t|
+    t.integer "project_slot_id"
+    t.integer "volunteer_id"
+  end
+
+  add_index "project_slots_volunteers", ["project_slot_id"], name: "index_project_slots_volunteers_on_project_slot_id", using: :btree
+  add_index "project_slots_volunteers", ["volunteer_id"], name: "index_project_slots_volunteers_on_volunteer_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
     t.string   "typeform_id"

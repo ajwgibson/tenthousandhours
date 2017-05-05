@@ -15,6 +15,20 @@ class ProjectsController < ApplicationController
   end
 
 
+  def volunteer
+    project_slot = ProjectSlot.find params[:slot_id]
+    current_volunteer.project_slots << project_slot
+    redirect_to projects_index_url, notice: 'Sign up was successful'
+  end
+
+
+  def decline
+    project_slot = ProjectSlot.find params[:slot_id]
+    current_volunteer.project_slots.delete project_slot
+    redirect_to my_projects_url, notice: 'Sign up was removed'
+  end
+
+
   private
 
   def get_filter
