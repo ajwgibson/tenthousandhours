@@ -57,6 +57,11 @@ class Volunteer < ActiveRecord::Base
      end
    end
 
+   def commitment
+     project_slots.inject(0) { |sum,slot| sum + slot.slot_length } * family_size
+   end
+
+
    private
 
    def family_hash

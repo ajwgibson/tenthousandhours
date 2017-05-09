@@ -129,4 +129,24 @@ RSpec.describe Volunteer, type: :model do
     end
   end
 
+  describe "#commitment" do
+    context "with no project slots" do
+      let(:volunteer) { FactoryGirl.build(:family_of_four_volunteer) }
+      it "returns zero" do
+        expect(volunteer.commitment).to eq(0)
+      end
+    end
+    context "with project slots" do
+      let(:project)   { FactoryGirl.build(:published_project) }
+      let(:volunteer) { FactoryGirl.build(:family_of_four_volunteer) }
+      before do
+        project.project_slots.each { |slot| slot << volunteer }
+      end
+      it "returns the total hours for all slots times the family size" do
+        expected = project.project_slots.inject(0) { |sum,slot| sum + slot.slot_length } * volunteer.family_size
+        expect(volunteer.commitment).to eq(expected)
+      end
+    end
+  end
+
 end

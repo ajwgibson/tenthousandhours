@@ -46,9 +46,9 @@ class ProjectSlot < ActiveRecord::Base
 
 
   def slot_length
-    return project.morning_slot_length   if morning?
-    return project.afternoon_slot_length if afternoon?
-    return project.evening_slot_length   if evening?
+    return project.morning_slot_length   ||= 0 if morning?
+    return project.afternoon_slot_length ||= 0 if afternoon?
+    return project.evening_slot_length   ||= 0 if evening?
   end
 
 

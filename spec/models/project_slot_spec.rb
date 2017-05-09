@@ -142,20 +142,44 @@ RSpec.describe ProjectSlot, type: :model do
     }
     context "when the slot is in the morning" do
       let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :morning, project: project) }
-      it "returns the project morning_slot_length value" do
-        expect(slot.slot_length).to eq(1.5)
+      context "when the project morning_slot_length value is set" do
+        it "returns the project morning_slot_length value" do
+          expect(slot.slot_length).to eq(1.5)
+        end
+      end
+      context "when the project morning_slot_length value is not set" do
+        before { slot.project.morning_slot_length = nil }
+        it "returns zero" do
+          expect(slot.slot_length).to eq(0)
+        end
       end
     end
     context "when the slot is in the afternoon" do
       let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :afternoon, project: project) }
-      it "returns the project afternoon_slot_length value" do
-        expect(slot.slot_length).to eq(2.5)
+      context "when the project afternoon_slot_length value is set" do
+        it "returns the project afternoon_slot_length value" do
+          expect(slot.slot_length).to eq(2.5)
+        end
+      end
+      context "when the project afternoon_slot_length value is not set" do
+        before { slot.project.afternoon_slot_length = nil }
+        it "returns zero" do
+          expect(slot.slot_length).to eq(0)
+        end
       end
     end
     context "when the slot is in the evening" do
       let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :evening, project: project) }
-      it "returns the project evening_slot_length value" do
-        expect(slot.slot_length).to eq(3.5)
+      context "when the project evening_slot_length value is set" do
+        it "returns the project evening_slot_length value" do
+          expect(slot.slot_length).to eq(3.5)
+        end
+      end
+      context "when the project evening_slot_length value is not set" do
+        before { slot.project.evening_slot_length = nil }
+        it "returns zero" do
+          expect(slot.slot_length).to eq(0)
+        end
       end
     end
   end
