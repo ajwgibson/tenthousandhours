@@ -99,6 +99,42 @@ RSpec.describe Admin::HomeController, type: :controller do
       )
     end
 
+    context "volunteer counts" do
+      before do
+        FactoryGirl.create(:family_of_four_volunteer)
+        FactoryGirl.create(:family_of_four_volunteer)
+        FactoryGirl.create(:family_of_five_volunteer)
+      end
+      it "returns the number of adult volunteers" do
+        get :index
+        expect(assigns(:volunteer_adults)).to eq(6)
+      end
+      it "returns the number of youth volunteers" do
+        get :index
+        expect(assigns(:volunteer_youth)).to eq(3)
+      end
+      it "returns the number of child volunteers" do
+        get :index
+        expect(assigns(:volunteer_children)).to eq(4)
+      end
+    end
+
+    context "commitment" do
+      let(:project) { FactoryGirl.create(:published_project, morning_slot_length: 1.5, evening_slot_length: 2.5) }
+      before do
+        v1 = FactoryGirl.create(:family_of_four_volunteer)
+        v2 = FactoryGirl.create(:family_of_five_volunteer)
+        slot1 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :morning)
+        slot2 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :evening)
+        slot1.volunteers << v1
+        slot2.volunteers << v2
+      end
+      it "returns the total number of committed hours" do
+        get :index
+        expect(assigns(:commitment)).to eq((4*1.5)+(5*2.5))
+      end
+    end
+
   end
 
 end

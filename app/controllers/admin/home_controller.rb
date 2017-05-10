@@ -35,6 +35,12 @@ class Admin::HomeController < Admin::BaseController
       @projects_cumulative[key] = total
     end
 
+    volunteers = Volunteer.all
+    @volunteer_adults = volunteers.inject(0) { |sum,v| sum += v.adults_in_family }
+    @volunteer_youth = volunteers.inject(0) { |sum,v| sum += v.youth_in_family }
+    @volunteer_children = volunteers.inject(0) { |sum,v| sum += v.children_in_family }
+
+    @commitment = volunteers.inject(0) { |sum,v| sum += v.commitment }
   end
 
 

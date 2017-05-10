@@ -27,4 +27,8 @@ FactoryGirl.define do
     family  '[{"name":"Dad","age_category":"adult"},{"name":"Youth","age_category":"youth"},{"name":"Child","age_category":"child"}]'
   end
 
+  factory :family_of_five_volunteer, parent: :default_volunteer do
+    family  '[{"name":"Dad","age_category":"adult"},{"name":"Youth","age_category":"youth"},{"name":"Child1","age_category":"child"},{"name":"Child2","age_category":"child"}]'
+  end
+
 end

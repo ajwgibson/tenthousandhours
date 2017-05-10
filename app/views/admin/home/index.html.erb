@@ -8,6 +8,67 @@
   </div>
 </div>
 
+<div class="row" style="margin-bottom: 20px;">
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="widget style1 lazur-bg">
+      <div class="row vertical-align">
+        <div class="col-xs-3">
+          <i class="fa fa-address-card fa-4x"></i>
+        </div>
+        <div class="col-xs-9 text-right">
+          <span> projects </span>
+          <h2 class="font-bold"><%= @projects_cumulative.values.last %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="widget style1 lazur-bg">
+      <div class="row vertical-align">
+        <div class="col-xs-3">
+          <i class="fa fa-users fa-4x"></i>
+        </div>
+        <div class="col-xs-9 text-right">
+          <span> volunteers </span>
+          <h2 class="font-bold"><%= @volunteer_adults + @volunteer_youth + @volunteer_children %> </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="widget style1 lazur-bg">
+      <div class="row vertical-align">
+        <div class="col-xs-3">
+          <i class="fa fa-hourglass fa-4x"></i>
+        </div>
+        <div class="col-xs-9 text-right">
+          <span> hours </span>
+          <h2 class="font-bold"><%= @commitment %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h4>Volunteers by age</h4>
+      </div>
+      <div class="ibox-content">
+        <canvas id="volunteersByAge" width="50" height="50"></canvas>
+      </div>
+      <div class="ibox-footer">
+        &nbsp;
+        <p class="text-muted pull-right">
+          Total: <%= @volunteer_adults + @volunteer_youth + @volunteer_children %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-xs-12 col-sm-6 col-lg-3">
     <div class="ibox float-e-margins">
@@ -91,6 +152,19 @@
           position: 'bottom'
         }
       };
+
+      new Chart("volunteersByAge", {
+        type: 'pie',
+        data: {
+          labels: ['Adults', 'Youth', 'Children'],
+          datasets: [{
+            data: [<%= @volunteer_adults %>, <%= @volunteer_youth %>, <%= @volunteer_children %>],
+            backgroundColor: normal_colours,
+            hoverBackgroundColor: highlight_colours,
+          }]
+        },
+        options: pieChartOptions
+      });
 
       new Chart("projectsByType", {
         type: 'pie',
