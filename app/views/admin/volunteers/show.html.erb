@@ -68,6 +68,85 @@
         </div>
       </div>
     </div>
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Projects</h3>
+      </div>
+      <div class="ibox-content">
+        <% if @volunteer.project_slots.size == 0 %>
+        <p class="p-xs text-muted">
+          This volunteer has not volunteered for any projects yet.
+        </p>
+        <% else %>
+        <p class="p-xs text-info">
+          This volunteer
+          <%= @volunteer.family_size > 1 ? ' and their family members ' : nil %>
+          have committed to <%= @volunteer.commitment %> hours of volunteering.
+        </p>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Project</th>
+                <th>Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @volunteer.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                <tr>
+                  <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
+                  <td><%= project_slot.humanized_slot_type %></td>
+                  <td><%= project_slot.project.project_name %></td>
+                  <td><%= project_slot.slot_length * @volunteer.family_size %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Personal projects</h3>
+      </div>
+      <div class="ibox-content">
+        <% if @volunteer.personal_projects.size == 0 %>
+        <p class="p-xs text-muted">
+          This volunteer has not added any personal projects.
+        </p>
+        <% else %>
+        <p class="p-xs text-info">
+          This volunteer has committed to <%= @volunteer.personal_project_commitment %>
+          hours of volunteering on personal projects.
+        </p>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Volunteers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @volunteer.personal_projects.order(:project_date).each do |project| %>
+                <tr>
+                  <td><%= project.description %></td>
+                  <td><%= project.project_date.strftime('%d/%m/%Y') %></td>
+                  <td><%= project.duration %></td>
+                  <td><%= project.volunteer_count %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <% end %>
+      </div>
+    </div>
   </div>
   <div class="col-lg-3 hidden-print">
     <div class="ibox float-e-margins">
