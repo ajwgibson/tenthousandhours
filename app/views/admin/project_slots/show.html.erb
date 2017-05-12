@@ -1,0 +1,111 @@
+
+<div class="row">
+  <div class="col-lg-9">
+
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h2>Project slot details</h2>
+      </div>
+      <div class="ibox-content">
+        <div class="form-horizontal form-static">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Project name</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.project.project_name %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Contact name</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.project.contact_name %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Contact telephone</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.project.contact_phone %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Project leader</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.project.leader %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Slot date</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.slot_date.strftime('%d/%m/%Y') %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Start time</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.start_time %> (<%= @ProjectSlot.slot_length %> hrs)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Volunteers</h5>
+      </div>
+      <div class="ibox-content">
+        <% if @ProjectSlot.volunteers.count == 0 %>
+        <p class="text-muted">
+          This slot has no volunteers yet.
+        </p>
+        <% else %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Family members</th>
+                <th>Phone</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @ProjectSlot.volunteers.order(:first_name, :last_name).each do |volunteer| %>
+                <tr>
+                  <td><%= volunteer.name %></td>
+                  <td>
+                    <% volunteer.family_members.each do |m| %>
+                      <%= "#{m['name']} (#{m['age_category']})" %><br />
+                    <% end %>
+                  </td>
+                  <td><%= volunteer.mobile %></td>
+                  <td>
+                    <%= link_to admin_volunteer_path(volunteer), :class => '' do %>
+                    <i class="fa fa-info-circle"></i> View details
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-3 hidden-print">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Actions</h3>
+      </div>
+      <div class="ibox-content">
+        <div>
+          <%= link_to admin_project_path(@ProjectSlot.project), :class => 'btn btn-outline btn-default' do %>
+            <i class="fa fa-reply"></i> Back to project
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

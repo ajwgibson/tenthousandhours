@@ -334,6 +334,7 @@
               <th>Adults</th>
               <th>Youth</th>
               <th>Kids</th>
+              <th></th>
             </tr>
           </thead>
           <% @project.project_slots.each do |project_slot| %>
@@ -344,6 +345,11 @@
             <td><%= project_slot.adults %></td>
             <td><%= project_slot.youth %></td>
             <td><%= project_slot.children %></td>
+            <td>
+              <%= link_to admin_show_project_slot_path(project_slot), :class => '' do %>
+              <i class="fa fa-info-circle"></i> View details
+              <% end %>
+            </td>
           </tr>
           <% end %>
           <% if @project.project_slots.size == 0 %>

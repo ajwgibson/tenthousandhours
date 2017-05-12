@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       post   'slots', to: 'project_slots#create',  as: 'slots_create'
     end
 
+    get    'project_slots/:id', to: 'project_slots#show',   as: 'show_project_slot'
     delete 'project_slots/:id', to: 'project_slots#destroy'
 
   end

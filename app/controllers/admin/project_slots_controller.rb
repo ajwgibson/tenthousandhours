@@ -28,6 +28,11 @@ class Admin::ProjectSlotsController < Admin::BaseController
   end
 
 
+  def show
+  end
+
+
+
   private
 
   def model_params
