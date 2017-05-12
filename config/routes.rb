@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
   root 'home#index'
+
   get  'home/my_projects', :as => 'my_projects'
+
+  resources :personal_projects, :except => [:index, :show]
 
   devise_for :volunteers, controllers: { registrations: "registrations" }
 

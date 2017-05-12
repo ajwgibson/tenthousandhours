@@ -149,4 +149,23 @@ RSpec.describe Volunteer, type: :model do
     end
   end
 
+  describe "#personal_project_commitment" do
+    context "with no personal projects" do
+      let(:volunteer) { FactoryGirl.build(:default_volunteer) }
+      it "returns zero" do
+        expect(volunteer.personal_project_commitment).to eq(0)
+      end
+    end
+    context "with personal projects" do
+      let(:volunteer) { FactoryGirl.build(:default_volunteer) }
+      it "returns the total hours for all slots times the family size" do
+        pp1 = FactoryGirl.build(:default_personal_project, duration: 2.5, volunteer_count: 20)
+        pp2 = FactoryGirl.build(:default_personal_project, duration: 1.5, volunteer_count: 10)
+        volunteer.personal_projects << pp1
+        volunteer.personal_projects << pp2
+        expect(volunteer.personal_project_commitment).to eq(65.0)
+      end
+    end
+  end
+
 end

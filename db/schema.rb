@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505162458) do
+ActiveRecord::Schema.define(version: 20170510193532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "personal_projects", force: :cascade do |t|
+    t.date     "project_date",                            null: false
+    t.decimal  "duration",        precision: 2, scale: 1, null: false
+    t.integer  "volunteer_count",                         null: false
+    t.text     "description",                             null: false
+    t.integer  "volunteer_id",                            null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.datetime "deleted_at"
+  end
+
+  add_index "personal_projects", ["deleted_at"], name: "index_personal_projects_on_deleted_at", using: :btree
+  add_index "personal_projects", ["volunteer_id"], name: "index_personal_projects_on_volunteer_id", using: :btree
 
   create_table "project_slots", force: :cascade do |t|
     t.date     "slot_date",  null: false
@@ -139,5 +153,6 @@ ActiveRecord::Schema.define(version: 20170505162458) do
   add_index "volunteers", ["reset_password_token"], name: "index_volunteers_on_reset_password_token", unique: true, using: :btree
   add_index "volunteers", ["unlock_token"], name: "index_volunteers_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "personal_projects", "volunteers"
   add_foreign_key "project_slots", "projects"
 end

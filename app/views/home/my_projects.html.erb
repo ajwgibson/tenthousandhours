@@ -4,7 +4,7 @@
   <div class="col-xs-12">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h2>My project sign-ups</h2>
+        <h2>Project sign-ups</h2>
       </div>
       <div class="ibox-content">
         <div class="row">
@@ -12,7 +12,7 @@
           <% if current_volunteer.project_slots.empty? %>
             <p> <em> You are not currently signed up for any projects. </em> </p>
           <% else %>
-            <p class="p-xs bg-info">
+            <p class="p-xs text-info">
               <em>
                 You
                 <%= current_volunteer.family_size > 1 ? ' and your family members ' : nil %>
@@ -38,7 +38,7 @@
                     <td align="right">
                       <%= form_tag decline_from_project_path, method: :post do |f| %>
                         <%= hidden_field_tag :slot_id, project_slot.id %>
-                        <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline") do %>
+                        <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline sweet-confirm") do %>
                           <i class="fa fa-times"></i> Decline
                         <% end %>
                       <% end %>
@@ -61,16 +61,62 @@
   <div class="col-xs-12">
     <div class="ibox float-e-margins">
       <div class="ibox-title">
-        <h2>My personal projects</h2>
+        <h2>Personal projects</h2>
       </div>
       <div class="ibox-content">
-        <div class="row">
-          <div class="col-xs-12">
-            <em>
-            This will allow the user to supply details about their own,
-            personal projects.
-            </em>
+        <div>
+          <em>
+          Please let us know about any personal projects you are organising
+          with your family, friends, neighbours and/or colleagues.
+          Unfortunately we can't publicise them for you, but we can include
+          the hours that you and your group commit in our total for the
+          month.
+          </em>
+        </div>
+        <% if current_volunteer.personal_projects.size > 0 %>
+        <p class="p-xs text-info">
+          <em>
+            You and your friends are committing to <%= current_volunteer.personal_project_commitment %> hours of volunteering.
+          </em>
+        </p>
+        <% end %>
+        <div style="margin-bottom: 10px; margin-top: 10px;">
+          <%= link_to new_personal_project_path, :class => 'btn btn-info btn-sm' do %>
+            <i class="fa fa-plus"></i> Add a personal project
+          <% end %>
+        </div>
+        <div class="row" style="margin-bottom: 20px;">
+          <% current_volunteer.personal_projects.order(:project_date).each do |project| %>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <div class="widget style1 gray-bg">
+              <div class="row vertical-align">
+                <div class="col-xs-3 text-center">
+                  <i class="fa fa-calendar fa-4x"></i>
+                  <h4></span><%= project.project_date.strftime('%b %d') %></h4>
+                </div>
+                <div class="col-xs-5">
+                  <%= truncate(project.description, length: 75) %>
+                </div>
+                <div class="col-xs-4 text-right">
+                  <span> hours </span>
+                  <h2 class="font-bold"><%= project.commitment %></h2>
+                </div>
+              </div>
+              <div class="row"style="margin-top: 10px;">
+                <div class="col-xs-12 text-right">
+                  <%= form_tag(personal_project_path(project), method: :delete) do |f| %>
+                    <%= link_to edit_personal_project_path(project), :class => 'btn btn-xs btn-success btn-outline' do %>
+                      <i class="fa fa-edit"></i> Edit details
+                    <% end %>
+                    <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline sweet-confirm") do %>
+                      <i class="fa fa-times"></i> Remove
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
           </div>
+          <% end %>
         </div>
       </div>
       <div class="ibox-footer">

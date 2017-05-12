@@ -92,6 +92,24 @@ $(function() {
   $("form[data-warn]").submit(warn);
   $("button[data-warn]").click(warn);
 
+
+  $("button[type=submit].sweet-confirm").on('click', function(e) {
+      e.preventDefault();
+      var form = $(this).parents('form');
+      swal({
+          title: "Are you sure?",
+          type: "warning",
+          showCancelButton: true,
+          cancelButtonText: "No",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes",
+          closeOnConfirm: false
+      }, function(isConfirm){
+          if (isConfirm) form.submit();
+      });
+  });
+
+
   // Showdown (markdown) live preview
   var converter = new showdown.Converter();
   $('#showdown-editor').keyup(function convert() {

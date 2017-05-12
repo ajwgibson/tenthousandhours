@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
       if resource.is_a?(User)
         admin_root_url
       else
-        projects_index_url
+        my_projects_url
       end
     end
 

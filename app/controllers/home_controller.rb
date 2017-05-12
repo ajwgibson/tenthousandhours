@@ -11,6 +11,7 @@ class HomeController < ApplicationController
 
   def my_projects
   end
+  
 
 
   private
