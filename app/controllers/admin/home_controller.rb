@@ -41,6 +41,11 @@ class Admin::HomeController < Admin::BaseController
     @volunteer_children = volunteers.inject(0) { |sum,v| sum += v.children_in_family }
 
     @commitment = volunteers.inject(0) { |sum,v| sum += v.commitment }
+
+    @personal_project_count           = PersonalProject.count
+    @personal_project_volunteer_count = PersonalProject.sum('volunteer_count')
+    @personal_project_commitment      = PersonalProject.sum('duration * volunteer_count')
+
   end
 
 

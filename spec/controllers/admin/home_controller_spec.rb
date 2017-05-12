@@ -135,6 +135,33 @@ RSpec.describe Admin::HomeController, type: :controller do
       end
     end
 
+    context "personal projects" do
+      context "with no personal projects" do
+        it "returns zero counts" do
+          get :index
+          expect(assigns(:personal_project_count)).to eq(0)
+          expect(assigns(:personal_project_volunteer_count)).to eq(0)
+          expect(assigns(:personal_project_commitment)).to eq(0)
+        end
+      end
+      context "with personal projects" do
+        before(:each) do
+          FactoryGirl.create(:default_personal_project, duration: 1.5, volunteer_count: 10)
+          FactoryGirl.create(:default_personal_project, duration: 3.5, volunteer_count: 3)
+          get :index
+        end
+        it "returns the total number of personal projects" do
+          expect(assigns(:personal_project_count)).to eq(2)
+        end
+        it "returns the total number of volunteers expected for personal projects" do
+          expect(assigns(:personal_project_volunteer_count)).to eq(13)
+        end
+        it "returns the total number of hours committed to personal projects" do
+          expect(assigns(:personal_project_commitment)).to eq(25.5)
+        end
+      end
+    end
+
   end
 
 end
