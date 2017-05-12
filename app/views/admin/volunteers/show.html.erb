@@ -98,7 +98,14 @@
                 <tr>
                   <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
                   <td><%= project_slot.humanized_slot_type %></td>
-                  <td><%= project_slot.project.project_name %></td>
+                  <td>
+                    <span class="pull-right">
+                    <%= link_to admin_project_path(project_slot.project), :class => '' do %>
+                    <i class="fa fa-info-circle"></i> View details
+                    <% end %>
+                    </span>
+                    <%= project_slot.project.project_name %>
+                  </td>
                   <td><%= project_slot.slot_length * @volunteer.family_size %></td>
                 </tr>
               <% end %>

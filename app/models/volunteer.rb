@@ -1,6 +1,7 @@
 class Volunteer < ActiveRecord::Base
 
   has_and_belongs_to_many :project_slots
+  has_many :projects, through: :project_slots
   has_many :personal_projects
 
   # Include default devise modules. Others available are:
@@ -63,7 +64,7 @@ class Volunteer < ActiveRecord::Base
    end
 
    def personal_project_commitment
-     personal_projects.inject(0) { |sum,p| sum + p.commitment } 
+     personal_projects.inject(0) { |sum,p| sum + p.commitment }
    end
 
 

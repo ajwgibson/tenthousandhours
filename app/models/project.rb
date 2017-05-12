@@ -8,6 +8,7 @@ class Project < ActiveRecord::Base
   enum status: [ :draft, :published ]
 
   has_many :project_slots
+  has_many :volunteers, through: :project_slots
 
   validates :organisation_type, :presence => true
   validates :project_name, :presence => true

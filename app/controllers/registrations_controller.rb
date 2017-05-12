@@ -12,7 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(resource)
-    projects_index_url
+    my_projects_url
   end
 
 end

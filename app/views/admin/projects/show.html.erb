@@ -367,6 +367,60 @@
       </div>
     </div>
 
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Volunteers</h5>
+        <div class="ibox-tools">
+          <a class="collapse-link ui-sortable"><i class="fa fa-chevron-up"></i></a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <% if @project.volunteers.count == 0 %>
+        <p class="text-muted">
+          This project has no volunteers yet.
+        </p>
+        <% else %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Family members</th>
+                <th>Phone</th>
+                <th>Slots</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @project.volunteers.order(:first_name, :last_name).uniq.each do |volunteer| %>
+                <tr>
+                  <td><%= volunteer.name %></td>
+                  <td>
+                    <% volunteer.family_members.each do |m| %>
+                      <%= "#{m['name']} (#{m['age_category']})" %><br />
+                    <% end %>
+                  </td>
+                  <td><%= volunteer.mobile %></td>
+                  <td>
+                    <% volunteer.project_slots.where(project_id: @project.id).order(:slot_date, :slot_type).each do |slot| %>
+                      <%= slot.slot_date.strftime('%d/%m/%Y') %>,
+                      <%= slot.humanized_slot_type %><br />
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= link_to admin_volunteer_path(volunteer), :class => '' do %>
+                    <i class="fa fa-info-circle"></i> View details
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 
   <div class="col-lg-3 hidden-print">
