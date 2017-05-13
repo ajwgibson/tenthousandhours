@@ -44,7 +44,12 @@
       </em>
     </p>
     <%= f.form_group :skills do %>
-      <%= f.collection_check_boxes(:skills, Project::SKILLS, :to_s, :to_s) %>
+      <%= f.collection_check_boxes_without_bootstrap(:skills, Project::SKILLS, :to_s, :to_s) do |s| %>
+        <div class="checkbox">
+          <%= s.check_box %>
+          <%= s.label %>
+        </div>
+      <% end %>
     <% end %>
   </fieldset>
 
