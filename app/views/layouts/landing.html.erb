@@ -33,10 +33,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a class="page-scroll" href="#page-top">Home</a></li>
-            <li><a class="page-scroll" href="#projects">Projects</a></li>
-            <li><a class="page-scroll" href="#volunteering">Volunteering</a></li>
-            <li><a class="page-scroll" href="#contact">Contact</a></li>
+            <li><a class="page-scroll" href="#page-top">HOME</a></li>
+            <li><a class="page-scroll" href="#projects">PROJECTS</a></li>
+            <li><a class="page-scroll" href="#volunteering">VOLUNTEERING</a></li>
+            <li><a class="page-scroll" href="#contact">CONTACT</a></li>
             <%= render 'user_menu' %>
           </ul>
         </div>
@@ -44,8 +44,9 @@
     </nav>
   </div>
 
-  <div class="banner">
-    <%= image_tag('banner.jpg') %>
+  <div class="banner embed-responsive embed-responsive-16by9">
+    <%= video_tag(['PaintDripping.mov','PaintDripping.mp4'],
+          autoplay: true, loop: :true, poster: "PaintDripping.jpg") %>
   </div>
 
   <%= yield %>
@@ -61,13 +62,12 @@
             family. We'll need to take an email address and mobile phone number
             so that we can keep you informed.
           </p>
-          <%= link_to new_volunteer_session_path, class: 'btn btn-lg btn-primary' do %>
-            <span class="text-uppercase">Log in or sign up now</span>
-          <% end %>
+          <p style="margin-top: 20px; margin-bottom: 20px;">
+            <%= link_to new_volunteer_session_path, class: 'btn btn-lg btn-primary' do %>
+              <span class="text-uppercase">Log in or sign up now</span>
+            <% end %>
+          </p>
         </div>
-      </div>
-      <div class="row">
-        &nbsp;
       </div>
     </div>
   </section>
@@ -105,6 +105,13 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <p class="m-t-sm">
+            <a class="btn btn-lg btn-primary" href="http://www.causewaycoastvineyard.com/contact/"><span class="fa fa-external-link"> </span> USE OUR CONTACT FORM</a>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <p class="m-t-sm">
             Follow us on social media
           </p>
           <ul class="list-inline social-icon">
@@ -114,10 +121,10 @@
             <li><a href="https://www.youtube.com/channel/UC8E1jwNcHryTPfeJiBxactw"><i class="fa fa-youtube-play"></i></a></li>
           </ul>
         </div>
-      </div>
-      <div class="row m-b-lg">
-        <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-          <p><strong>&copy; 2017 Alan Gibson</strong><br/></p>
+        <div class="col-lg-12 text-center">
+          <p class="m-t-sm">
+
+          </p>
         </div>
       </div>
     </div>
