@@ -24,6 +24,11 @@ class Volunteer < ActiveRecord::Base
    validates :mobile,       :presence => true
    validates :age_category, :presence => true
 
+   before_validation(on: [:create, :update]) do
+     self.mobile.gsub!(/\s+/, '') if attribute_present?("mobile")
+     self.mobile.sub!(/^[0]+/,'') if attribute_present?("mobile")
+   end
+
    def name
      return "#{first_name} #{last_name}".strip if first_name?
      email
