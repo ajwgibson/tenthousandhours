@@ -38,6 +38,7 @@ class Project < ActiveRecord::Base
     "N/A",
     "Agency/Charity",
     "Business",
+    "Community",
     "Pre-school",
     "Residential centre",
     "School",
