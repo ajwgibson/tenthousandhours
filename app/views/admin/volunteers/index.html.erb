@@ -34,7 +34,7 @@
               <tr>
                 <td><%= volunteer.name %> </td>
                 <td><%= volunteer.email %> </td>
-                <td>+44 (0)<%= volunteer.mobile %> </td>
+                <td><%= mobile_phone_number volunteer.mobile %> </td>
                 <td><%= volunteer.humanized_age_category %> </td>
                 <td><%= volunteer.family_size %> </td>
                 <td><%= yes_no_icon volunteer.confirmed? %> </td>

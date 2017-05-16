@@ -41,4 +41,20 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+
+  describe "mobile_phone_number" do
+    context "when the value is nil" do
+      it "returns nil" do
+        output = helper.mobile_phone_number(nil)
+        expect(output).to eq(nil)
+      end
+    end
+    context "when the value is 1234567890" do
+      it "returns '+44 (0) 1234 567890'" do
+        output = helper.mobile_phone_number('1234567890')
+        expect(output).to eq('+44 (0) 1234 567890')
+      end
+    end
+  end
+
 end

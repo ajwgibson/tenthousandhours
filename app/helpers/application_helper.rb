@@ -21,6 +21,11 @@ module ApplicationHelper
   end
 
 
+  def mobile_phone_number(value)
+    "+44 (0) #{value.slice(0..3)} #{value.slice(4..value.length)}" unless value.nil?
+  end
+
+
   def markdown(text)
     Kramdown::Document.new(text ||= '').to_html.html_safe
   end
