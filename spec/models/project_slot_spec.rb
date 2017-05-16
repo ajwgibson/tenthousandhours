@@ -82,6 +82,7 @@ RSpec.describe ProjectSlot, type: :model do
       let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :morning, project: project) }
       context "when the project morning_start_time is not set" do
         it "returns 'tbc'" do
+          project.morning_start_time = nil
           expect(slot.start_time).to eq('tbc')
         end
       end
@@ -99,6 +100,7 @@ RSpec.describe ProjectSlot, type: :model do
       let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :afternoon, project: project) }
       context "when the project afternoon_start_time is not set" do
         it "returns 'tbc'" do
+          project.afternoon_start_time = nil
           expect(slot.start_time).to eq('tbc')
         end
       end
@@ -116,6 +118,7 @@ RSpec.describe ProjectSlot, type: :model do
       let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :evening, project: project) }
       context "when the project evening_start_time is not set" do
         it "returns 'tbc'" do
+          project.evening_start_time = nil
           expect(slot.start_time).to eq('tbc')
         end
       end

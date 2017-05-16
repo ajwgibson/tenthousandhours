@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510193532) do
+ActiveRecord::Schema.define(version: 20170516185436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,8 +52,8 @@ ActiveRecord::Schema.define(version: 20170510193532) do
 
   create_table "projects", force: :cascade do |t|
     t.string   "typeform_id"
-    t.string   "organisation_type",                                              null: false
-    t.string   "project_name",                                                   null: false
+    t.string   "organisation_type",                                                null: false
+    t.string   "project_name",                                                     null: false
     t.string   "contact_name"
     t.string   "contact_role"
     t.string   "contact_email"
@@ -76,22 +76,22 @@ ActiveRecord::Schema.define(version: 20170510193532) do
     t.boolean  "saturday",                                       default: false
     t.string   "notes"
     t.datetime "submitted_at"
-    t.datetime "created_at",                                                     null: false
-    t.datetime "updated_at",                                                     null: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
     t.datetime "deleted_at"
     t.string   "materials"
     t.integer  "adults"
     t.integer  "youth"
-    t.integer  "status",                                         default: 0,     null: false
+    t.integer  "status",                                         default: 0,       null: false
     t.string   "summary"
     t.integer  "kids"
     t.string   "leader"
-    t.string   "morning_start_time"
-    t.string   "afternoon_start_time"
-    t.string   "evening_start_time"
-    t.decimal  "morning_slot_length",    precision: 2, scale: 1
-    t.decimal  "afternoon_slot_length",  precision: 2, scale: 1
-    t.decimal  "evening_slot_length",    precision: 2, scale: 1
+    t.string   "morning_start_time",                             default: "09:30"
+    t.string   "afternoon_start_time",                           default: "14:00"
+    t.string   "evening_start_time",                             default: "19:00"
+    t.decimal  "morning_slot_length",    precision: 2, scale: 1, default: 3.0
+    t.decimal  "afternoon_slot_length",  precision: 2, scale: 1, default: 3.5
+    t.decimal  "evening_slot_length",    precision: 2, scale: 1, default: 3.0
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
