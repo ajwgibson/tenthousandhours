@@ -2,7 +2,7 @@ class Volunteer < ActiveRecord::Base
 
   has_and_belongs_to_many :project_slots
   has_many :projects, through: :project_slots
-  has_many :personal_projects
+  has_many :personal_projects, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :omniauthable
