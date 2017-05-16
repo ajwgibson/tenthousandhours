@@ -479,11 +479,20 @@
         <% end %>
 
         <% if can? :publish, Project %>
-        <div style="margin-top: 20px;">
-          <%= link_to admin_publish_project_path, :class => 'btn btn-lg btn-primary' do %>
-            <i class="fa fa-globe"></i> Publish project
+          <% if @project.draft? %>
+            <div style="margin-top: 20px;">
+              <%= link_to admin_publish_project_path, :class => 'btn btn-lg btn-primary' do %>
+                <i class="fa fa-globe"></i> Publish project
+              <% end %>
+            </div>
+          <% else %>
+            <%= form_tag admin_do_unpublish_project_path, method: :put do |f| %>
+              <%= hidden_field_tag :id, @project.id %>
+              <%= button_tag(type: "submit", class: "btn btn-lg btn-warning sweet-confirm") do %>
+                <i class="fa fa-globe"></i> Un-publish project
+              <% end %>
+            <% end %>
           <% end %>
-        </div>
         <% end %>
 
       </div>

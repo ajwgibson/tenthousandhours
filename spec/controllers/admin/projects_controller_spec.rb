@@ -606,4 +606,43 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   end
 
+
+  describe "PUT #do_unpublish" do
+
+    def post_update
+      put :do_unpublish, :id => project.id
+      project.reload
+    end
+
+    context "when a project is published" do
+      let(:project) { FactoryGirl.create(:published_project) }
+      before(:each) do
+        post_update
+      end
+      it "sets the status to draft" do
+        expect(project.status).to eq(:draft.to_s)
+      end
+      it "redirects to the show action" do
+        expect(response).to redirect_to(admin_project_path(assigns(:project)))
+      end
+      it "set a flash message" do
+        expect(flash[:notice]).to eq('Project was un-published')
+      end
+    end
+
+    context "when a project is not published" do
+      let(:project) { FactoryGirl.create(:default_project) }
+      before(:each) do
+        post_update
+      end
+      it "does not change the status" do
+        expect(project.status).to eq(:draft.to_s)
+      end
+      it "redirects to the show action" do
+        expect(response).to redirect_to(admin_project_path(assigns(:project)))
+      end
+    end
+
+  end
+
 end

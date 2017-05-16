@@ -126,6 +126,16 @@ class Admin::ProjectsController < Admin::BaseController
   end
 
 
+  def do_unpublish
+    if @project.published?
+      @project.draft!
+      redirect_to [:admin, @project], notice: 'Project was un-published'
+    else
+      redirect_to [:admin, @project]
+    end
+  end
+
+
   private
 
     # Parameter white lists

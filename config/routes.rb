@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     put  'projects/:id/summary', to: 'projects#do_summary', as: 'do_summarise_project'
     get  'projects/:id/publish', to: 'projects#publish',    as: 'publish_project'
     put  'projects/:id/publish', to: 'projects#do_publish', as: 'do_publish_project'
+    put  'projects/:id/unpublish', to: 'projects#do_unpublish', as: 'do_unpublish_project'
     resources :projects do
       get    'slots', to: 'project_slots#index',   as: 'slots'
       post   'slots', to: 'project_slots#create',  as: 'slots_create'
