@@ -26,8 +26,8 @@ RSpec.describe Volunteer, type: :model do
   # CALLBACKS
 
   describe "#before_validation" do
-    it "strips leading zeros and spaces from the mobile number" do
-      v = FactoryGirl.build(:default_volunteer, mobile: '0012 3  40')
+    it "cleans up the mobile number" do
+      v = FactoryGirl.build(:default_volunteer, mobile: '  + 4 4 ( 0 ) 0012 3  40')
       v.valid?
       expect(v.mobile).to eq('12340')
     end
