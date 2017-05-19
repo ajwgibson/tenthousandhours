@@ -11,9 +11,9 @@
 
   <fieldset>
     <legend>Personal details</legend>
-    <%= f.email_field :email, label: 'Email',
+    <%= f.email_field :email, label: 'Email', autofocus: true, 
         help: 'Please ensure this is a valid email address as you will not be able to complete the sign up process with an invalid email.' %>
-    <%= f.text_field :first_name, label: 'First name', autofocus: true %>
+    <%= f.text_field :first_name, label: 'First name' %>
     <%= f.text_field :last_name,  label: 'Last name' %>
     <%= f.phone_field :mobile,    label: 'Mobile number', prepend: '+44 (0)',
         help: 'We need a mobile number so we can keep you informed using SMS updates and reminders.' %>

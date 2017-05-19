@@ -1,0 +1,58 @@
+
+<div class="row">
+  <div class="col-lg-9">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Text message details</h3>
+      </div>
+      <div class="ibox-content">
+        <div class="form-horizontal form-static">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Message</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @text_message.message %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Recipients</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @text_message.recipients %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Status</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @text_message.status %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Date &amp; time</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @text_message.created_at %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Response</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @text_message.response %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 hidden-print">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Actions</h3>
+      </div>
+      <div class="ibox-content">
+        <div>
+          <%= link_to admin_text_messages_path, :class => 'btn btn-outline btn-default' do %>
+            <i class="fa fa-reply"></i> Back to messages
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

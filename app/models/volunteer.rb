@@ -26,10 +26,12 @@ class Volunteer < ActiveRecord::Base
 
 
    before_validation(on: [:create, :update]) do
-     self.mobile.gsub!(/\s+/,     '') if attribute_present?("mobile")
-     self.mobile.sub!(/^(\+44)/,  '') if attribute_present?("mobile")
-     self.mobile.gsub!(/[\(,\)]/, '') if attribute_present?("mobile")
-     self.mobile.sub!(/^(0)+/,    '') if attribute_present?("mobile")
+     clean_mobile!
+   end
+
+
+   before_create do
+     self.mobile_confirmation_code = rand(1..9999).to_s.rjust(4, '0')
    end
 
 
@@ -76,6 +78,15 @@ class Volunteer < ActiveRecord::Base
      personal_projects.inject(0) { |sum,p| sum + p.commitment }
    end
 
+   def mobile_confirmed?
+     mobile_confirmation_code.blank?
+   end
+
+   def mobile_international_format
+     "44#{clean_mobile(mobile)}"
+   end
+
+
 
    private
 
@@ -84,11 +95,27 @@ class Volunteer < ActiveRecord::Base
      {}
    end
 
+
    def human_age_category(category)
      return nil if category.nil?
      description = category.eql?(:adult.to_s) ? 'over 18' :
         category.eql?(:youth.to_s) ? '11 to 18' : 'under 11'
      "#{category.humanize} - #{description}"
+   end
+
+
+   def clean_mobile!
+     if attribute_present?("mobile")
+       self.mobile = clean_mobile(self.mobile)
+     end
+   end
+
+   def clean_mobile(mobile)
+     mobile.gsub!(/\s+/,       '')
+     mobile.sub!(/^(\+)?(44)/, '')
+     mobile.gsub!(/[\(,\)]/,   '')
+     mobile.sub!(/^(0)+/,      '')
+     mobile
    end
 
 end

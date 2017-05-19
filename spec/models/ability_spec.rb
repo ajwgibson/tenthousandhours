@@ -24,6 +24,9 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.to have_abilities([:read], Volunteer) }
     it { is_expected.to not_have_abilities([:create, :update, :destroy], Volunteer) }
+
+    it { is_expected.to have_abilities([:read], TextMessage) }
+    it { is_expected.to not_have_abilities([:create, :update, :destroy], TextMessage) }
   end
 
   context "coordinators" do
@@ -39,6 +42,9 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.to have_abilities([:read], Volunteer) }
     it { is_expected.to not_have_abilities([:create, :update, :destroy], Volunteer) }
+
+    it { is_expected.to have_abilities([:read], TextMessage) }
+    it { is_expected.to not_have_abilities([:create, :update, :destroy], TextMessage) }
   end
 
   context "leaders" do
@@ -54,6 +60,9 @@ RSpec.describe Ability, type: :model do
 
     it { is_expected.to have_abilities([:read], Volunteer) }
     it { is_expected.to not_have_abilities([:create, :update, :destroy], Volunteer) }
+
+    it { is_expected.to have_abilities([:read], TextMessage) }
+    it { is_expected.to not_have_abilities([:create, :update, :destroy], TextMessage) }
   end
 
 end

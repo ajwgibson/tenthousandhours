@@ -38,6 +38,14 @@ RSpec.describe Volunteer, type: :model do
     end
   end
 
+  describe "#before_create" do
+    it "allocates a random, 4 digit mobile confirmation code" do
+      v = FactoryGirl.create(:default_volunteer)
+      expect(v.mobile_confirmation_code).to_not eq(nil)
+      expect(v.mobile_confirmation_code.length).to eq(4)
+    end
+  end
+
 
   # METHODS
 
@@ -180,6 +188,51 @@ RSpec.describe Volunteer, type: :model do
         volunteer.personal_projects << pp1
         volunteer.personal_projects << pp2
         expect(volunteer.personal_project_commitment).to eq(65.0)
+      end
+    end
+  end
+
+
+  describe "#mobile_international_format" do
+    context "when the mobile number starts with 44" do
+      it "returns the mobile number unaltered" do
+        v = FactoryGirl.build(:default_volunteer, mobile: '441234')
+        expect(v.mobile_international_format).to eq('441234')
+      end
+    end
+    context "when the mobile number starts with +44" do
+      it "returns the mobile number without the +" do
+        v = FactoryGirl.build(:default_volunteer, mobile: '441234')
+        expect(v.mobile_international_format).to eq('441234')
+      end
+    end
+
+    context "when the mobile number starts with 0" do
+      it "replaces the leading zero with 44" do
+        v = FactoryGirl.build(:default_volunteer, mobile: '01234')
+        expect(v.mobile_international_format).to eq('441234')
+      end
+    end
+    context "when the mobile number starts with neither 44, +44 or 0" do
+      it "returns the mobile number prefixed with 44" do
+        v = FactoryGirl.build(:default_volunteer, mobile: '1234')
+        expect(v.mobile_international_format).to eq('441234')
+      end
+    end
+  end
+
+
+  describe "#mobile_confirmed?" do
+    context "when the mobile_confirmation_code is nil" do
+      it "returns true" do
+        v = FactoryGirl.build(:default_volunteer, mobile_confirmation_code: nil)
+        expect(v.mobile_confirmed?).to eq(true)
+      end
+    end
+    context "when the mobile_confirmation_code is not nil" do
+      it "returns false" do
+        v = FactoryGirl.build(:default_volunteer, mobile_confirmation_code: '1234')
+        expect(v.mobile_confirmed?).to eq(false)
       end
     end
   end

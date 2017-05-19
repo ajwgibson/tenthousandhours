@@ -101,4 +101,9 @@ Rails.application.configure do
   config.logger =
     ActiveSupport::Logger.new(
       Rails.root.join('log', "#{Rails.env}.log"), 1, 10 * 1024 * 1024)
+
+  # Configuration for the Text Local service
+  config.x.text_local_service.test    = ENV['TENKHOURS_TEXT_LOCAL_TEST'] == 'true'
+  config.x.text_local_service.api_key = ENV['TENKHOURS_TEXT_LOCAL_API_KEY']
+
 end

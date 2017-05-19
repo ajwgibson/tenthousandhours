@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   resources :personal_projects, :except => [:index, :show]
 
   devise_for :volunteers, controllers: { registrations: "registrations" }
+  devise_scope :volunteer do
+    get  'volunteers/confirm_mobile' => 'registrations#confirm_mobile'
+    post 'volunteers/confirm_mobile' => 'registrations#do_confirm_mobile', as: 'do_confirm_mobile'
+  end
 
   get 'projects/index'
   get 'projects/clear_filter'
@@ -26,8 +30,8 @@ Rails.application.routes.draw do
     root 'home#index'
 
     resources  :users
-
     resources  :volunteers
+    resources  :text_messages
 
     get '/not_authorized', to: 'home#not_authorized'
 

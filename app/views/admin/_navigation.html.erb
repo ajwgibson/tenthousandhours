@@ -29,6 +29,11 @@
         <i class="fa fa-user-circle"></i> <span class="nav-label">Users</span>
         <% end %>
       </li>
+      <li class="<%= 'active' if controller_name.eql?('text_messages') %>">
+        <%= link_to controller: "text_messages" do %>
+        <i class="fa fa-send"></i> <span class="nav-label">Text messages</span>
+        <% end %>
+      </li>
     </ul>
   </div>
 </nav>

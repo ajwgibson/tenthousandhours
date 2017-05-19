@@ -22,6 +22,7 @@
                 <th>Mobile</th>
                 <th>Age category</th>
                 <th>Family size</th>
+                <th>Mobile confirmed?</th>
                 <th>Email confirmed?</th>
                 <th>Last sign-in</th>
                 <th>Links</th>
@@ -37,6 +38,7 @@
                 <td><%= mobile_phone_number volunteer.mobile %> </td>
                 <td><%= volunteer.humanized_age_category %> </td>
                 <td><%= volunteer.family_size %> </td>
+                <td><%= yes_no_icon volunteer.mobile_confirmed? %> </td>
                 <td><%= yes_no_icon volunteer.confirmed? %> </td>
                 <td><%= volunteer.current_sign_in_at %> </td>
                 <td>
