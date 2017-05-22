@@ -13,14 +13,15 @@ class TextLocalService
     unless volunteer.mobile.blank? || volunteer.mobile_confirmation_code.blank?
       message =
         "Hi #{volunteer.first_name}, your SMS confirmation code is #{volunteer.mobile_confirmation_code}."
-      send(message, volunteer.mobile_international_format)
+      send_message(message, volunteer.mobile_international_format)
     end
   end
 
 
-  private
+  def self.send_message(message, numbers)
 
-  def self.send(message, numbers)
+    return if message.blank?
+    return if numbers.blank?
 
     numbers = numbers.join(',') if numbers.kind_of?(Array)
 

@@ -1,0 +1,153 @@
+
+<div class="row">
+  <div class="col-lg-9">
+
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h2>Compose a message</h2>
+      </div>
+      <div class="ibox-content">
+
+        <%= render partial: "layouts/errors", object: @ComposeMessage, as: 'form' %>
+
+        <p>
+          This message will be sent to
+          <%= @ProjectSlot.volunteers.count %>
+          <%= 'volunteer'.pluralize @ProjectSlot.volunteers.count %>
+          registered to serve on the following project slot.
+        </p>
+
+        <%= bootstrap_form_for(@ComposeMessage,
+                               url: admin_send_message_project_slot_path(@ProjectSlot),
+                               layout: :horizontal,
+                               inline_errors: false,
+                               html: { class: 'project-form' },
+                               label_col: "col-sm-3",
+                               control_col: "col-sm-9") do |f| %>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Project name</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.project.project_name %></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Slot date</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.slot_date.strftime('%d/%m/%Y') %></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Start time</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.start_time %> (<%= @ProjectSlot.slot_length %> hrs)</p>
+            </div>
+          </div>
+
+
+          <%= f.text_area :message_text, label: 'Message',
+                          rows: 10, :maxlength => 765,
+                          data: { bind: 'textInput: message_text' } %>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Message length (characters)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static">
+                <span data-bind="text: message_text().length, css: message_cost_style()"> </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Messages (per volunteer)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static">
+                <span data-bind="text: message_cost(), css: message_cost_style()"> </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Messages (total)</label>
+            <div class="col-lg-9">
+              <p class="form-control-static">
+                <span data-bind="text: total_cost()" class="badge badge-info"> </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3">
+              <%= button_tag(type: "submit", class: "btn btn-primary ") do %>
+                <i class="fa fa-send"></i> Send message
+              <% end %>
+            </div>
+          </div>
+
+        <% end %>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-3 hidden-print">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Actions</h3>
+      </div>
+      <div class="ibox-content">
+        <div>
+          <%= link_to admin_show_project_slot_path(@ProjectSlot), :class => 'btn btn-outline btn-default' do %>
+            <i class="fa fa-reply"></i> Back to slot details
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<%= javascript_tag do %>
+
+$(function() {
+
+  var AppViewModel = function() {
+
+    var self = this;
+
+    self.message_text  = ko.observable('');
+
+    self.cost_per_message = function() {
+      var message_length = self.message_text().length;
+      if (message_length > 612) return 5;
+      if (message_length > 459) return 4;
+      if (message_length > 306) return 3;
+      if (message_length > 160) return 2;
+      return 1;
+    }
+
+    self.message_cost  = ko.computed(function() {
+      return self.cost_per_message();
+    });
+
+    self.total_cost  = ko.computed(function() {
+      return self.cost_per_message() * <%= @ProjectSlot.volunteers.count %>;
+    });
+
+    self.message_cost_style  = ko.computed(function() {
+      if (self.cost_per_message() == 2) return 'badge badge-warning';
+      if (self.cost_per_message() > 2)  return 'badge badge-danger';
+      return 'badge badge-success';
+    });
+
+  };
+
+  ko.applyBindings(new AppViewModel());
+
+});
+
+<% end %>

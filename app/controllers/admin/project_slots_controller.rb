@@ -32,6 +32,23 @@ class Admin::ProjectSlotsController < Admin::BaseController
   end
 
 
+  def compose_message
+    @ComposeMessage = ComposeMessage.new
+  end
+
+
+  def send_message
+    @ComposeMessage = ComposeMessage.new(compose_message_params)
+    if @ComposeMessage.valid?
+      numbers = @ProjectSlot.volunteers.collect { |v| v.mobile_international_format }
+      TextLocalService.send_message(@ComposeMessage.message_text, numbers)
+      redirect_to admin_show_project_slot_url(@ProjectSlot), notice: 'Message sent'
+    else
+      render :compose_message
+    end
+  end
+
+
 
   private
 
@@ -44,6 +61,14 @@ class Admin::ProjectSlotsController < Admin::BaseController
         :morning_slot,
         :afternoon_slot,
         :evening_slot
+      )
+  end
+
+  def compose_message_params
+    params
+      .require(:compose_message)
+      .permit(
+        :message_text
       )
   end
 
