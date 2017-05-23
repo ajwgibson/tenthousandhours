@@ -5,13 +5,13 @@ class HomeController < ApplicationController
   layout :layout
 
   def index
-    @projects = Project.published.order("RANDOM()").limit(4)
+    @projects = Project.published.order("RANDOM()").limit(6)
   end
 
 
   def my_projects
   end
-  
+
 
 
   private

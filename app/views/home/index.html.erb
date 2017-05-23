@@ -21,10 +21,10 @@
     <% if @projects.size > 0 %>
     <div class="row">
       <% @projects.each_with_index do |project,index| %>
-      <% if index > 0 && (index % 2 == 0) %>
+      <% if index > 0 && (index % 3 == 0) %>
       </div><div class="row">
       <% end %>
-      <div class="col-xs-12 col-sm-6 ">
+      <div class="col-xs-12 col-sm-4 ">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5><%= project.project_name %></h5>
@@ -32,22 +32,6 @@
           <div class="ibox-content" style="color: inherit;">
             <p><%= styled_project_dates(project) %></p>
             <%= markdown(project.summary) %>
-            <p style="margin-top: 20px;">
-              Suitable for youth (11 - 18): <%= yes_no_icon project.suitable_for_youth? %><br/>
-              Suitable for kids (under 11): <%= yes_no_icon project.suitable_for_kids? %>
-            </p>
-            <%= project_start_times(project) %>
-          </div>
-          <div class="ibox-footer">
-            <ul class="list-group">
-              <li class="list-group-item"><strong>Slots</strong></li>
-              <% project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
-              <li class="list-group-item">
-                <%= project_slot.slot_date.strftime("%A #{project_slot.slot_date.day.ordinalize} %B") %>
-                <span class="badge"><%= project_slot.humanized_slot_type %></span>
-              </li>
-              <% end %>
-            </ul>
           </div>
         </div>
       </div>
