@@ -20,39 +20,28 @@
                   have committed to <%= current_volunteer.commitment %> hours of volunteering so far.
                 </em>
               </p>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Project</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% current_volunteer.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
-                    <tr>
-                      <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
-                      <td><%= project_slot.humanized_slot_type %>, <%= project_slot.start_time %>
-                        <%= "(#{project_slot.slot_length} hrs)" unless project_slot.slot_length.nil? %></td>
-                      <td><%= project_slot.project.project_name %></td>
-                      <td align="right">
-                        <%= form_tag decline_from_project_path, method: :post do |f| %>
-                          <%= hidden_field_tag :slot_id, project_slot.id %>
-                          <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline sweet-confirm") do %>
-                            <i class="fa fa-times"></i> Decline
-                          <% end %>
-                        <% end %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
+              <ul class="list-group col-xs-12 col-sm-6 col-lg-4">
+                <% current_volunteer.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                <li class="list-group-item">
+                  <div class="pull-right">
+                    <%= form_tag decline_from_project_path, method: :post do |f| %>
+                      <%= hidden_field_tag :slot_id, project_slot.id %>
+                      <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline sweet-confirm") do %>
+                        <i class="fa fa-times"></i> Decline
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <h4 class="list-group-item-heading"><%= project_slot.project.project_name %></h4>
+                  <p class="list-group-item-text">
+                    <%= project_slot.slot_date.strftime('%d/%m/%Y') %><br />
+                    <%= slot_times(project_slot) %>
+                  </p>
+                </li>
+                <% end %>
+              </ul>
             <% end %>
           </div>
         </div>
-      </div>
-      <div class="ibox-footer">
       </div>
     </div>
   </div>
@@ -119,8 +108,6 @@
           </div>
           <% end %>
         </div>
-      </div>
-      <div class="ibox-footer">
       </div>
     </div>
   </div>
