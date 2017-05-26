@@ -52,18 +52,12 @@
                 <h3><%= @project.project_name %></h3>
                 <p><%= styled_project_dates(@project) %></p>
                 <div id="showdown-preview"> </div>
-                <%= project_start_times(@project) %>
-                <div>
-                  <strong>Slots:</strong>
-                  <ul>
-                    <% @project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
-                    <li>
-                      <%= project_slot.slot_date.strftime("%A #{project_slot.slot_date.day.ordinalize} %B") %>
-                      - <%= project_slot.humanized_slot_type %>
-                    </li>
-                    <% end %>
-                  </ul>
-                </div>
+                <dl>
+                  <dt>Suitable for kids (under 11)</dt>
+                  <dd><%= yes_no @project.suitable_for_kids? %></dd>
+                  <dt>Suitable for youth (11 - 18)</dt>
+                  <dd><%= yes_no @project.suitable_for_youth? %></dd>
+                </dl>
               </div>
             </div>
           </div>

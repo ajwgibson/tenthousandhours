@@ -48,21 +48,35 @@ RSpec.describe ProjectsHelper, type: :helper do
   end
 
 
-  describe "project_start_times" do
-    context "without_start_times" do
-      let(:project) { FactoryGirl.create(:default_project) }
-      it "returns nil" do
-        output = helper.project_start_times(project)
-        expect(output).to be_nil
+  describe "slot_times" do
+    let(:slot) { FactoryGirl.build(:default_project_slot) }
+    context "with no start_time" do
+      before(:each) do
+        allow(slot).to receive(:start_time) { 'tbc' }
+      end
+      it "returns 'tbc'" do
+        output = helper.slot_times(slot)
+        expect(output).to eq('tbc')
       end
     end
-    context "with_start_times" do
-      let(:project) { FactoryGirl.create(:good_to_publish_project) }
-      it "includes the start times" do
-        output = helper.project_start_times(project)
-        expect(output).to include('Morning start time')
-        expect(output).to include('Afternoon start time')
-        expect(output).to include('Evening start time')
+    context "with no end_time" do
+      before(:each) do
+        allow(slot).to receive(:start_time) { '09:30' }
+        allow(slot).to receive(:end_time) { 'tbc' }
+      end
+      it "returns just the start time" do
+        output = helper.slot_times(slot)
+        expect(output).to eq('09:30')
+      end
+    end
+    context "with both start_time and end_time" do
+      before(:each) do
+        allow(slot).to receive(:start_time) { '09:30' }
+        allow(slot).to receive(:end_time) { '11:45' }
+      end
+      it "returns 'start_time to end_time'" do
+        output = helper.slot_times(slot)
+        expect(output).to eq('09:30 to 11:45')
       end
     end
   end

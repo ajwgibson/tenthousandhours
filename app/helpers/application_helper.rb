@@ -21,6 +21,17 @@ module ApplicationHelper
   end
 
 
+  def yes_no(value)
+    if value then
+      content_tag(:span, 'YES ') +
+      content_tag(:span, " ", class: ["fa", "fa-check", "text-success"])
+    else
+      content_tag(:span, 'NO ') +
+      content_tag(:span, " ", class: ["fa", "fa-times", "text-danger"])
+    end
+  end
+
+
   def mobile_phone_number(value)
     "+44 (0) #{value.slice(0..3)} #{value.slice(4..value.length)}" unless value.nil?
   end

@@ -34,8 +34,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a class="page-scroll" href="#page-top">HOME</a></li>
-            <li><a class="page-scroll" href="#projects">PROJECTS</a></li>
             <li><a class="page-scroll" href="#volunteering">VOLUNTEERING</a></li>
+            <li><a class="page-scroll" href="#projects">PROJECTS</a></li>
             <li><a class="page-scroll" href="#contact">CONTACT</a></li>
             <%= render 'user_menu' %>
           </ul>
@@ -53,28 +53,35 @@
           autoplay: true, loop: :true, poster: "PaintDripping.jpg") %>
   </div>
 
-  <%= yield %>
-
-  <section id="volunteering" class="volunteering">
+  <section id="volunteering" class="gray-section volunteering">
     <div class="container">
       <div class="row m-b-lg">
-        <div class="col-lg-6 col-lg-offset-3 text-center">
+        <div class="col-lg-12 text-center">
           <div class="navy-line"></div>
           <h1>Volunteering</h1>
           <p class="landing-section-paragraph">
-            You can sign up for projects individually or with members of your
-            family. We'll need to take an email address and mobile phone number
-            so that we can keep you informed.
+            Once you have registered (individually or with family members) and
+            logged in to this site, you can sign up for our public projects and
+            tell us about your personal projects. Please note that, as part of
+            the registration process, we'll ask for an email address and mobile
+            phone number so that we can keep you up to date with important
+            information.
           </p>
           <p style="margin-top: 20px; margin-bottom: 20px;">
+            <%= link_to new_volunteer_registration_path, class: 'btn btn-lg btn-primary' do %>
+              <span class="text-uppercase">Register</span>
+            <% end %>
+            <span style="margin-right: 20px;"> </span>
             <%= link_to new_volunteer_session_path, class: 'btn btn-lg btn-primary' do %>
-              <span class="text-uppercase">Log in or sign up now</span>
+              <span class="text-uppercase">Log in</span>
             <% end %>
           </p>
         </div>
       </div>
     </div>
   </section>
+
+  <%= yield %>
 
   <section id="contact" class="gray-section">
     <div class="container">

@@ -9,44 +9,45 @@
       <div class="ibox-content">
         <div class="row">
           <div class="col-xs-12">
-          <% if current_volunteer.project_slots.empty? %>
-            <p> <em> You are not currently signed up for any projects. </em> </p>
-          <% else %>
-            <p class="p-xs text-info">
-              <em>
-                You
-                <%= current_volunteer.family_size > 1 ? ' and your family members ' : nil %>
-                have committed to <%= current_volunteer.commitment %> hours of volunteering.
-              </em>
-            </p>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Project</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% current_volunteer.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+            <%= link_to 'Find a project', projects_index_url, class: 'btn btn-info btn-sm' %>
+            <% if current_volunteer.project_slots.empty? %>
+              <p> <em> You are not currently signed up for any projects. </em> </p>
+            <% else %>
+              <p class="p-xs text-info">
+                <em>
+                  You
+                  <%= current_volunteer.family_size > 1 ? ' and your family members ' : nil %>
+                  have committed to <%= current_volunteer.commitment %> hours of volunteering so far.
+                </em>
+              </p>
+              <table class="table table-striped">
+                <thead>
                   <tr>
-                    <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
-                    <td><%= project_slot.humanized_slot_type %>, <%= project_slot.start_time %>
-                      <%= "(#{project_slot.slot_length} hrs)" unless project_slot.slot_length.nil? %></td>
-                    <td><%= project_slot.project.project_name %></td>
-                    <td align="right">
-                      <%= form_tag decline_from_project_path, method: :post do |f| %>
-                        <%= hidden_field_tag :slot_id, project_slot.id %>
-                        <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline sweet-confirm") do %>
-                          <i class="fa fa-times"></i> Decline
-                        <% end %>
-                      <% end %>
-                    </td>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Project</th>
+                    <th></th>
                   </tr>
-                <% end %>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  <% current_volunteer.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                    <tr>
+                      <td><%= project_slot.slot_date.strftime('%d/%m/%Y') %></td>
+                      <td><%= project_slot.humanized_slot_type %>, <%= project_slot.start_time %>
+                        <%= "(#{project_slot.slot_length} hrs)" unless project_slot.slot_length.nil? %></td>
+                      <td><%= project_slot.project.project_name %></td>
+                      <td align="right">
+                        <%= form_tag decline_from_project_path, method: :post do |f| %>
+                          <%= hidden_field_tag :slot_id, project_slot.id %>
+                          <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline sweet-confirm") do %>
+                            <i class="fa fa-times"></i> Decline
+                          <% end %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
             <% end %>
           </div>
         </div>

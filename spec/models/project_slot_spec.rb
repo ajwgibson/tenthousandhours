@@ -188,6 +188,30 @@ RSpec.describe ProjectSlot, type: :model do
   end
 
 
+  describe "#end_time" do
+    let(:slot) { FactoryGirl.build(:default_project_slot) }
+    context "when the slot_length is not set" do
+      it "returns 'tbc'" do
+        allow(slot).to receive(:slot_length) { 0 }
+        expect(slot.end_time).to eq('tbc')
+      end
+    end
+    context "when the slot start_time is not set" do
+      it "returns 'tbc'" do
+        allow(slot).to receive(:start_time) { 'tbc' }
+        expect(slot.end_time).to eq('tbc')
+      end
+    end
+    context "when the slot start_time and slot_length are both set" do
+      it "returns the start_time plus the slot_length" do
+        allow(slot).to receive(:start_time)  { '09:30' }
+        allow(slot).to receive(:slot_length) { 1.5 }
+        expect(slot.end_time).to eq('11:00')
+      end
+    end
+  end
+
+
   describe "#can_sign_up?(volunteer)" do
     context "when the volunteer is a youth" do
       let(:volunteer) { FactoryGirl.build(:default_volunteer, age_category: 'youth') }

@@ -52,6 +52,12 @@ class ProjectSlot < ActiveRecord::Base
   end
 
 
+  def end_time
+    return 'tbc' if (start_time == 'tbc') || (slot_length == 0)
+    (Time.parse(start_time) + (slot_length*60*60)).strftime("%H:%M")
+  end
+
+
   def volunteer_count
     volunteers.inject(0) { |sum,v| sum + v.family_size }
   end

@@ -1,5 +1,5 @@
 
-<section id="projects" class="gray-section projects">
+<section id="projects" class="projects">
   <div class="container">
     <div class="row m-b-lg">
       <div class="col-lg-12 text-center">
@@ -12,7 +12,7 @@
         </p>
         <% else %>
         <p class="landing-section-paragraph">
-          This is just a selection of the projects that are running this year. We have
+          Here is a small selection of the projects that are running this year. We have
           a wide variety so hopefully there will be something for everyone!
         </p>
         <% end %>
@@ -25,13 +25,20 @@
       </div><div class="row">
       <% end %>
       <div class="col-xs-12 col-sm-4 ">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5><%= project.project_name %></h5>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h4><%= project.project_name %></h4>
           </div>
-          <div class="ibox-content" style="color: inherit;">
+          <div class="panel-body">
             <p><%= styled_project_dates(project) %></p>
             <%= markdown(project.summary) %>
+          </div>
+          <div class="panel-footer">
+            <div class="pull-right">
+              Kids: <%= yes_no_icon project.suitable_for_kids? %>
+              Youth: <%= yes_no_icon project.suitable_for_youth? %>
+            </div>
+            &nbsp;
           </div>
         </div>
       </div>
