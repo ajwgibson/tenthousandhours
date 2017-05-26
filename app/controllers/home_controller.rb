@@ -6,6 +6,9 @@ class HomeController < ApplicationController
 
   def index
     @projects = Project.published.order("RANDOM()").limit(6)
+    volunteers = Volunteer.all
+    @volunteer_count = volunteers.inject(0) {|sum,v| sum += v.family_size }
+    @commitment      = volunteers.inject(0) {|sum,v| sum += v.commitment }
   end
 
 
