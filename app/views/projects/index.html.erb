@@ -124,7 +124,7 @@
                             <% if volunteer_signed_in? %>
                               <% if current_volunteer.project_slots.include? project_slot %>
                                 <%= link_to my_projects_path, :class => 'btn btn-xs btn-info btn-outline' do %>
-                                  <i>Signed up</i>
+                                  <i class="fa fa-check"></i> Signed up
                                 <% end %>
                               <% elsif project_slot.can_sign_up? current_volunteer %>
                                 <%= form_tag volunteer_for_project_path, method: :post do |f| %>
