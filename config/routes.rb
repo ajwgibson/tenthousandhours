@@ -32,10 +32,12 @@ Rails.application.routes.draw do
     resources  :users
     resources  :text_messages
 
+    get  'volunteers/compose_all', to: 'volunteers#compose_all', as: 'compose_all_volunteers'
+    post 'volunteers/send_all',    to: 'volunteers#send_all',    as: 'send_all_volunteers'
     resources  :volunteers do
       member do
-        get  'compose_message'
-        post 'send_message'
+        get  'compose_one'
+        post 'send_one'
       end
     end
 
