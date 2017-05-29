@@ -398,7 +398,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @project.volunteers.order(:first_name, :last_name).uniq.each do |volunteer| %>
+              <% @project.volunteers.order(:first_name, :last_name).each do |volunteer| %>
                 <tr>
                   <td><%= volunteer.name %></td>
                   <td>
@@ -475,6 +475,14 @@
         <% if can? :destroy, Project %>
         <div>
           <a class="btn btn-outline btn-danger" data-toggle='modal' data-target='#delete'><i class="fa fa-times"></i> Delete this project</a>
+        </div>
+        <% end %>
+
+        <% if can? :compose_message, Project %>
+        <div>
+          <%= link_to admin_compose_message_project_path(@project), :class => 'btn btn-outline btn-info' do %>
+            <i class="fa fa-send"></i> Send message to volunteers
+          <% end %>
         </div>
         <% end %>
 

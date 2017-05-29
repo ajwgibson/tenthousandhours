@@ -645,4 +645,97 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   end
 
+
+  describe "GET #compose_message" do
+
+    context "with a valid project id" do
+      let(:slot) { FactoryGirl.create(:default_project_slot) }
+
+      before(:each) do
+        get :compose_message, id: slot.project.id
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+      it "renders the :compose_message view" do
+        expect(response).to render_template :compose_message
+      end
+      it "populates the project" do
+        expect(assigns(:project)).to eq(slot.project)
+      end
+      it "populates an empty model" do
+        expect(assigns(:ComposeMessage).class).to eq(ComposeMessage)
+      end
+    end
+
+    context "with an invalid project id" do
+      it "raises an exception" do
+        assert_raises(ActiveRecord::RecordNotFound) do
+          get :compose_message, { id: 99 }
+        end
+      end
+    end
+
+  end
+
+
+  describe "GET #send_message" do
+
+    let(:project) { FactoryGirl.create(:default_project) }
+
+    let(:slot1) { FactoryGirl.create(:default_project_slot, project: project) }
+    let(:slot2) { FactoryGirl.create(:default_project_slot, project: project) }
+
+    let(:vol1)  { FactoryGirl.create(:default_volunteer, mobile: '1234') }
+    let(:vol2)  { FactoryGirl.create(:default_volunteer, mobile: '5678') }
+
+    context "with an invalid message" do
+      def send_message
+        post :send_message, { id: project.id, compose_message: { message_text: nil } }
+      end
+      it "does not send a message" do
+        expect {
+          send_message
+        }.to_not change(TextMessage, :count)
+      end
+      it "re-renders the form" do
+        send_message
+        expect(response).to render_template(:compose_message)
+      end
+    end
+
+    context "with a valid message" do
+      def send_message
+        post :send_message, { id: project.id, compose_message: { message_text: 'Hello world' } }
+      end
+
+      before(:each) do
+        slot1.volunteers << vol1
+        slot1.volunteers << vol2
+        slot2.volunteers << vol1
+        slot2.volunteers << vol2
+        send_message
+      end
+
+      it "sends a message" do
+        expect {
+          send_message
+        }.to change(TextMessage, :count).by(1)
+      end
+      it "uses the message text provided" do
+        expect(TextMessage.first.message).to eq('Hello world')
+      end
+      it "sends the message to each volunteer using the international mobile format" do
+        expect(TextMessage.first.recipients).to eq('441234,445678')
+      end
+      it "sets a success flash message" do
+        expect(flash[:notice]).to eq('Message sent')
+      end
+      it "redirects to the project view" do
+        expect(response).to redirect_to admin_project_url(project)
+      end
+    end
+  end
+
 end

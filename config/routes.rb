@@ -54,6 +54,8 @@ Rails.application.routes.draw do
     get  'projects/:id/publish', to: 'projects#publish',    as: 'publish_project'
     put  'projects/:id/publish', to: 'projects#do_publish', as: 'do_publish_project'
     put  'projects/:id/unpublish', to: 'projects#do_unpublish', as: 'do_unpublish_project'
+    get  'projects/:id/compose_message', to: 'projects#compose_message', as: 'compose_message_project'
+    post 'projects/:id/send_message',    to: 'projects#send_message', as: 'send_message_project'
     resources :projects do
       get    'slots', to: 'project_slots#index',   as: 'slots'
       post   'slots', to: 'project_slots#create',  as: 'slots_create'

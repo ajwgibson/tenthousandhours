@@ -1,0 +1,13 @@
+
+<%= render partial: "compose_message",
+           locals: {
+             model: @ComposeMessage,
+             form_url: admin_send_message_project_path(@project),
+             message:
+               "This message will be sent to #{@project.volunteers.count} " +
+               "#{'volunteer'.pluralize @project.volunteers.count} registered to serve on the " +
+               "#{@project.project_name} project",
+             factor: @project.volunteers.count,
+             back_url: admin_project_path(@project),
+             back_message: 'Back to project details'
+           } %>

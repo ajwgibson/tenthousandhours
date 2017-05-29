@@ -136,6 +136,23 @@ class Admin::ProjectsController < Admin::BaseController
   end
 
 
+  def compose_message
+    @ComposeMessage = ComposeMessage.new
+  end
+
+
+  def send_message
+    @ComposeMessage = ComposeMessage.new(compose_message_params)
+    if @ComposeMessage.valid?
+      numbers = @project.volunteers.collect { |v| v.mobile_international_format }
+      TextLocalService.send_message(@ComposeMessage.message_text, numbers)
+      redirect_to admin_project_url(@project), notice: 'Message sent'
+    else
+      render :compose_message
+    end
+  end
+
+
   private
 
     # Parameter white lists
@@ -203,6 +220,14 @@ class Admin::ProjectsController < Admin::BaseController
           :youth,
           :kids,
           :materials,
+        )
+    end
+
+    def compose_message_params
+      params
+        .require(:compose_message)
+        .permit(
+          :message_text
         )
     end
 
