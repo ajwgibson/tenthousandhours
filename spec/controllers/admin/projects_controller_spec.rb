@@ -727,7 +727,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
         expect(TextMessage.first.message).to eq('Hello world')
       end
       it "sends the message to each volunteer using the international mobile format" do
-        expect(TextMessage.first.recipients).to eq('441234,445678')
+        expect(TextMessage.first.recipients).to be_in(['441234,445678','445678,441234'])
       end
       it "sets a success flash message" do
         expect(flash[:notice]).to eq('Message sent')

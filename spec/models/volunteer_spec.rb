@@ -47,6 +47,77 @@ RSpec.describe Volunteer, type: :model do
   end
 
 
+  # SCOPES
+
+  describe 'scope:with_first_name' do
+    it 'includes records where the first_name contains the value' do
+      aaa    = FactoryGirl.create(:default_volunteer, first_name: 'aaa')
+      bab    = FactoryGirl.create(:default_volunteer, first_name: 'bab')
+      bbb    = FactoryGirl.create(:default_volunteer, first_name: 'bbb')
+      filtered = Volunteer.with_first_name('a')
+      expect(filtered).to include(aaa)
+      expect(filtered).to include(bab)
+      expect(filtered).not_to include(bbb)
+    end
+  end
+
+  describe 'scope:with_last_name' do
+    it 'includes records where the last_name contains the value' do
+      aaa    = FactoryGirl.create(:default_volunteer, last_name: 'aaa')
+      bab    = FactoryGirl.create(:default_volunteer, last_name: 'bab')
+      bbb    = FactoryGirl.create(:default_volunteer, last_name: 'bbb')
+      filtered = Volunteer.with_last_name('a')
+      expect(filtered).to include(aaa)
+      expect(filtered).to include(bab)
+      expect(filtered).not_to include(bbb)
+    end
+  end
+
+  describe 'scope:with_email' do
+    it 'includes records where the email contains the value' do
+      aaa    = FactoryGirl.create(:default_volunteer, email: 'aaa@x.y')
+      bab    = FactoryGirl.create(:default_volunteer, email: 'bab@x.y')
+      bbb    = FactoryGirl.create(:default_volunteer, email: 'bbb@x.y')
+      filtered = Volunteer.with_email('a')
+      expect(filtered).to include(aaa)
+      expect(filtered).to include(bab)
+      expect(filtered).not_to include(bbb)
+    end
+  end
+
+  describe 'scope:with_mobile' do
+    it 'includes records where the mobile number contains the value (with spaces ignored)' do
+      aaa    = FactoryGirl.create(:default_volunteer, mobile: 'aaa')
+      bab    = FactoryGirl.create(:default_volunteer, mobile: 'bab')
+      bbb    = FactoryGirl.create(:default_volunteer, mobile: 'bbb')
+      filtered = Volunteer.with_mobile(' a ')
+      expect(filtered).to include(aaa)
+      expect(filtered).to include(bab)
+      expect(filtered).not_to include(bbb)
+    end
+  end
+
+  describe 'scope:in_age_category' do
+    it 'includes records where the volunteer age_category matches the value' do
+      a = FactoryGirl.create(:default_volunteer, age_category: 'adult')
+      b = FactoryGirl.create(:default_volunteer, age_category: 'youth')
+      filtered = Volunteer.in_age_category('youth')
+      expect(filtered).to include(b)
+      expect(filtered).not_to include(a)
+    end
+  end
+
+  describe 'scope:with_skill' do
+    it 'includes records where the volunteer has the specific skill' do
+      a = FactoryGirl.create(:default_volunteer, skills: ['a','z'])
+      b = FactoryGirl.create(:default_volunteer, skills: ['b','z'])
+      filtered = Volunteer.with_skill('a')
+      expect(filtered).to include(a)
+      expect(filtered).not_to include(b)
+    end
+  end
+
+
   # METHODS
 
   describe "#humanized_age_category" do

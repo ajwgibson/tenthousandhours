@@ -19,6 +19,95 @@ RSpec.describe Admin::VolunteersController, type: :controller do
       get :index
       expect(assigns(:volunteers)).to eq([v])
     end
+    it "orders volunteers by name by default" do
+      ba = FactoryGirl.create(:default_volunteer, first_name: 'b', last_name: 'a')
+      ca = FactoryGirl.create(:default_volunteer, first_name: 'c', last_name: 'a')
+      ab = FactoryGirl.create(:default_volunteer, first_name: 'a', last_name: 'b')
+      aa = FactoryGirl.create(:default_volunteer, first_name: 'a', last_name: 'a')
+      get :index
+      expect(assigns(:volunteers)).to eq([aa,ab,ba,ca])
+    end
+    it "stores filters to the session" do
+      get :index, with_first_name: 'abc'
+      expect(session[:filter_admin_volunteers]).to eq({'with_first_name' => 'abc'})
+    end
+    it "removes blank filter values" do
+      get :index, with_first_name: nil
+      expect(assigns(:filter)).to eq({})
+    end
+    it "retrieves filters from the session if none have been supplied" do
+      a = FactoryGirl.create(:default_volunteer, first_name: 'a', last_name: 'zzz')
+      b = FactoryGirl.create(:default_volunteer, first_name: 'b', last_name: 'zzz')
+      get :index, { }, { :filter_admin_volunteers => {'with_first_name' => 'a'} }
+      expect(assigns(:volunteers)).to eq([a])
+    end
+    it "applies the 'with_first_name' filter if supplied" do
+      a = FactoryGirl.create(:default_volunteer, first_name: 'a')
+      b = FactoryGirl.create(:default_volunteer, first_name: 'b')
+      get :index, with_first_name: 'a'
+      expect(assigns(:volunteers)).to eq([a])
+    end
+    it "applies the 'with_last_name' filter if supplied" do
+      a = FactoryGirl.create(:default_volunteer, last_name: 'a')
+      b = FactoryGirl.create(:default_volunteer, last_name: 'b')
+      get :index, with_last_name: 'a'
+      expect(assigns(:volunteers)).to eq([a])
+    end
+    it "applies the 'with_email' filter if supplied" do
+      a = FactoryGirl.create(:default_volunteer, email: 'a@x.y')
+      b = FactoryGirl.create(:default_volunteer, email: 'b@x.y')
+      get :index, with_email: 'a'
+      expect(assigns(:volunteers)).to eq([a])
+    end
+    it "applies the 'with_mobile' filter if supplied" do
+      a = FactoryGirl.create(:default_volunteer, mobile: 'a')
+      b = FactoryGirl.create(:default_volunteer, mobile: 'b')
+      get :index, with_mobile: 'a'
+      expect(assigns(:volunteers)).to eq([a])
+    end
+    it "applies the 'in_age_category' filter if supplied" do
+      a = FactoryGirl.create(:default_volunteer, age_category: 'adult')
+      b = FactoryGirl.create(:default_volunteer, age_category: 'youth')
+      get :index, in_age_category: 'youth'
+      expect(assigns(:volunteers)).to eq([b])
+    end
+    it "applies the 'with_skill' filter if supplied" do
+      a = FactoryGirl.create(:default_volunteer, skills: ['a','x'])
+      b = FactoryGirl.create(:default_volunteer, skills: ['b','x'])
+      get :index, with_skill: 'a'
+      expect(assigns(:volunteers)).to eq([a])
+    end
+    context "with no explicit page value" do
+      it "returns the first page of volunteers" do
+        30.times do |i|
+          FactoryGirl.create(:default_volunteer, first_name: "Person_#{i}", last_name: 'xxx')
+        end
+        get :index
+        expect(assigns(:volunteers).count).to eq(25)
+      end
+    end
+    context "with an explicit page value" do
+      it "returns the requested page of volunteers" do
+        30.times do |i|
+          FactoryGirl.create(:default_volunteer, first_name: "Person_#{i}", last_name: 'xxx')
+        end
+        get :index, page: 2
+        expect(assigns(:volunteers).count).to eq(5)
+      end
+    end
+  end
+
+
+  describe "GET #clear_filter" do
+    it "redirects to #index" do
+      get :clear_filter
+      expect(response).to redirect_to([:admin, :volunteers])
+    end
+    it "clears the session entry" do
+      session[:filter_admin_volunteers] = {'with_first_name' => 'abc'}
+      get :clear_filter
+      expect(session.key?(:filter_admin_volunteers)).to be false
+    end
   end
 
 

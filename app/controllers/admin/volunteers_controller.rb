@@ -4,7 +4,16 @@ class Admin::VolunteersController < Admin::BaseController
 
 
   def index
-    @volunteers = Volunteer.all
+    @filter = get_filter
+    @volunteers = Volunteer.filter(@filter).order(:first_name,:last_name)
+    @volunteers = @volunteers.page params[:page]
+    set_filter @filter
+  end
+
+
+  def clear_filter
+    set_filter nil
+    redirect_to admin_volunteers_url
   end
 
 
@@ -56,6 +65,29 @@ private
       .permit(
         :message_text
       )
+  end
+
+
+  def get_filter
+    filter =
+      params.slice(
+        :with_first_name,
+        :with_last_name,
+        :with_email,
+        :with_mobile,
+        :with_skill,
+        :in_age_category,
+        :order_by,
+      )
+    filter = session[:filter_admin_volunteers].symbolize_keys! if filter.empty? && session.key?(:filter_admin_volunteers)
+    filter = { :order_by => 'first_name,last_name' } if filter.empty?
+    filter.delete_if { |key, value| value.blank? }
+  end
+
+
+  def set_filter(filter)
+    session[:filter_admin_volunteers] = filter unless filter.nil?
+    session.delete(:filter_admin_volunteers) if filter.nil?
   end
 
 end

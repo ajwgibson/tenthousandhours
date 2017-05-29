@@ -5,12 +5,89 @@
     <div class="ibox float-e-margins">
 
       <div class="ibox-title">
-        <div class="ibox-tools pull-right">
+        <div class="ibox-tools pull-right hidden-print">
+          <a class="btn btn-<%= @filter.except(:order_by).empty? ? "default" : "warning btn-outline" %> btn-sm"
+               data-toggle="collapse" data-target="#filter"><i class="fa fa-filter"></i></a>
         </div>
         <h2>Volunteers</h2>
       </div>
 
       <div class="ibox-content">
+
+        <div id="filter" class="filter collapse hidden-print">
+
+          <%= form_tag admin_volunteers_path, method: :get, class: "filter" do |f| %>
+
+          <%= hidden_field_tag :order_by, @filter[:order_by] %>
+
+          <div class="col-md-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h5>Filter settings</h5>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= label_tag :with_first_name, 'First name contains', :class => 'control-label' %>
+                      <%= text_field_tag :with_first_name, @filter[:with_first_name], :class => 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag :with_last_name, 'Last name contains', :class => 'control-label' %>
+                      <%= text_field_tag :with_last_name, @filter[:with_last_name], :class => 'form-control' %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= label_tag :with_email, 'Email address contains', :class => 'control-label' %>
+                      <%= text_field_tag :with_email, @filter[:with_email], :class => 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag :with_mobile, 'Mobile number contains', :class => 'control-label' %>
+                      <%= text_field_tag :with_mobile, @filter[:with_mobile], :class => 'form-control' %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= label_tag :in_age_category, 'Age category', :class => 'control-label' %>
+                      <%= select_tag :in_age_category,
+                                    options_for_select(
+                                      [['Over 18', :adult],['11 to 18', :youth]],
+                                      @filter[:in_age_category]),
+                                    { prompt: "Please select a value...",
+                                      class: 'form-control' } %>
+                    </div>
+                    <div class="form-group">
+                      <%= label_tag :with_skill, 'With a specific skill', :class => 'control-label' %>
+                      <%= select_tag :with_skill,
+                                    options_for_select(
+                                      Project::SKILLS,
+                                      @filter[:with_skill]
+                                    ),
+                                    { prompt: "Please select a value...",
+                                      class: 'form-control' } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group pull-right">
+                      <%= link_to admin_volunteers_clear_filter_path, :class => 'btn btn-default' do %>
+                        <i class="fa fa-times"></i> Clear filter
+                      <% end %>
+                      <%= button_tag(type: "submit", class: "btn btn-primary") do %>
+                        <i class="fa fa-filter"></i> Apply filter
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% end %>
+
+        </div>
 
         <div class="hidden-print">
           <% if can? :compose_all, Volunteer %>
@@ -25,14 +102,14 @@
 
             <thead>
               <tr>
-                <th>Name</th>
+                <th><%= sortable 'first_name,last_name', @filter, admin_volunteers_path, 'Name' %></th>
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Age category</th>
                 <th>Family size</th>
                 <th>Mobile confirmed?</th>
                 <th>Email confirmed?</th>
-                <th>Last sign-in</th>
+                <th><%= sortable 'current_sign_in_at', @filter, admin_volunteers_path, 'Last sign-in' %></th>
                 <th>Links</th>
               </tr>
             </thead>
@@ -57,9 +134,19 @@
               </tr>
               <% end %>
             <% else %>
-              <tr><td colspan="8"><em>No volunteers found</em></td></tr>
+              <tr><td colspan="9"><em>No volunteers found</em></td></tr>
             <% end %>
             </tbody>
+
+            <tfoot>
+              <tr>
+                <td colspan="9">
+                  <div class="pull-right">
+                    <%= paginate @volunteers %>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
 
           </table>
         </div>

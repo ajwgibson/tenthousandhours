@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
     get  'volunteers/compose_all', to: 'volunteers#compose_all', as: 'compose_all_volunteers'
     post 'volunteers/send_all',    to: 'volunteers#send_all',    as: 'send_all_volunteers'
+    get  'volunteers/clear_filter'
     resources  :volunteers do
       member do
         get  'compose_one'

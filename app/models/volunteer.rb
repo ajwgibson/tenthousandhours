@@ -1,8 +1,11 @@
 class Volunteer < ActiveRecord::Base
 
+  include Filterable
+
   has_and_belongs_to_many :project_slots
-  has_many :projects, through: :project_slots
+  has_many :projects, -> { distinct }, through: :project_slots
   has_many :personal_projects, dependent: :destroy
+
 
   # Include default devise modules. Others available are:
   # :omniauthable
@@ -24,6 +27,12 @@ class Volunteer < ActiveRecord::Base
    validates :mobile,       :presence => true
    validates :age_category, :presence => true
 
+   scope :with_first_name, ->(value) { where("lower(first_name) like lower(?)", "%#{value}%") }
+   scope :with_last_name,  ->(value) { where("lower(last_name) like lower(?)", "%#{value}%") }
+   scope :with_email,      ->(value) { where("lower(email) like lower(?)", "%#{value}%") }
+   scope :with_mobile,     ->(value) { where("lower(mobile) like lower(?)", "%#{value.gsub(/\s+/, '')}%") }
+   scope :with_skill,      ->(value) { where("? = ANY(skills)", value) }
+   scope :in_age_category, ->(value) { where age_category: age_categories[value] }
 
    before_validation(on: [:create, :update]) do
      clean_mobile!
