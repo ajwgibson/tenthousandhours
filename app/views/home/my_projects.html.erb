@@ -9,7 +9,9 @@
       <div class="ibox-content">
         <div class="row">
           <div class="col-xs-12">
-            <%= link_to 'Find a project', projects_index_url, class: 'btn btn-info btn-sm' %>
+            <%= link_to projects_index_url, class: 'btn btn-info' do %>
+              <i class="fa fa-search"></i> Find a project
+            <% end %>
             <% if current_volunteer.project_slots.empty? %>
               <p> <em> You are not currently signed up for any projects. </em> </p>
             <% else %>
@@ -71,7 +73,7 @@
         </p>
         <% end %>
         <div style="margin-bottom: 10px; margin-top: 10px;">
-          <%= link_to new_personal_project_path, :class => 'btn btn-info btn-sm' do %>
+          <%= link_to new_personal_project_path, :class => 'btn btn-info' do %>
             <i class="fa fa-plus"></i> Add a personal project
           <% end %>
         </div>

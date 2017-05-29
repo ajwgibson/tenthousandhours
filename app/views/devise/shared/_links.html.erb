@@ -1,8 +1,11 @@
 
 
 <%- if devise_mapping.registerable? && controller_name == 'sessions' %>
-<div style="margin-top: 40px">
-  <%= link_to "Sign up now!", new_registration_path(resource_name), class: 'btn btn-lg btn-success' %><br />
+
+<div class="m-t-xl m-b-xl">
+  <%= link_to new_registration_path(resource_name), class: 'btn btn-lg btn-success btn-xxl' do %>
+    <span class="text-uppercase">Register now</span>
+  <% end %>
 </div>
 <% end -%>
 

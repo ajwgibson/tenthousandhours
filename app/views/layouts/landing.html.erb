@@ -15,6 +15,10 @@
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
+    <script type="text/javascript"
+            src="//use.typekit.net/ik/Q3jd9lYe1tkUjh4E4N6KU9l8gsIsmg4WYtgLKUj9-pIfe0bffFHN4UJLFRbh52jhWD9DwQwt5ABKZQsKw2IojD9kZQwDZR9u5gTaiaiaOcFyiWF8ihBojhNySash-Ao8pABkZfoRdhXCjhBuShmajW8RdhBDiYZTdcmojW4qOcFzdPUCdhFydeyzSabCjhFhjhyuScFGO1FUiABkZWF3jAF8OcFzdP37OcFRicFGiW4R-foDSWmyScmDSeBRZPoRdhXK2YgkdayTdAIldcNhjPJHjcmKjWwldcmuZPG4fHCgIMMjMPMfH6qJnMIbMg6OJMJ7fbRKHyMMeMw6MKG4f5w7IMMj2PMfH6qJn3IbMg6IJMJ7fbK3MsMMeMt6MKG4fHXgIMMjgKMfH6qJn6IbMg6bJMJ7fbKOMsMMeMS6MKG4fJ3gIMMjIPMfH6qJ7bIbMg6JJMJ7fbK7MsMMegJ6MKG4fJqgIMMjfPMfH6qJK6IbMg6QJMJ7fbRL-gMgeMb6MTMg3SnhnM9.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
     <%= csrf_meta_tags %>
 </head>
 
@@ -60,8 +64,10 @@
           <div class="navy-line"></div>
           <h1>Pledges</h1>
         </div>
+      </div>
+      <div class="row m-b-xl">
         <div class="col-xs-8 col-md-6 col-xs-offset-2 col-md-offset-3 text-center">
-          <div class="row">
+          <div>
             <div class="col-xs-12 col-sm-6">
               <div class="widget style1 lazur-bg">
                 <div class="row vertical-align">
@@ -100,21 +106,13 @@
         <div class="col-lg-12 text-center">
           <div class="navy-line"></div>
           <h1>Volunteering</h1>
-          <p class="landing-section-paragraph">
-            Once you have registered (individually or with family members) and
-            logged in to this site, you can sign up for our public projects and
-            tell us about your personal projects. Please note that, as part of
-            the registration process, we'll ask for an email address and mobile
-            phone number so that we can keep you up to date with important
-            information.
-          </p>
-          <p style="margin-top: 20px; margin-bottom: 20px;">
-            <%= link_to new_volunteer_registration_path, class: 'btn btn-lg btn-primary' do %>
-              <span class="text-uppercase">Register</span>
-            <% end %>
-            <span style="margin-right: 20px;"> </span>
-            <%= link_to new_volunteer_session_path, class: 'btn btn-lg btn-primary' do %>
-              <span class="text-uppercase">Log in</span>
+        </div>
+      </div>
+      <div class="row m-b-xl">
+        <div class="col-lg-12 text-center">
+          <p>
+            <%= link_to new_volunteer_registration_path, class: 'btn btn-lg btn-primary btn-xxl' do %>
+              <span class="text-uppercase">Register &amp; sign up for projects</span>
             <% end %>
           </p>
         </div>
@@ -130,48 +128,14 @@
         <div class="col-lg-12 text-center">
           <div class="navy-line"></div>
           <h1>Contact us</h1>
-          <p class="landing-section-paragraph">
-            Our church office is open Monday - Friday from 9am to 5pm. Or
-            you can come chat to us at our information point in church
-            after any Sunday service.
-          </p>
         </div>
       </div>
-      <div class="row m-b-lg text-center">
-          <address>
-            <strong><span class="navy">Causeway Coast Vineyard</span></strong><br/>
-            10 Hillmans Way, Coleraine,<br/>
-            BT52 2ED, Northern Ireland<br/>
-            <abbr title="Phone">P:</abbr> +44 (0)28 70 326161
-          </address>
-          <a class="navy-link"
-             href="https://www.google.co.uk/maps/place/Causeway+Coast+Vineyard/@55.129649,-6.6633903,15z/data=!4m5!3m4!1s0x486024ccc9db9b2b:0xd2cde95bab55e3d0!8m2!3d55.129649!4d-6.6546356"
-             target="_blank"
-             role="button">Find us with Google maps <span class="fa fa-google"> </span></a>
-      </div>
-      <div class="row">
+      <div class="row m-b-xl">
         <div class="col-lg-12 text-center">
-          <p class="m-t-sm">
+          <p>
             <a class="btn btn-lg btn-primary"
                href="http://www.causewaycoastvineyard.com/contact/"
-               target="_blank"><span class="fa fa-external-link"> </span> USE OUR CONTACT FORM</a>
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <p class="m-t-sm">
-            Follow us on social media
-          </p>
-          <ul class="list-inline social-icon">
-            <li><a href="https://twitter.com/CCVChurch"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="https://www.facebook.com/ccvchurch"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="https://instagram.com/ccvchurch"><i class="fa fa-instagram"></i></a></li>
-            <li><a href="https://www.youtube.com/channel/UC8E1jwNcHryTPfeJiBxactw"><i class="fa fa-youtube-play"></i></a></li>
-          </ul>
-        </div>
-        <div class="col-lg-12 text-center">
-          <p class="m-t-sm">
+               target="_blank"><span class="fa fa-external-link"> </span> PLEASE USE OUR CHURCH CONTACT FORM</a>
           </p>
         </div>
       </div>

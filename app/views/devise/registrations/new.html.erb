@@ -1,8 +1,9 @@
-<h2>Sign up</h2>
+<h2>Registration</h2>
+
 <p>
-  After you submit this form you will receive a confirmation email with a link
-  that you must click to complete the process. You will not be able
-  to login and continue without clicking the link.
+  Once you have registered (individually or with family members) and logged in
+  to this site, you can sign up for our public projects and tell us about your
+  personal projects.
 </p>
 
 <%= render partial: "layouts/errors", object: resource, as: 'form' %>
@@ -11,7 +12,7 @@
 
   <fieldset>
     <legend>Personal details</legend>
-    <%= f.email_field :email, label: 'Email', autofocus: true, 
+    <%= f.email_field :email, label: 'Email', autofocus: true,
         help: 'Please ensure this is a valid email address as you will not be able to complete the sign up process with an invalid email.' %>
     <%= f.text_field :first_name, label: 'First name' %>
     <%= f.text_field :last_name,  label: 'Last name' %>
@@ -67,7 +68,7 @@
   </fieldset>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: 'btn btn-primary' %>
+    <%= f.submit "Register", class: 'btn btn-primary' %>
   </div>
 
 <% end %>
