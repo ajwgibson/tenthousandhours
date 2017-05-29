@@ -30,8 +30,14 @@ Rails.application.routes.draw do
     root 'home#index'
 
     resources  :users
-    resources  :volunteers
     resources  :text_messages
+
+    resources  :volunteers do
+      member do
+        get  'compose_message'
+        post 'send_message'
+      end
+    end
 
     get '/not_authorized', to: 'home#not_authorized'
 

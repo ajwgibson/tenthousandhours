@@ -1,0 +1,10 @@
+
+<%= render partial: "compose_message",
+           locals: {
+             model: @ComposeMessage,
+             form_url: send_message_admin_volunteer_path(@volunteer),
+             message: "This message will be sent to #{@volunteer.name}",
+             factor: 1,
+             back_url: admin_volunteer_path(@volunteer),
+             back_message: 'Back to volunteer details'
+           } %>
