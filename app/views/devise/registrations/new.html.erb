@@ -6,6 +6,8 @@
   personal projects.
 </p>
 
+
+
 <%= render partial: "layouts/errors", object: resource, as: 'form' %>
 
 <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -65,6 +67,14 @@
     <%= f.password_field :password, label: 'Password', autocomplete: "off",
         help: @minimum_password_length ? "#{@minimum_password_length} characters minimum" : '' %>
     <%= f.password_field :password_confirmation, label: 'Password confirmation', autocomplete: "off" %>
+  </fieldset>
+
+  <fieldset>
+    <legend>Data Protection Act 1998 (P2783942X)</legend>
+    <p class="text-primary font-italic">
+      Your details will be stored on computer so that
+      we can keep you informed about projects and events.
+    </p>
   </fieldset>
 
   <div class="actions">
