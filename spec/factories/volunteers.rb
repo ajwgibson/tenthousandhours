@@ -1,15 +1,17 @@
 FactoryGirl.define do
 
   factory :volunteer do
-    email                 nil
-    password              nil
-    password_confirmation nil
-    first_name            nil
-    last_name             nil
-    mobile                nil
-    age_category          nil
-    skills                nil
-    family                nil
+    email                   nil
+    password                nil
+    password_confirmation   nil
+    first_name              nil
+    last_name               nil
+    mobile                  nil
+    age_category            nil
+    skills                  nil
+    family                  nil
+    guardian_name           nil
+    guardian_contact_number nil
   end
 
   factory :default_volunteer, parent: :volunteer do
@@ -21,6 +23,12 @@ FactoryGirl.define do
     mobile                { Faker::PhoneNumber.cell_phone }
     age_category          :adult
     skills                []
+  end
+
+  factory :youth_volunteer, parent: :default_volunteer do
+    age_category            :youth
+    guardian_name           { Faker::Name.name }
+    guardian_contact_number { Faker::PhoneNumber.phone_number }
   end
 
   factory :family_of_four_volunteer, parent: :default_volunteer do

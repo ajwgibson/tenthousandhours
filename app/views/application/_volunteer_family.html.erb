@@ -1,5 +1,5 @@
 
-<div class="panel panel-default">
+<div class="panel panel-default" id="ko-region-family">
   <div class="panel-heading">
     Family members
   </div>
@@ -42,9 +42,11 @@
       <tr><td colspan="3"><em>No family members added</em></td></tr>
     </tfoot>
   </table>
+
+  <%= f.hidden_field :family, data: { bind: 'value: familyAsString' } %>
+
 </div>
 
-<%= f.hidden_field :family, data: { bind: 'value: familyAsString' } %>
 
 <%= javascript_tag do %>
 
@@ -85,7 +87,7 @@ $(function() {
     };
   };
 
-  ko.applyBindings(new AppViewModel('<%= raw resource.family.blank? ? '[]' : resource.family %>'));
+  ko.applyBindings(new AppViewModel('<%= raw resource.family.blank? ? '[]' : resource.family %>'), document.getElementById('ko-region-family'));
 
 });
 

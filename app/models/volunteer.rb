@@ -22,10 +22,13 @@ class Volunteer < ActiveRecord::Base
 
    enum age_category: [ :adult, :youth, :child ]
 
+
    validates :first_name,   :presence => true
    validates :last_name,    :presence => true
    validates :mobile,       :presence => true
    validates :age_category, :presence => true
+
+   validate :under_18s_need_guardian_details
 
    scope :with_first_name, ->(value) { where("lower(first_name) like lower(?)", "%#{value}%") }
    scope :with_last_name,  ->(value) { where("lower(last_name) like lower(?)", "%#{value}%") }
@@ -33,6 +36,7 @@ class Volunteer < ActiveRecord::Base
    scope :with_mobile,     ->(value) { where("lower(mobile) like lower(?)", "%#{value.gsub(/\s+/, '')}%") }
    scope :with_skill,      ->(value) { where("? = ANY(skills)", value) }
    scope :in_age_category, ->(value) { where age_category: age_categories[value] }
+
 
    before_validation(on: [:create, :update]) do
      clean_mobile!
@@ -97,7 +101,7 @@ class Volunteer < ActiveRecord::Base
 
 
 
-   private
+private
 
    def family_hash
      return JSON.parse family unless family.blank?
@@ -125,6 +129,14 @@ class Volunteer < ActiveRecord::Base
      mobile.gsub!(/[\(,\)]/,   '')
      mobile.sub!(/^(0)+/,      '')
      mobile
+   end
+
+
+   def under_18s_need_guardian_details
+     if youth?
+       errors.add(:guardian_name, "is required for an under 18 volunteer") if guardian_name.blank?
+       errors.add(:guardian_contact_number, "is required for an under 18 volunteer") if guardian_contact_number.blank?
+     end
    end
 
 end

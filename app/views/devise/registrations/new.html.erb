@@ -12,18 +12,7 @@
 
 <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 
-  <fieldset>
-    <legend>Personal details</legend>
-    <%= f.email_field :email, label: 'Email', autofocus: true,
-        help: 'Please ensure this is a valid email address as you will not be able to complete the sign up process with an invalid email.' %>
-    <%= f.text_field :first_name, label: 'First name' %>
-    <%= f.text_field :last_name,  label: 'Last name' %>
-    <%= f.phone_field :mobile,    label: 'Mobile number', prepend: '+44 (0)',
-        help: 'We need a mobile number so we can keep you informed using SMS updates and reminders.' %>
-    <%= f.select :age_category,
-        options_for_select([['Please select an age category...',''],['Over 18', :adult],['11 to 18', :youth]], resource.age_category),
-        { label: 'Age category' } %>
-  </fieldset>
+  <%= render partial: "personal_details", locals: { f: f, volunteer: resource } %>
 
   <fieldset>
     <legend>Family members</legend>

@@ -66,8 +66,8 @@ RSpec.describe Admin::VolunteersController, type: :controller do
       expect(assigns(:volunteers)).to eq([a])
     end
     it "applies the 'in_age_category' filter if supplied" do
-      a = FactoryGirl.create(:default_volunteer, age_category: 'adult')
-      b = FactoryGirl.create(:default_volunteer, age_category: 'youth')
+      a = FactoryGirl.create(:default_volunteer)
+      b = FactoryGirl.create(:youth_volunteer)
       get :index, in_age_category: 'youth'
       expect(assigns(:volunteers)).to eq([b])
     end

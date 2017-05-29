@@ -15,6 +15,7 @@ class Volunteer::ParameterSanitizer < Devise::ParameterSanitizer
     [
       :email, :password, :password_confirmation,
       :first_name, :last_name, :mobile, :age_category,
+      :guardian_name, :guardian_contact_number,
       :family,
       { skills: [] }]
   end

@@ -21,6 +21,15 @@ RSpec.describe Volunteer, type: :model do
   it "is not valid without an age_category" do
     expect(FactoryGirl.build(:default_volunteer, age_category: nil)).not_to be_valid
   end
+  context "an under 18 volunteer" do
+    it "is not valid without a guardian_name" do
+      expect(FactoryGirl.build(:youth_volunteer, guardian_name: nil)).not_to be_valid
+    end
+    it "is not valid without a guardian_contact_number" do
+      expect(FactoryGirl.build(:youth_volunteer, guardian_contact_number: nil)).not_to be_valid
+    end
+  end
+
 
 
   # CALLBACKS
@@ -99,8 +108,8 @@ RSpec.describe Volunteer, type: :model do
 
   describe 'scope:in_age_category' do
     it 'includes records where the volunteer age_category matches the value' do
-      a = FactoryGirl.create(:default_volunteer, age_category: 'adult')
-      b = FactoryGirl.create(:default_volunteer, age_category: 'youth')
+      a = FactoryGirl.create(:default_volunteer)
+      b = FactoryGirl.create(:youth_volunteer)
       filtered = Volunteer.in_age_category('youth')
       expect(filtered).to include(b)
       expect(filtered).not_to include(a)
