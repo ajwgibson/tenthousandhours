@@ -1,5 +1,5 @@
 <% if volunteer_signed_in? %>
-<li class="dropdown active">
+<li class="dropdown <%= 'active' unless controller.controller_name == 'projects' %>">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_volunteer.name.upcase %> <b class="caret"></b></a>
   <ul class="dropdown-menu">
     <li><%= link_to('MY PROJECTS', my_projects_path) %></li>

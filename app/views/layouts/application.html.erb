@@ -38,8 +38,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><%= link_to 'HOME', root_url %></li>
-            <li><%= link_to 'PROJECTS', projects_index_url %></li>
             <li><%= link_to 'VOLUNTEERING', root_url + '#volunteering' %></li>
+            <li class="<%= 'active' if controller.controller_name == 'projects' %>"><%= link_to 'PROJECTS', projects_index_url %></li>
             <li><%= link_to 'CONTACT', root_url + '#contact' %></li>
             <%= render 'user_menu' %>
           </ul>
