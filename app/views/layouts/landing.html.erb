@@ -63,7 +63,10 @@
   <% end %>
 
   <section class="embed-responsive embed-responsive-16by9">
-    <div id="player"></div>
+      <iframe id="vimeo_player"
+        src="https://player.vimeo.com/video/219989199?background=1"
+        width="640" height="360" frameborder="0"
+        webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
   </section>
 
   <section id="pledges" class="" style="">
@@ -171,44 +174,6 @@
         });
 
     });
-
-    // YouTube video iFrame API code
-    var tag = document.createElement('script');
-
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        videoId: 'EsSE2DoTXF8',
-        height: '360',
-        width: '100%',
-        playerVars: {
-          autoplay: 0,
-          loop: 0,
-          modestbranding: 1,
-          showinfo: 0,
-          controls: 0,
-          fs: 0,
-          rel: 0,
-          playlist: ['EsSE2DoTXF8'],
-          enablejsapi: 1,
-          iv_load_policy: 3,
-          playsinline: 1,
-          origin: 'https://10000.causewaycoastvineyard.com'
-        },
-        events: {
-          'onReady': onPlayerReady,
-        }
-      });
-    }
-
-    function onPlayerReady(event) {
-      event.target.mute();
-      event.target.playVideo();
-    }
 
 </script>
 
