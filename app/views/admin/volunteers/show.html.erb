@@ -110,8 +110,8 @@
         <% else %>
         <p class="p-xs text-info">
           This volunteer
-          <%= @volunteer.family_size > 1 ? ' and their family members ' : nil %>
-          have committed to <%= @volunteer.commitment %> hours of volunteering.
+          <%= @volunteer.family_size > 1 ? ' and their family members have ' : ' has ' %>
+          committed to <%= @volunteer.commitment %> hours of volunteering.
         </p>
         <div class="table-responsive">
           <table class="table table-striped">
@@ -121,6 +121,7 @@
                 <th>Time</th>
                 <th>Project</th>
                 <th>Hours</th>
+                <th> </th>
               </tr>
             </thead>
             <tbody>
@@ -130,13 +131,21 @@
                   <td><%= project_slot.humanized_slot_type %></td>
                   <td>
                     <span class="pull-right">
-                    <%= link_to admin_project_path(project_slot.project), :class => '' do %>
-                    <i class="fa fa-info-circle"></i> View details
+                    <%= link_to admin_show_project_slot_path(project_slot), :class => '' do %>
+                    <i class="fa fa-info-circle"></i> View slot details
                     <% end %>
                     </span>
                     <%= project_slot.project.project_name %>
                   </td>
                   <td><%= project_slot.slot_length * @volunteer.family_size %></td>
+                  <td>
+                    <%= form_tag admin_decline_volunteer_serve_path(@volunteer), method: :delete do |f| %>
+                      <%= hidden_field_tag :slot_id, project_slot.id %>
+                      <%= button_tag(type: "submit", class: "btn btn-xs btn-danger btn-outline sweet-confirm") do %>
+                        <i class="fa fa-times"></i> Remove
+                      <% end %>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>

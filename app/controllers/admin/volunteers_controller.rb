@@ -57,6 +57,13 @@ class Admin::VolunteersController < Admin::BaseController
   end
 
 
+  def decline
+    project_slot = ProjectSlot.find params[:slot_id]
+    @volunteer.project_slots.delete project_slot
+    redirect_to admin_volunteer_url(@volunteer), notice: 'Sign up was removed'
+  end
+
+
   def compose_one
     @ComposeMessage = ComposeMessage.new
   end

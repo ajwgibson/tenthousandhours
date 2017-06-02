@@ -45,6 +45,8 @@ Rails.application.routes.draw do
       end
     end
 
+    delete 'decline/:id', to: 'volunteers#decline', as: 'decline_volunteer_serve'
+
     get '/not_authorized', to: 'home#not_authorized'
 
     get  'projects/print_list',  as: 'print_project_list'
