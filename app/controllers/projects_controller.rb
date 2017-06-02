@@ -6,6 +6,9 @@ class ProjectsController < ApplicationController
     project_ids = @slots.uniq.pluck(:project_id)
     @projects = Project.published.where(id: project_ids).order(:project_name)
     set_filter @filter
+    @filtered = !(@filter.except(:order_by).empty?)
+    @total_project_count = Project.published.count
+    @project_count = @projects.size
   end
 
 
@@ -15,10 +18,15 @@ class ProjectsController < ApplicationController
   end
 
 
+  def show
+    @project = Project.published.find params[:id]
+  end
+
+
   def volunteer
     project_slot = ProjectSlot.find params[:slot_id]
     current_volunteer.project_slots << project_slot
-    redirect_to projects_index_url, notice: 'Sign up was successful'
+    redirect_to show_project_url(project_slot.project) + '#slots', notice: 'Sign up was successful'
   end
 
 

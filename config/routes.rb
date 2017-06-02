@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get 'projects/index'
   get 'projects/clear_filter'
+  get 'projects/:id',  to: 'projects#show', as: 'show_project'
   post 'projects/volunteer', as: 'volunteer_for_project'
   post 'projects/decline',   as: 'decline_from_project'
 

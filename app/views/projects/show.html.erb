@@ -1,0 +1,82 @@
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <div class="pull-right hidden-print">
+          <%= link_to projects_index_path, :class => 'btn btn-outline btn-default' do %>
+            <i class="fa fa-reply"></i> Back
+          <% end %>
+        </div>
+        <h2><%= @project.project_name %></h2>
+      </div>
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="panel panel-default">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h3>Project details</h3>
+                </li>
+                <li class="list-group-item">
+                  <div class="panel-body">
+                    <h4 class="border-bottom">Project dates</h4>
+                    <div class="m-b-lg"><%= project_dates(@project) %></div>
+                    <h4 class="border-bottom">Project description</h4>
+                    <div class="m-b-lg"><%= markdown(@project.summary) %></div>
+                    <h4 class="border-bottom">Suitable for under 11s</h4>
+                    <div class="m-b-lg"><%= yes_no @project.suitable_for_kids? %></div>
+                    <h4 class="border-bottom">Suitable for 11 to 18s</h4>
+                    <div class="m-b-lg"><%= yes_no @project.suitable_for_youth? %></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <h3 id="slots">Available slots</h3>
+              </li>
+              <% @project.project_slots.order(:slot_date, :slot_type).each do |project_slot| %>
+                  <li class="list-group-item">
+                    <div class="pull-right">
+                    <% if volunteer_signed_in? %>
+                      <% if current_volunteer.project_slots.include? project_slot %>
+                        <%= link_to my_projects_path, :class => 'btn btn-xs btn-info btn-outline' do %>
+                          <i class="fa fa-info-circle"></i> Signed up
+                        <% end %>
+                      <% elsif project_slot.can_sign_up? current_volunteer %>
+                        <%= form_tag volunteer_for_project_path, method: :post do |f| %>
+                          <%= hidden_field_tag :slot_id, project_slot.id %>
+                          <%= button_tag(type: "submit", class: "btn btn-xs btn-success btn-outline") do %>
+                            <i class="fa fa-check-square-o"></i> Sign up
+                          <% end %>
+                        <% end %>
+                      <% else %>
+                        <small><i>Not available</i></small>
+                      <% end %>
+                    <% else %>
+                      <%= link_to new_volunteer_session_path, class: 'btn btn-xs btn-success btn-outline' do %>
+                        <i class="fa fa-check-square-o"></i> Sign up
+                      <% end %>
+                    <% end %>
+                    </div>
+                    <h4 class="list-group-item-heading"><%= project_slot.slot_date.strftime("%A #{project_slot.slot_date.day.ordinalize} %B") %></h4>
+                    <p class="list-group-item-text">
+                      <%= slot_times(project_slot) %>
+                    </p>
+                    <p class="list-group-item-text">
+                      <span class="label"><%= project_slot.humanized_slot_type %></span>
+                    </p>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="ibox-footer">
+      </div>
+    </div>
+  </div>
+</div>

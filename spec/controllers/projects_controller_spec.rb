@@ -19,15 +19,39 @@ RSpec.describe ProjectsController, type: :controller do
       get :index, with_project_name: nil
       expect(assigns(:filter)).to eq({})
     end
+    it "populates a total_project_count value" do
+      project_a = FactoryGirl.create(:published_project)
+      project_b = FactoryGirl.create(:default_project)
+      get :index
+      expect(assigns(:total_project_count)).to eq(1)
+    end
     context "with no filter at all" do
-      it "populates an array of published projects and an array of all slots" do
+      project_a = nil
+      project_b = nil
+
+      before do
         project_a = FactoryGirl.create(:published_project)
         project_b = FactoryGirl.create(:default_project)
+      end
+
+      before(:each) do
         get :index
+      end
+
+      it "sets 'filtered' to false" do
+        expect(assigns(:filtered)).to eq(false)
+      end
+      it "populates an array of published projects" do
         expect(assigns(:projects)).to eq([project_a])
+      end
+      it "populates an array of slots" do
         expect(assigns(:slots)).to eq(project_a.project_slots)
       end
+      it "populates project_count" do
+        expect(assigns(:project_count)).to eq(1)
+      end
     end
+
     context "with filter in the session" do
       it "retrieves and uses filters from the session if none have been supplied" do
         project_a = FactoryGirl.create(:published_project, project_name: 'a')
@@ -38,7 +62,12 @@ RSpec.describe ProjectsController, type: :controller do
         expect(assigns(:projects)).to eq([project_a])
       end
     end
+
     context "with filter params" do
+      it "sets 'filtered' to true" do
+        get :index, with_project_name: 'a'
+        expect(assigns(:filtered)).to eq(true)
+      end
       it "applies the 'with_project_name' filter" do
         project_a = FactoryGirl.create(:published_project, project_name: 'aaa')
         project_b = FactoryGirl.create(:published_project, project_name: 'bbb')
@@ -105,6 +134,33 @@ RSpec.describe ProjectsController, type: :controller do
       get :clear_filter
       expect(session.key?(:filter_projects)).to be false
     end
+  end
+
+
+  describe "GET #show" do
+
+    let(:published_project)   { FactoryGirl.create(:published_project) }
+    let(:unpublished_project) { FactoryGirl.create(:default_project) }
+
+    it "shows a record" do
+      get :show, { id: published_project.id }
+      expect(response).to render_template :show
+      expect(response).to have_http_status(:success)
+      expect(assigns(:project).id).to eq(published_project.id)
+    end
+
+    it "raises an exception for a missing record" do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        get :show, { id: 99 }
+      end
+    end
+
+    it "raises an exception for a project that isn't published" do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        get :show, { id: unpublished_project.id }
+      end
+    end
+
   end
 
 end
