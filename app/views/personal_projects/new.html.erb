@@ -31,7 +31,7 @@
               <%= f.number_field :volunteer_count, :label => 'Volunteer count', :min => 1,
                     help: "We need an estimate to start with, but we'd love to know the actual count after the event" %>
 
-              <%= f.number_field :duration, label: 'Duration (hrs)', min: 0.5, step: 0.5,
+              <%= f.number_field :duration, label: 'Duration (hrs)', min: 0.5, max: 9.5, step: 0.5,
                     help: "An estimate of the number of hours you think the project will run for" %>
 
               <%= button_tag(type: "submit", class: "btn btn-primary") do %>

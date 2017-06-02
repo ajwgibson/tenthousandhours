@@ -22,6 +22,9 @@ RSpec.describe PersonalProject, type: :model do
       expect(FactoryGirl.build(:default_personal_project, duration: 'hello')).not_to be_valid
       expect(FactoryGirl.build(:default_personal_project, duration: 0)).not_to be_valid
     end
+    it "is not valid with a duration greater than 9.5" do
+      expect(FactoryGirl.build(:default_personal_project, duration: 9.6)).not_to be_valid
+    end
     it "is not valid without a description" do
       expect(FactoryGirl.build(:default_personal_project, description: nil)).not_to be_valid
     end
