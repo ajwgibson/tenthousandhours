@@ -18,16 +18,13 @@ RSpec.describe HomeController, type: :controller do
       get :index
       expect(assigns(:projects)).to eq([p2])
     end
-    it "populates no more than 6 published projects" do
+    it "populates no more than 3 published projects" do
       p1 = FactoryGirl.create(:published_project)
       p2 = FactoryGirl.create(:published_project)
       p3 = FactoryGirl.create(:published_project)
       p4 = FactoryGirl.create(:published_project)
-      p5 = FactoryGirl.create(:published_project)
-      p6 = FactoryGirl.create(:published_project)
-      p7 = FactoryGirl.create(:published_project)
       get :index
-      expect(assigns(:projects).count).to eq(6)
+      expect(assigns(:projects).count).to eq(3)
     end
     it "passes the volunteer count to the view" do
       v1 = FactoryGirl.create(:family_of_four_volunteer)

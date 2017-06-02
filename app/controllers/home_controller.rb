@@ -5,7 +5,7 @@ class HomeController < ApplicationController
   layout :layout
 
   def index
-    @projects = Project.published.order("RANDOM()").limit(6)
+    @projects = Project.published.order("RANDOM()").limit(3)
     volunteers = Volunteer.all
     @volunteer_count = volunteers.inject(0) {|sum,v| sum += v.family_size }
     @commitment      = volunteers.inject(0) {|sum,v| sum += v.commitment }
