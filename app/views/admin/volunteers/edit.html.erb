@@ -1,0 +1,131 @@
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+
+      <div class="ibox-title">
+        <% if @volunteer.id? %>
+        <h2>Update volunteer details</h2>
+        <% else %>
+        <h2>Add a volunteer</h2>
+        <% end %>
+      </div>
+
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-sm-8">
+
+            <p class="required-legend">
+              Indicates a required field
+            </p>
+
+            <%= render partial: "layouts/errors", object: @volunteer, as: 'form' %>
+
+            <%= bootstrap_form_for(
+                    [:admin, @volunteer],
+                    layout: :horizontal,
+                    inline_errors: false,
+                    html: { class: 'project-form' },
+                    label_col: "col-sm-3",
+                    control_col: "col-sm-9") do |f| %>
+
+            <div id="ko-region-age-category">
+
+              <fieldset>
+                <legend>Personal details</legend>
+                  <%= f.text_field :email, :label => 'Email',
+                      help: "Leave this blank if the volunteer doesn't have an email address" %>
+
+                  <%= f.text_field :first_name, label: 'First name' %>
+                  <%= f.text_field :last_name,  label: 'Last name' %>
+
+                  <%= f.phone_field :mobile, label: 'Mobile number', prepend: '+44 (0)',
+                      help: 'Please ensure this is a valid number as we will use it to contact the volunteer.' %>
+
+                  <%= f.select :age_category,
+                      options_for_select(
+                        [
+                          ['Please select an age category...',''],
+                          ['Over 18', :adult],
+                          ['11 to 18', :youth]
+                        ],
+                        @volunteer.age_category),
+                      { label: 'Age category' },
+                      data: { bind: 'value: ageCategory' } %>
+                </fieldset>
+
+                <fieldset data-bind="visible: ageCategory()=='youth'">
+                  <legend>Parent/guardian details</legend>
+                  <p><em>
+                    You've indicated that the volunteer is under 18 so we need valid, contact details
+                    of a parent or guardian.
+                  </em></p>
+                  <%= f.text_field  :guardian_name, label: 'Name', label_class: "required" %>
+                  <%= f.phone_field :guardian_contact_number, label: 'Contact number', label_class: "required" %>
+                </fieldset>
+
+              </div>
+
+              <fieldset>
+                <legend>Family members</legend>
+                <%= render partial: "volunteer_family", locals: { f: f, volunteer: @volunteer } %>
+              </fieldset>
+
+              <fieldset>
+                <legend>Skills</legend>
+                <%= f.form_group :skills do %>
+                  <%= f.collection_check_boxes_without_bootstrap(:skills, Project::SKILLS, :to_s, :to_s) do |s| %>
+                    <div class="checkbox">
+                      <%= s.check_box %>
+                      <%= s.label %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </fieldset>
+
+              <div class="form-group" style="margin-top: 20px;">
+                <div class="col-sm-9 col-sm-offset-3">
+                  <%= button_tag(type: "submit", class: "btn btn-primary") do %>
+                    <i class="fa fa-check"></i> Save
+                  <% end %>
+                  <% if @volunteer.id? %>
+                    <%= link_to admin_volunteer_path, :class => 'btn btn-default' do %>
+                      <i class="fa fa-times"></i> Cancel
+                    <% end %>
+                  <% else %>
+                    <%= link_to admin_volunteers_path, :class => 'btn btn-default' do %>
+                      <i class="fa fa-times"></i> Cancel
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<%= javascript_tag do %>
+
+  $(function() {
+
+    var GuardianViewModel = function(initial) {
+      var self = this;
+      self.ageCategory = ko.observable(initial);
+    };
+
+    ko.applyBindings(
+      new GuardianViewModel('<%= @volunteer.age_category %>'),
+      document.getElementById('ko-region-age-category'));
+
+  });
+
+<% end %>

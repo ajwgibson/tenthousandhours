@@ -87,7 +87,7 @@ $(function() {
     };
   };
 
-  ko.applyBindings(new AppViewModel('<%= raw resource.family.blank? ? '[]' : resource.family %>'), document.getElementById('ko-region-family'));
+  ko.applyBindings(new AppViewModel('<%= raw volunteer.family.blank? ? '[]' : volunteer.family %>'), document.getElementById('ko-region-family'));
 
 });
 

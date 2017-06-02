@@ -21,6 +21,23 @@ class Admin::VolunteersController < Admin::BaseController
   end
 
 
+  def new
+    @volunteer = Volunteer.new
+    render :edit
+  end
+
+
+  def create
+    @volunteer = Volunteer.new create_params
+    @volunteer.confirmed_at = Time.new
+    if @volunteer.save
+      redirect_to admin_volunteer_url(@volunteer), notice: 'Volunteer was created successfully'
+    else
+      render :edit
+    end
+  end
+
+
   def compose_one
     @ComposeMessage = ComposeMessage.new
   end
@@ -58,6 +75,38 @@ class Admin::VolunteersController < Admin::BaseController
 
 
 private
+
+  def create_params
+
+    # Start with normal whitelisting
+    return_values = params
+      .require(:volunteer)
+      .permit(
+        :email,
+        :first_name,
+        :last_name,
+        :mobile,
+        :age_category,
+        :family,
+        :guardian_name,
+        :guardian_contact_number,
+        :skills => []
+      )
+
+    # Add a password
+    chars = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
+    password = (0...10).map { chars[rand(chars.length)] }.join
+    return_values[:password] = password
+    return_values[:password_confirmation] = password
+
+    # Handle a blank email
+    unless return_values.has_key?(:email) && !(return_values[:email].blank?)
+      return_values[:email] = "#{SecureRandom.hex(8)}@example.com"
+    end
+
+    return_values
+  end
+
 
   def compose_message_params
     params

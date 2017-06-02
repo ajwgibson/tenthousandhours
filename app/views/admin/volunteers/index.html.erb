@@ -90,6 +90,11 @@
         </div>
 
         <div class="hidden-print">
+          <% if can? :create, Volunteer %>
+            <%= link_to new_admin_volunteer_path, :class => 'btn btn-primary btn-sm' do %>
+              <i class="fa fa-plus"></i> Add a volunteer
+            <% end %>
+          <% end %>
           <% if can? :compose_all, Volunteer %>
             <%= link_to admin_compose_all_volunteers_path, :class => 'btn btn-outline btn-info' do %>
               <i class="fa fa-send"></i> Send message to all

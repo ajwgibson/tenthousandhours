@@ -129,6 +129,168 @@ RSpec.describe Admin::VolunteersController, type: :controller do
   end
 
 
+  describe "GET #new" do
+    it "renders a blank form" do
+      get :new
+      expect(response).to render_template :edit
+      expect(response).to have_http_status(:success)
+      expect(assigns(:volunteer).id).to be_nil
+    end
+  end
+
+
+  describe "POST #create" do
+
+    context "with valid data" do
+
+      let(:volunteer) { Volunteer.first }
+
+      def post_create(email='a@b.c')
+        attrs = {
+          email:          email,
+          first_name:     'John',
+          last_name:      'Smith',
+          mobile:         '12345',
+          age_category:   'adult',
+          family:         '[{"name":"John","age_category":"adult"}]',
+          skills:         ["a", "b", "c"],
+          guardian_name:  'The grown up',
+          guardian_contact_number: '999'
+        }
+        post :create, { volunteer: attrs }
+      end
+
+      before(:each) do
+        post_create
+      end
+
+      it "creates a new record" do
+        expect {
+          post_create 'z@y.x'
+        }.to change(Volunteer, :count).by(1)
+      end
+      it "redirects to the show action" do
+        expect(response).to redirect_to(admin_volunteer_path(volunteer))
+      end
+      it "set a flash message" do
+        expect(flash[:notice]).to eq('Volunteer was created successfully')
+      end
+      it "stores email" do
+        expect(volunteer.email).to eq('a@b.c')
+      end
+      it "stores first_name" do
+        expect(volunteer.first_name).to eq('John')
+      end
+      it "stores last_name" do
+        expect(volunteer.last_name).to eq('Smith')
+      end
+      it "stores mobile" do
+        expect(volunteer.mobile).to eq('12345')
+      end
+      it "stores age_category" do
+        expect(volunteer.adult?).to eq(true)
+      end
+      it "stores family" do
+        expect(volunteer.family).to eq('[{"name":"John","age_category":"adult"}]')
+      end
+      it "stores skills" do
+        expect(volunteer.skills).to eq(["a", "b", "c"])
+      end
+      it "stores guardian_name" do
+        expect(volunteer.guardian_name).to eq('The grown up')
+      end
+      it "stores guardian_contact_number" do
+        expect(volunteer.guardian_contact_number).to eq('999')
+      end
+      it "sets confirmed_at" do
+        expect(volunteer.confirmed_at).not_to eq(nil)
+      end
+    end
+
+    context "without an email address" do
+
+      let(:volunteer) { Volunteer.first }
+
+      def post_create
+        attrs = {
+          first_name:     'John',
+          last_name:      'Smith',
+          mobile:         '12345',
+          age_category:   'adult'
+        }
+        post :create, { volunteer: attrs }
+      end
+
+      before(:each) do
+        post_create
+      end
+
+      it "creates a new record" do
+        expect {
+          post_create
+        }.to change(Volunteer, :count).by(1)
+      end
+      it "sets a dummy email" do
+        expect(volunteer.email).not_to eq(nil)
+      end
+    end
+
+    context "with an empty email address" do
+
+      let(:volunteer) { Volunteer.first }
+
+      def post_create
+        attrs = {
+          email:          '',
+          first_name:     'John',
+          last_name:      'Smith',
+          mobile:         '12345',
+          age_category:   'adult'
+        }
+        post :create, { volunteer: attrs }
+      end
+
+      before(:each) do
+        post_create
+      end
+
+      it "creates a new record" do
+        expect {
+          post_create
+        }.to change(Volunteer, :count).by(1)
+      end
+      it "sets a dummy email" do
+        expect(volunteer.email).not_to eq(nil)
+      end
+    end
+
+    context "with invalid data" do
+
+      let(:volunteer) { Volunteer.first }
+
+      def post_create
+        attrs = { first_name: 'A' }
+        post :create, { volunteer: attrs }
+      end
+
+      before(:each) do
+        post_create
+      end
+
+      it "does not create a new record" do
+        expect {
+          post_create
+        }.to_not change(Volunteer, :count)
+      end
+      it "re-renders the form with the posted data" do
+        post_create
+        expect(response).to render_template(:edit)
+        expect(assigns(:volunteer).first_name).to eq('A')
+      end
+    end
+  end
+
+
   describe "GET #compose_one" do
 
     context "with a valid volunteer id" do
