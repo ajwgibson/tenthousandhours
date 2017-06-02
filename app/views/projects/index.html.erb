@@ -135,9 +135,13 @@
 
         <div class="row m-t-xl">
 
-        <% @projects.each do |project| %>
+        <% @projects.each_with_index do |project,index| %>
 
-          <div class="col-xs-12 col-sm-6 col-md-4">
+          <% if index > 0 && (index % 2 == 0) %>
+        </div> <div class="row m-t-sm">
+          <% end %>
+
+          <div class="col-xs-12 col-sm-6">
             <div class="panel panel-primary">
               <div class="panel-heading">
                 <h4><%= project.project_name %></h4>
@@ -157,6 +161,8 @@
               </div>
             </div>
           </div>
+
+
 
         <% end %>
 
