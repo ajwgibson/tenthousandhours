@@ -5,20 +5,22 @@
       <div class="ibox-title">
 
         <h2>Projects</h2>
-        <% if current_volunteer.project_slots.empty? %>
-          <p> <em> You are not currently signed up for any projects. </em> </p>
-        <% else %>
-          <p class="p-xxs text-info">
-            <em>
-              You
-              <%= current_volunteer.family_size > 1 ? ' and your family members ' : nil %>
-              have committed to <%= current_volunteer.commitment %> hours of volunteering so far.
-            </em>
-            <br />
-            <%= link_to my_projects_path, :class => 'btn btn-info btn-outline m-t-sm' do %>
-              <i class="fa fa-info-circle"></i> See my projects
-            <% end %>
-          </p>
+        <% if volunteer_signed_in? %>
+          <% if current_volunteer.project_slots.empty? %>
+            <p> <em> You are not currently signed up for any projects. </em> </p>
+          <% else %>
+            <p class="p-xxs text-info">
+              <em>
+                You
+                <%= current_volunteer.family_size > 1 ? ' and your family members ' : nil %>
+                have committed to <%= current_volunteer.commitment %> hours of volunteering so far.
+              </em>
+              <br />
+              <%= link_to my_projects_path, :class => 'btn btn-info btn-outline m-t-sm' do %>
+                <i class="fa fa-info-circle"></i> See my projects
+              <% end %>
+            </p>
+          <% end %>
         <% end %>
       </div>
       <div class="ibox-content">
