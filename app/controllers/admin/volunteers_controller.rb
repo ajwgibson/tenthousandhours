@@ -38,6 +38,25 @@ class Admin::VolunteersController < Admin::BaseController
   end
 
 
+  def new_sign_up
+    @manual_sign_up = ManualSignUp.new
+    @projects = Project.published.order(:project_name)
+  end
+
+
+  def create_sign_up
+    @manual_sign_up = ManualSignUp.new create_sign_up_params
+    if @manual_sign_up.valid?
+      slot = ProjectSlot.find @manual_sign_up.slot_id
+      slot.volunteers << @volunteer
+      redirect_to admin_volunteer_url(@volunteer), notice: 'Project sign up successful'
+    else
+      @projects = Project.published.order(:project_name)
+      render :new_sign_up
+    end
+  end
+
+
   def compose_one
     @ComposeMessage = ComposeMessage.new
   end
@@ -106,6 +125,16 @@ private
 
     return_values
   end
+
+
+  def create_sign_up_params
+    params
+      .require(:manual_sign_up)
+      .permit(
+        :slot_id
+      )
+  end
+
 
 
   def compose_message_params

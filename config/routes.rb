@@ -40,6 +40,8 @@ Rails.application.routes.draw do
       member do
         get  'compose_one'
         post 'send_one'
+        get  'new_sign_up'
+        post 'create_sign_up'
       end
     end
 

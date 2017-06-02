@@ -449,4 +449,21 @@ RSpec.describe Admin::VolunteersController, type: :controller do
     end
   end
 
+
+  describe "GET #new_sign_up" do
+    let(:volunteer) { FactoryGirl.create(:default_volunteer) }
+
+    let(:published_project)   { FactoryGirl.create(:published_project) }
+    let(:unpublished_project) { FactoryGirl.create(:default_project) }
+
+    it "renders a blank form" do
+      get :new_sign_up, { id: volunteer.id }
+      expect(response).to render_template :new_sign_up
+      expect(response).to have_http_status(:success)
+      expect(assigns(:volunteer).id).to eq(volunteer.id)
+      expect(assigns(:manual_sign_up).slot_id).to be_nil
+      expect(assigns(:projects)).to eq([published_project])
+    end
+  end
+
 end
