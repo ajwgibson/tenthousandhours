@@ -36,10 +36,11 @@ RSpec.describe HomeController, type: :controller do
       slot = FactoryGirl.create(:default_project_slot)
       v1 = FactoryGirl.create(:family_of_four_volunteer)
       v2 = FactoryGirl.create(:family_of_five_volunteer)
+      pp = FactoryGirl.create(:default_personal_project)
       slot.volunteers << v1
       slot.volunteers << v2
       get :index
-      expect(assigns(:commitment)).to eq(v1.commitment + v2.commitment)
+      expect(assigns(:commitment)).to eq(v1.commitment + v2.commitment + pp.commitment)
     end
   end
 

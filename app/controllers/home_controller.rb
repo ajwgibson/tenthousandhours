@@ -8,7 +8,9 @@ class HomeController < ApplicationController
     @projects = Project.published.order("RANDOM()").limit(3)
     volunteers = Volunteer.all
     @volunteer_count = volunteers.inject(0) {|sum,v| sum += v.family_size }
-    @commitment      = volunteers.inject(0) {|sum,v| sum += v.commitment }
+    project_commitment = volunteers.inject(0) {|sum,v| sum += v.commitment }
+    personal_project_commitment = PersonalProject.sum('duration * volunteer_count')
+    @commitment = project_commitment + personal_project_commitment
   end
 
 
