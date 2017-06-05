@@ -5,47 +5,112 @@
     <div class="ibox float-e-margins">
 
       <div class="ibox-title">
-        <div class="ibox-tools pull-right">
+        <div class="ibox-tools pull-right hidden-print">
+          <a class="btn btn-<%= @filter.except(:order_by).empty? ? "default" : "warning btn-outline" %> btn-sm"
+               data-toggle="collapse" data-target="#filter"><i class="fa fa-filter"></i></a>
         </div>
         <h2>Text messages</h2>
       </div>
 
       <div class="ibox-content">
 
-        <div class="table-responsive">
-          <table class="table table-striped table-responsive">
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="filter" class="filter collapse hidden-print">
 
-            <thead>
-              <tr>
-                <th>Date &amp; time</th>
-                <th>Message</th>
-                <th>Recipients</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
+            <%= form_tag admin_text_messages_path, method: :get, class: "filter" do |f| %>
 
-            <tbody>
-            <% if @messages.size > 0 %>
-              <% @messages.each do |message| %>
-              <tr>
-                <td><%= message.created_at %> </td>
-                <td><%= message.message.truncate 50 %> </td>
-                <td><%= message.recipients.truncate 50 %> </td>
-                <td><%= message.status %> </td>
-                <td>
-                  <%= link_to admin_text_message_path(message), :class => '' do %>
-                  <i class="fa fa-info-circle"></i> View details
-                  <% end %>
-                </td>
-              </tr>
-              <% end %>
-            <% else %>
-              <tr><td colspan="8"><em>No messages found</em></td></tr>
+              <%= hidden_field_tag :order_by, @filter[:order_by] %>
+
+              <div class="col-md-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h5>Filter settings</h5>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <%= label_tag :with_recipient, 'Recipients contains', :class => 'control-label' %>
+                          <%= text_field_tag :with_recipient, @filter[:with_recipient], :class => 'form-control' %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group pull-right">
+                          <%= link_to admin_text_messages_clear_filter_path, :class => 'btn btn-default' do %>
+                            <i class="fa fa-times"></i> Clear filter
+                          <% end %>
+                          <%= button_tag(type: "submit", class: "btn btn-primary") do %>
+                            <i class="fa fa-filter"></i> Apply filter
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             <% end %>
-            </tbody>
+            </div>
+          </div>
+        </div>
 
-          </table>
+        <div class="row">
+          <div class="col-xs-12">
+
+            <div class="table-responsive">
+              <table class="table table-striped">
+
+                <thead>
+                  <tr>
+                    <th><%= sortable 'created_at', @filter, admin_text_messages_path, 'Date & time' %></th>
+                    <th>Message</th>
+                    <th>Recipients</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                <% if @messages.size > 0 %>
+                  <% @messages.each do |message| %>
+                  <tr>
+                    <td><%= message.created_at %> </td>
+                    <td><%= message.message.truncate 50 %> </td>
+                    <td><%= message.recipients.truncate 50 %> </td>
+                    <td><%= message.status %> </td>
+                    <td>
+                      <%= link_to admin_text_message_path(message), :class => '' do %>
+                      <i class="fa fa-info-circle"></i> View details
+                      <% end %>
+                    </td>
+                  </tr>
+                  <% end %>
+                <% else %>
+                  <tr><td colspan="8"><em>No messages found</em></td></tr>
+                <% end %>
+                </tbody>
+
+                <tfoot>
+                  <tr>
+                    <td colspan="5">
+                      <div class="pull-right">
+                        <%= paginate @messages %>
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
+
+              </table>
+            </div>
+
+          </div>
         </div>
 
       </div>

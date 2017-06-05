@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     root 'home#index'
 
     resources  :users
+
+    get  'text_messages/clear_filter'
     resources  :text_messages
 
     get  'volunteers/compose_all', to: 'volunteers#compose_all', as: 'compose_all_volunteers'

@@ -19,6 +19,64 @@ RSpec.describe Admin::TextMessagesController, type: :controller do
       get :index
       expect(assigns(:messages)).to eq([m])
     end
+    context "with no explicit page value" do
+      it "returns the first page of text messages" do
+        30.times do |i|
+          FactoryGirl.create(:default_text_message)
+        end
+        get :index
+        expect(assigns(:messages).count).to eq(25)
+      end
+    end
+    context "with an explicit page value" do
+      it "returns the requested page of text messages" do
+        30.times do |i|
+          FactoryGirl.create(:default_text_message)
+        end
+        get :index, page: 2
+        expect(assigns(:messages).count).to eq(5)
+      end
+    end
+    it "orders messages by date by default" do
+      a = FactoryGirl.create(:default_text_message, created_at: 3.days.ago)
+      b = FactoryGirl.create(:default_text_message, created_at: 1.days.ago)
+      c = FactoryGirl.create(:default_text_message, created_at: 5.days.ago)
+      get :index
+      expect(assigns(:messages)).to eq([b,a,c])
+    end
+    it "stores filters to the session" do
+      get :index, with_recipient: 'abc'
+      expect(session[:filter_admin_text_messages]).to eq({'with_recipient' => 'abc'})
+    end
+    it "removes blank filter values" do
+      get :index, with_recipient: nil
+      expect(assigns(:filter)).to eq({})
+    end
+    it "retrieves filters from the session if none have been supplied" do
+      a = FactoryGirl.create(:default_text_message, recipients: 'a')
+      b = FactoryGirl.create(:default_text_message, recipients: 'b')
+      get :index, { }, { :filter_admin_text_messages => {'with_recipient' => 'a'} }
+      expect(assigns(:messages)).to eq([a])
+    end
+    it "applies the 'with_recipient' filter if supplied" do
+      a = FactoryGirl.create(:default_text_message, recipients: 'a')
+      b = FactoryGirl.create(:default_text_message, recipients: 'b')
+      get :index, with_recipient: 'a'
+      expect(assigns(:messages)).to eq([a])
+    end
+  end
+
+
+  describe "GET #clear_filter" do
+    it "redirects to #index" do
+      get :clear_filter
+      expect(response).to redirect_to([:admin, :text_messages])
+    end
+    it "clears the session entry" do
+      session[:filter_admin_text_messages] = {'with_recipient' => 'abc'}
+      get :clear_filter
+      expect(session.key?(:filter_admin_text_messages)).to be false
+    end
   end
 
 
