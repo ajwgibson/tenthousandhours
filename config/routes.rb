@@ -69,8 +69,9 @@ Rails.application.routes.draw do
       post   'slots', to: 'project_slots#create',  as: 'slots_create'
     end
 
-    get    'project_slots/:id', to: 'project_slots#show',   as: 'show_project_slot'
-    delete 'project_slots/:id', to: 'project_slots#destroy'
+    get    'project_slots/:id',       to: 'project_slots#show',   as: 'show_project_slot'
+    get    'project_slots/:id/print', to: 'project_slots#print',  as: 'print_project_slot'
+    delete 'project_slots/:id',       to: 'project_slots#destroy'
 
     get  'project_slots/:id/compose_message', to: 'project_slots#compose_message', as: 'compose_message_project_slot'
     post 'project_slots/:id/send_message',    to: 'project_slots#send_message',    as: 'send_message_project_slot'

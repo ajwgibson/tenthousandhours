@@ -1,0 +1,104 @@
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="ibox">
+      <div class="ibox-content">
+
+        <div class="pull-right hidden-print m-l-sm m-r-sm">
+          <%= link_to admin_show_project_slot_path(@ProjectSlot), :class => 'btn btn-outline btn-default' do %>
+            <i class="fa fa-reply"></i> Back
+          <% end %>
+        </div>
+        <div class="pull-right hidden-print m-l-sm m-r-sm">
+          <a class="btn btn-outline btn-primary" onclick="window.print();">
+            <i class="fa fa-print"></i> Print now!
+          </a>
+        </div>
+
+        <h2><%= @ProjectSlot.project.project_name %></h2>
+
+        <dl>
+          <dt>Date &amp; time</dt>
+          <dd><%= @ProjectSlot.slot_date.strftime('%d/%m/%Y') %> at <%= @ProjectSlot.start_time %></dd>
+
+          <dt>Contact details</dt>
+          <dd><%= @ProjectSlot.project.contact_name %> (<%= @ProjectSlot.project.contact_phone %>)</dd>
+
+          <dt>Project leader</dt>
+          <dd><%= @ProjectSlot.project.leader %></dd>
+
+          <dt>Volunteer limits</dt>
+          <dd>
+            <%= @ProjectSlot.project.adults %> adults,
+            <%= @ProjectSlot.project.youth %> youth &amp;
+            <%= @ProjectSlot.project.kids %> children
+          </dd>
+
+          <% unless @ProjectSlot.project.materials.blank? %>
+          <dt>Materials</dt>
+          <dd><%= @ProjectSlot.project.materials %></dd>
+          <% end %>
+
+          <% unless @ProjectSlot.project.activity_1_summary.blank? %>
+            <dt>Activity #1</dt>
+            <dd><%= @ProjectSlot.project.activity_1_summary %></dd>
+            <% unless @ProjectSlot.project.activity_1_information.blank? %>
+            <dd><%= @ProjectSlot.project.activity_1_information %></dd>
+            <% end %>
+            <dd>Under 18s: <%= yes_no_icon @ProjectSlot.project.activity_1_under_18 %></dd>
+          <% end %>
+
+          <% unless @ProjectSlot.project.activity_2_summary.blank? %>
+            <dt>Activity #2</dt>
+            <dd><%= @ProjectSlot.project.activity_2_summary %></dd>
+            <% unless @ProjectSlot.project.activity_2_information.blank? %>
+            <dd><%= @ProjectSlot.project.activity_2_information %></dd>
+            <% end %>
+            <dd>Under 18s: <%= yes_no_icon @ProjectSlot.project.activity_2_under_18 %></dd>
+          <% end %>
+
+          <% unless @ProjectSlot.project.activity_3_summary.blank? %>
+            <dt>Activity #3</dt>
+            <dd><%= @ProjectSlot.project.activity_3_summary %></dd>
+            <% unless @ProjectSlot.project.activity_3_information.blank? %>
+            <dd><%= @ProjectSlot.project.activity_3_information %></dd>
+            <% end %>
+            <dd>Under 18s: <%= yes_no_icon @ProjectSlot.project.activity_3_under_18 %></dd>
+          <% end %>
+
+        </dl>
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Volunteer</th>
+              <th>Family members</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @ProjectSlot.volunteers.count == 0 %>
+            <tr>
+              <td colspan="3" class="text-muted">
+                This slot has no volunteers yet.
+              </td>
+            </tr>
+            <% else %>
+              <% @ProjectSlot.volunteers.order(:first_name, :last_name).each do |volunteer| %>
+                <tr>
+                  <td><%= volunteer.name %></td>
+                  <td>
+                    <% volunteer.family_members.each do |m| %>
+                      <%= "#{m['name']} (#{m['age_category']})" %><br />
+                    <% end %>
+                  </td>
+                  <td><%= volunteer.mobile %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

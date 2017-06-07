@@ -107,6 +107,11 @@
             <% end %>
           </div>
           <div>
+            <%= link_to admin_print_project_slot_path(@ProjectSlot), :class => 'btn btn-outline btn-primary' do %>
+              <i class="fa fa-print"></i> Print for leader
+            <% end %>
+          </div>
+          <div>
             <%= link_to admin_compose_message_project_slot_path(@ProjectSlot), :class => 'btn btn-outline btn-info' do %>
               <i class="fa fa-send"></i> Send message
             <% end %>

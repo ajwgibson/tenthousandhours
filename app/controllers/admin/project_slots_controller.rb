@@ -32,6 +32,10 @@ class Admin::ProjectSlotsController < Admin::BaseController
   end
 
 
+  def print
+  end
+
+
   def compose_message
     @ComposeMessage = ComposeMessage.new
   end
