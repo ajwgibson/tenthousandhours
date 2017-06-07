@@ -99,6 +99,10 @@ class Volunteer < ActiveRecord::Base
      "44#{clean_mobile(mobile)}"
    end
 
+   def mobile_local_format
+     "0#{clean_mobile(mobile)}"
+   end
+
 
 
 private
