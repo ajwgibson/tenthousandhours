@@ -78,4 +78,6 @@ Rails.application.routes.draw do
 
   end
 
+  get 'notifications/reminders', to: 'notifications#reminders', constraints: { local?: true  }
+
 end
