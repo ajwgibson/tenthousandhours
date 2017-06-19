@@ -95,18 +95,18 @@ RSpec.describe ProjectsController, type: :controller do
       it "applies the 'for_week' filter" do
         project_a = FactoryGirl.create(:published_project)
         project_b = FactoryGirl.create(:published_project)
-        slot_a = FactoryGirl.create(:default_project_slot, project: project_a, slot_date: Date.new(2017,7,1))
-        slot_b = FactoryGirl.create(:default_project_slot, project: project_b, slot_date: Date.new(2017,7,21))
-        get :index, for_week: Date.new(2017,7,1).cweek
+        slot_a = FactoryGirl.create(:default_project_slot, project: project_a, slot_date: Date.new(2017,1,1))
+        slot_b = FactoryGirl.create(:default_project_slot, project: project_b, slot_date: Date.new(2017,1,21))
+        get :index, for_week: Date.new(2017,1,1).cweek
         expect(assigns(:slots)).to eq([slot_a])
         expect(assigns(:projects)).to eq([project_a])
       end
       it "applies the 'for_date' filter" do
         project_a = FactoryGirl.create(:default_project, status: :published)
         project_b = FactoryGirl.create(:default_project, status: :published)
-        slot_a = FactoryGirl.create(:default_project_slot, project: project_a, slot_date: Date.new(2017,7,1))
-        slot_b = FactoryGirl.create(:default_project_slot, project: project_b, slot_date: Date.new(2017,7,21))
-        get :index, for_date: Date.new(2017,7,1)
+        slot_a = FactoryGirl.create(:default_project_slot, project: project_a, slot_date: Date.new(2017,1,1))
+        slot_b = FactoryGirl.create(:default_project_slot, project: project_b, slot_date: Date.new(2017,1,21))
+        get :index, for_date: Date.new(2017,1,1)
         expect(assigns(:slots)).to eq([slot_a])
         expect(assigns(:projects)).to eq([project_a])
       end
