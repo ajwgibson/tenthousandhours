@@ -5,9 +5,18 @@ RSpec.describe Admin::HomeController, type: :controller do
   login_user
 
   describe "GET #index" do
+
     it "returns http success" do
       get :index
       expect(response).to have_http_status(:success)
+    end
+
+    it "returns total_project_count" do
+      FactoryGirl.create(:default_project)
+      FactoryGirl.create(:default_project)
+      FactoryGirl.create(:default_project)
+      get :index
+      expect(assigns(:total_project_count)).to eq(3)
     end
 
     it "returns projects_by_organisation_type" do

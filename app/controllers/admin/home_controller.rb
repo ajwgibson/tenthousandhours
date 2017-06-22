@@ -1,6 +1,9 @@
 class Admin::HomeController < Admin::BaseController
 
   def index
+
+    @total_project_count = Project.count
+
     @projects_by_organisation_type = Project.group(:organisation_type).count(:all)
 
     july_3  = Project.could_run_wc_july_3rd(true).count
@@ -25,7 +28,7 @@ class Admin::HomeController < Admin::BaseController
       'Yes' => projects_by_saturday[true]  ||= 0,
       'No'  => projects_by_saturday[false] ||= 0,
     }
-    
+
     volunteers = Volunteer.all
     @volunteer_adults = volunteers.inject(0) { |sum,v| sum += v.adults_in_family }
     @volunteer_youth = volunteers.inject(0) { |sum,v| sum += v.youth_in_family }
