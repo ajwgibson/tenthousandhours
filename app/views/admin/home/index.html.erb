@@ -154,18 +154,6 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-12">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h4>Project submissions over time</h4>
-      </div>
-      <div class="ibox-content">
-        <canvas id="projectSubmissions" width="50" height="250"></canvas>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
@@ -258,51 +246,6 @@
           }]
         },
         options: pieChartOptions
-      });
-
-      new Chart('projectSubmissions', {
-        type: 'line',
-        data: {
-          labels: <%= raw @projects_cumulative.keys %>,
-          datasets: [{
-              fill: true,
-              lineTension: 0,
-              backgroundColor: colours["blue"]["lowlight"],
-              borderColor: colours["blue"]["normal"],
-              borderCapStyle: 'butt',
-              borderDash: [],
-              borderDashOffset: 0.0,
-              borderJoinStyle: 'miter',
-              pointBorderColor: colours["blue"]["normal"],
-              pointBackgroundColor: colours["blue"]["highlight"],
-              pointBorderWidth: 1,
-              pointHoverRadius: 5,
-              pointHoverBackgroundColor: colours["blue"]["normal"],
-              pointHoverBorderColor: colours["blue"]["highlight"],
-              pointHoverBorderWidth: 2,
-              pointRadius: 3,
-              pointHitRadius: 10,
-              data: <%= raw @projects_cumulative.values %>,
-            }
-          ]
-        },
-        options: {
-          maintainAspectRatio: false,
-          scales: {
-              xAxes: [{
-                  type: 'time',
-                  time: {
-                    unit: 'day',
-                    parser: 'DD/MM/YYYY',
-                    displayFormats: {
-                        day: 'MMM DD'
-                    }
-                  }
-                }
-              ]
-          },
-          legend: { display: false }
-        }
       });
 
     });

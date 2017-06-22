@@ -75,30 +75,6 @@ RSpec.describe Admin::HomeController, type: :controller do
       )
     end
 
-    it "returns projects_cumulative" do
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 1))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 1))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 2))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 3))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 3))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 3))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 4))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 5))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 5))
-      FactoryGirl.create(:default_project, submitted_at:  Date.new(2017, 4, 6))
-      get :index
-      expect(assigns(:projects_cumulative)).to eq(
-        {
-          '01/04/2017' => 2,
-          '02/04/2017' => 3,
-          '03/04/2017' => 6,
-          '04/04/2017' => 7,
-          '05/04/2017' => 9,
-          '06/04/2017' => 10,
-        }
-      )
-    end
-
     context "volunteer counts" do
       before do
         FactoryGirl.create(:family_of_four_volunteer)

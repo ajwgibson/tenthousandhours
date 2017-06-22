@@ -25,16 +25,7 @@ class Admin::HomeController < Admin::BaseController
       'Yes' => projects_by_saturday[true]  ||= 0,
       'No'  => projects_by_saturday[false] ||= 0,
     }
-
-    @projects_cumulative = Project.order(:submitted_at).pluck(:submitted_at).each_with_object(Hash.new(0)) do |s,h|
-      h[s.strftime('%d/%m/%Y')] += 1
-    end
-    total = 0
-    @projects_cumulative.each do |key,value|
-      total += value
-      @projects_cumulative[key] = total
-    end
-
+    
     volunteers = Volunteer.all
     @volunteer_adults = volunteers.inject(0) { |sum,v| sum += v.adults_in_family }
     @volunteer_youth = volunteers.inject(0) { |sum,v| sum += v.youth_in_family }
