@@ -19,6 +19,11 @@
         <i class="fa fa-address-card"></i> <span class="nav-label">Projects</span>
         <% end %>
       </li>
+      <li class="<%= 'active' if controller_name.eql?('slots') %>">
+        <%= link_to controller: "slots" do %>
+        <i class="fa fa-tasks"></i> <span class="nav-label">Slots</span>
+        <% end %>
+      </li>
       <li class="<%= 'active' if controller_name.eql?('volunteers') %>">
         <%= link_to controller: "volunteers" do %>
         <i class="fa fa-users"></i> <span class="nav-label">Volunteers</span>

@@ -74,6 +74,11 @@ class ProjectSlot < ActiveRecord::Base
     volunteers.inject(0) { |sum,v| sum + v.children_in_family }
   end
 
+  def adult_cover
+    return 0 if project.adults.nil?
+    ((adults.to_f / project.adults) * 100).floor
+  end
+
 
   def can_sign_up?(volunteer)
 

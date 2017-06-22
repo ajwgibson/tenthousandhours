@@ -54,6 +54,28 @@ RSpec.describe ProjectSlot, type: :model do
   end
 
 
+  describe "adult_cover" do
+    context "when the project.adults value is set" do
+      it "returns the fraction of the required adults as a percentage" do
+        project = FactoryGirl.build(:default_project, adults: 9)
+        slot    = FactoryGirl.build(:default_project_slot, project: project)
+        slot.volunteers << FactoryGirl.build(:default_volunteer)
+        slot.volunteers << FactoryGirl.build(:default_volunteer)
+        slot.volunteers << FactoryGirl.build(:default_volunteer)
+        expect(slot.adult_cover).to eq(33)
+      end
+    end
+    context "when the project.adults value is not set" do
+      it "returns 0" do
+        project = FactoryGirl.build(:default_project, adults: nil)
+        slot    = FactoryGirl.build(:default_project_slot, project: project)
+        slot.volunteers << FactoryGirl.build(:default_volunteer)
+        expect(slot.adult_cover).to eq(0)
+      end
+    end
+  end
+
+
   describe "#youth" do
     it "returns the sum of the youth volunteers signed up" do
       slot = FactoryGirl.build(:default_project_slot)

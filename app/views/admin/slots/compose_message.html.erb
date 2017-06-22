@@ -2,7 +2,7 @@
 <%= render partial: "compose_message",
            locals: {
              model: @ComposeMessage,
-             form_url: admin_send_message_project_slot_path(@ProjectSlot),
+             form_url: send_message_admin_slot_path(@ProjectSlot),
              message:
                "This message will be sent to #{@ProjectSlot.volunteers.count} " +
                "#{'volunteer'.pluralize @ProjectSlot.volunteers.count} registered to serve on the " +
@@ -10,6 +10,6 @@
                "#{@ProjectSlot.slot_date.strftime('%d/%m/%Y')} " +
                "at #{@ProjectSlot.start_time} (#{@ProjectSlot.humanized_slot_type})",
              factor: @ProjectSlot.volunteers.count,
-             back_url: admin_show_project_slot_path(@ProjectSlot),
+             back_url: admin_slot_path(@ProjectSlot),
              back_message: 'Back to slot details'
            } %>

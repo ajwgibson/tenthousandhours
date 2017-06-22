@@ -1,0 +1,160 @@
+
+<div class="row">
+  <div class="col-lg-12">
+
+    <div class="ibox float-e-margins">
+
+      <div class="ibox-title">
+        <div class="ibox-tools pull-right hidden-print">
+          <a class="btn btn-<%= @filter.except(:order_by).empty? ? "default" : "warning btn-outline" %> btn-sm"
+               data-toggle="collapse" data-target="#filter"><i class="fa fa-filter"></i></a>
+        </div>
+        <h2>Project slots</h2>
+      </div>
+
+      <div class="ibox-content" style="display: block;">
+
+        <div id="filter" class="row filter collapse hidden-print">
+
+          <%= form_tag admin_slots_path, method: :get, class: "filter" do |f| %>
+
+            <%= hidden_field_tag :order_by, @filter[:order_by] %>
+
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5>Filter settings</h5>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <%= label_tag :with_project_name, 'Project name contains', :class => 'control-label' %>
+                        <%= text_field_tag :with_project_name, @filter[:with_project_name], :class => 'form-control' %>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <%= label_tag :for_week, 'Week commencing', :class => 'control-label' %>
+                        <%= select_tag :for_week,
+                              options_for_select({
+                                '03/07/2017' => Date.new(2017,7,3).cweek,
+                                '10/07/2017' => Date.new(2017,7,10).cweek,
+                                '17/07/2017' => Date.new(2017,7,17).cweek,
+                                '24/07/2017' => Date.new(2017,7,24).cweek,
+                                }, @filter[:for_week]),
+                              include_blank: true,
+                              :class => 'form-control' %>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group date days">
+                        <%= label_tag :for_date, 'Date', :class => 'control-label' %>
+                        <div class="input-group date">
+                          <span class="input-group-addon date"><i class="fa fa-calendar"></i></span>
+                          <%= text_field_tag :for_date,
+                                            (@filter[:for_date] if @filter.has_key?(:for_date)),
+                                            :placeholder => 'dd/mm/yyyy',
+                                            :class => 'form-control datepicker' %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <%= label_tag :of_type, 'Time', :class => 'control-label' %>
+                        <%= select_tag :of_type,
+                              options_for_select({
+                                "Morning" => 'morning',
+                                "Afternoon" => 'afternoon',
+                                "Evening" => 'evening',
+                                }, @filter[:of_type]),
+                              include_blank: true,
+                              :class => 'form-control' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group pull-right">
+                        <%= link_to clear_filter_admin_slots_path, :class => 'btn btn-default' do %>
+                          <i class="fa fa-times"></i> Clear filter
+                        <% end %>
+                        <%= button_tag(type: "submit", class: "btn btn-primary") do %>
+                          <i class="fa fa-filter"></i> Apply filter
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <% end %>
+
+        </div>
+
+        <div class="row visible-print">
+          <div class="col-md-12">
+            <h4>Current filter settings</h4>
+            <%= filter(@filter) %>
+          </div>
+        </div>
+
+        <div class="row table-responsive">
+          <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr class="hidden-print">
+                <th><%= sortable 'projects.project_name', @filter, admin_slots_path, 'Project name' %></th>
+                <th><%= sortable 'slot_date', @filter, admin_slots_path, 'Date' %></th>
+                <th>Date</th>
+                <th><%= sortable 'slot_type', @filter, admin_slots_path, 'Time' %></th>
+                <th style="text-align: center">Adults</th>
+                <th style="text-align: center">Youth</th>
+                <th style="text-align: center">Kids</th>
+                <th style="text-align: right">Links</th>
+              </tr>
+              <tr class="visible-print">
+                <th>Project name</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+                <th style="text-align: center">Adults</th>
+                <th style="text-align: center">Youth</th>
+                <th style="text-align: center">Kids</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @slots.each do |slot| %>
+              <tr>
+                <td><%= slot.project.project_name %> </td>
+                <td><%= slot.slot_date.strftime('%d/%m/%Y') %></td>
+                <td><%= slot.slot_date.strftime('%A') %></td>
+                <td><%= slot.humanized_slot_type %> </td>
+                <td style="text-align: center"><span class="label label-<%= slot.adult_cover < 50 ? 'danger' : slot.adult_cover < 75 ? 'warning' : 'default' %>"><%= slot.adults %></span></td>
+                <td style="text-align: center"><span class="label"><%= slot.youth %></span></td>
+                <td style="text-align: center"><span class="label"><%= slot.children %></span></td>
+                <td class="hidden-print" style="text-align: right">
+                  <%= link_to admin_slot_path(slot), :class => '' do %>
+                  <i class="fa fa-info-circle"></i> View details
+                  <% end %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="8">
+                  <div class="pull-right">
+                    <%= paginate @slots %>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
