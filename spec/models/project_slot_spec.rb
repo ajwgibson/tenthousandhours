@@ -263,20 +263,38 @@ RSpec.describe ProjectSlot, type: :model do
       end
     end
     context "when the volunteer is an adult" do
-      let(:volunteer) { FactoryGirl.build(:default_volunteer, age_category: 'adult') }
-      let(:project) { FactoryGirl.build(:default_project, adults: 1) }
-      let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
-      context "when the project is already full" do
-        before do
-          slot.volunteers << FactoryGirl.build(:default_volunteer, age_category: 'adult')
+      context "when the volunteer has no family" do
+        let(:volunteer) { FactoryGirl.build(:default_volunteer, age_category: 'adult') }
+        let(:project) { FactoryGirl.build(:default_project, adults: 1) }
+        let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
+        context "when the project is already full" do
+          before do
+            slot.volunteers << FactoryGirl.build(:default_volunteer, age_category: 'adult')
+          end
+          it "returns false" do
+            expect(slot.can_sign_up?(volunteer)).to be_falsey
+          end
         end
+        context "when the project still has places available" do
+          it "returns true" do
+            expect(slot.can_sign_up?(volunteer)).to be_truthy
+          end
+        end
+      end
+      context "when the volunteer has children and the project is not suitable for children" do
+        let(:volunteer) { FactoryGirl.build(:adult_volunteer_with_one_child) }
+        let(:project)   { FactoryGirl.build(:default_project, adults: 10, kids: 0) }
+        let(:slot)      { FactoryGirl.build(:default_project_slot, project: project) }
         it "returns false" do
           expect(slot.can_sign_up?(volunteer)).to be_falsey
         end
       end
-      context "when the project still has places available" do
-        it "returns true" do
-          expect(slot.can_sign_up?(volunteer)).to be_truthy
+      context "when the volunteer has youth and the project is not suitable for youth" do
+        let(:volunteer) { FactoryGirl.build(:adult_volunteer_with_one_youth) }
+        let(:project)   { FactoryGirl.build(:default_project, adults: 10, youth: 0) }
+        let(:slot)      { FactoryGirl.build(:default_project_slot, project: project) }
+        it "returns false" do
+          expect(slot.can_sign_up?(volunteer)).to be_falsey
         end
       end
     end

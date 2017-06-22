@@ -82,6 +82,7 @@ class ProjectSlot < ActiveRecord::Base
 
   def can_sign_up?(volunteer)
 
+    child_limit = project.kids ||= 0
     youth_limit = project.youth ||= 0
     adult_limit = project.adults ||= 0
 
@@ -90,6 +91,9 @@ class ProjectSlot < ActiveRecord::Base
       return false if youth >= youth_limit
       return true
     end
+
+    return false if (volunteer.children_in_family > 0) && (child_limit == 0)
+    return false if (volunteer.youth_in_family > 0)    && (youth_limit == 0)
 
     return false if adults >= adult_limit
 
