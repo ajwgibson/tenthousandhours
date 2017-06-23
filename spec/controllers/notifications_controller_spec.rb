@@ -38,6 +38,12 @@ RSpec.describe NotificationsController, type: :controller do
       }.to change(TextMessage, :count).by(1)
     end
 
+    it "creates a reminder record" do
+      expect {
+        get :reminders
+      }.to change(Reminder, :count).by(1)
+    end
+
     it "includes the volunteer first name in the message" do
       get :reminders
       expect(TextMessage.first.message).to include('AAA')
@@ -97,6 +103,15 @@ RSpec.describe NotificationsController, type: :controller do
       it "returns a text message with the count of reminders sent" do
         get :reminders
         expect(response.body).to eq('2 reminders sent')
+      end
+    end
+
+    context "when the job is run twice in the same day" do
+      it "only sends each reminder once" do
+        expect {
+          get :reminders
+          get :reminders
+        }.to change(TextMessage, :count).by(1)
       end
     end
 

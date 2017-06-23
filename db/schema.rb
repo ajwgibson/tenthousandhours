@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170529184205) do
+ActiveRecord::Schema.define(version: 20170623160940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,17 @@ ActiveRecord::Schema.define(version: 20170529184205) do
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
 
+  create_table "reminders", force: :cascade do |t|
+    t.integer  "project_id",    null: false
+    t.integer  "volunteer_id",  null: false
+    t.date     "reminder_date", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "reminders", ["project_id"], name: "index_reminders_on_project_id", using: :btree
+  add_index "reminders", ["volunteer_id"], name: "index_reminders_on_volunteer_id", using: :btree
+
   create_table "text_messages", force: :cascade do |t|
     t.text     "message",    null: false
     t.text     "recipients", null: false
@@ -167,4 +178,6 @@ ActiveRecord::Schema.define(version: 20170529184205) do
 
   add_foreign_key "personal_projects", "volunteers"
   add_foreign_key "project_slots", "projects"
+  add_foreign_key "reminders", "projects"
+  add_foreign_key "reminders", "volunteers"
 end

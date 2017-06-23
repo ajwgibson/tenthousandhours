@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
 
   has_many :project_slots, dependent: :destroy
   has_many :volunteers, -> { distinct }, through: :project_slots
+  has_many :reminders, dependent: :destroy
 
   validates :organisation_type, :presence => true
   validates :project_name, :presence => true
