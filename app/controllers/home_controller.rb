@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     @volunteer_count = volunteers.inject(0) {|sum,v| sum += v.family_size }
     project_commitment = volunteers.inject(0) {|sum,v| sum += v.commitment }
     personal_project_commitment = PersonalProject.sum('duration * volunteer_count')
-    @commitment = project_commitment + personal_project_commitment
+    @commitment = (project_commitment + personal_project_commitment).floor
   end
 
 
