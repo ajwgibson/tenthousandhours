@@ -126,6 +126,18 @@ RSpec.describe Volunteer, type: :model do
     end
   end
 
+  describe 'scope:without_projects' do
+    it 'includes records where the volunteer has not signed up for any projects' do
+      s1 = FactoryGirl.create(:default_project_slot)
+      v1 = FactoryGirl.create(:default_volunteer, first_name: 'v1')
+      v2 = FactoryGirl.create(:default_volunteer, first_name: 'v2')
+      s1.volunteers << v1
+      filtered = Volunteer.without_projects(true)
+      expect(filtered).to include(v2)
+      expect(filtered).not_to include(v1)
+    end
+  end
+
 
   # METHODS
 

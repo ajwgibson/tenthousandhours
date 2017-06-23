@@ -77,6 +77,14 @@ RSpec.describe Admin::VolunteersController, type: :controller do
       get :index, with_skill: 'a'
       expect(assigns(:volunteers)).to eq([a])
     end
+    it "applies the 'without_projects' filter if supplied" do
+      slot = FactoryGirl.create(:default_project_slot)
+      a    = FactoryGirl.create(:default_volunteer, first_name: 'a')
+      b    = FactoryGirl.create(:default_volunteer, first_name: 'b')
+      slot.volunteers << a
+      get :index, without_projects: true
+      expect(assigns(:volunteers)).to eq([b])
+    end
     context "with no explicit page value" do
       it "returns the first page of volunteers" do
         30.times do |i|

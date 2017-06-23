@@ -4,6 +4,14 @@ class ProjectSlot < ActiveRecord::Base
 
   include Filterable
 
+  # HACK start
+  # Unfortunate side effect of using the acts_as_paranoid approach
+  # without thinking through all the consequences - need to clear
+  # out the project_slots_volunteers table links for a project_slot
+  # that is being destroyed :(
+  before_destroy { volunteers.clear }
+  # HACK end
+
   belongs_to :project
   has_and_belongs_to_many :volunteers
 
@@ -27,6 +35,7 @@ class ProjectSlot < ActiveRecord::Base
     joins("join projects on project_slots.project_id=projects.id").
     where("lower(projects.project_name) like lower(?)", "%#{value}%")
   }
+
 
   def self.selectable_slot_types
     ProjectSlot.slot_types.keys.map { |t| [t.humanize, t] }

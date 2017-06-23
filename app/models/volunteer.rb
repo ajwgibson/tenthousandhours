@@ -36,6 +36,7 @@ class Volunteer < ActiveRecord::Base
    scope :with_mobile,     ->(value) { where("lower(mobile) like lower(?)", "%#{value.gsub(/\s+/, '')}%") }
    scope :with_skill,      ->(value) { where("? = ANY(skills)", value) }
    scope :in_age_category, ->(value) { where age_category: age_categories[value] }
+   scope :without_projects,->(value) { includes(:projects).where(projects: { id: nil }) }
 
 
    before_validation(on: [:create, :update]) do

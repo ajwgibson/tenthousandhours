@@ -162,6 +162,7 @@ private
         :with_mobile,
         :with_skill,
         :in_age_category,
+        :without_projects,
         :order_by,
       )
     filter = session[:filter_admin_volunteers].symbolize_keys! if filter.empty? && session.key?(:filter_admin_volunteers)

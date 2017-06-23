@@ -18,6 +18,21 @@ RSpec.describe ProjectSlot, type: :model do
   end
 
 
+  # EVENTS
+
+  describe "before_destroy" do
+    it "removes linked entries from project_slots_volunteers" do
+      slot      = FactoryGirl.create(:default_project_slot)
+      volunteer = FactoryGirl.create(:default_volunteer)
+      slot.volunteers << volunteer
+      slot.destroy!
+      count = ActiveRecord::Base.connection.execute('select count(*) from project_slots_volunteers')[0]['count'].to_i
+      expect(count).to eq(0)
+    end
+  end
+
+
+
   # METHODS
 
   describe "#selectable_slot_types" do

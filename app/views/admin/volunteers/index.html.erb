@@ -67,6 +67,10 @@
                                     { prompt: "Please select a value...",
                                       class: 'form-control' } %>
                     </div>
+                    <div class="checkbox checkbox-primary">
+                      <%= check_box_tag :without_projects, true, @filter[:without_projects] %>
+                      <%= label_tag :without_projects, 'Has not signed up to a project yet' %>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -112,8 +116,8 @@
                 <th>Mobile</th>
                 <th>Age category</th>
                 <th>Family size</th>
-                <th>Mobile confirmed?</th>
-                <th>Email confirmed?</th>
+                <th>Project hours</th>
+                <th>Personal project hours</th>
                 <th><%= sortable 'current_sign_in_at', @filter, admin_volunteers_path, 'Last sign-in' %></th>
                 <th>Links</th>
               </tr>
@@ -128,8 +132,8 @@
                 <td><%= mobile_phone_number volunteer.mobile %> </td>
                 <td><%= volunteer.humanized_age_category %> </td>
                 <td><%= volunteer.family_size %> </td>
-                <td><%= yes_no_icon volunteer.mobile_confirmed? %> </td>
-                <td><%= yes_no_icon volunteer.confirmed? %> </td>
+                <td><%= volunteer.commitment %> </td>
+                <td><%= volunteer.personal_project_commitment %> </td>
                 <td><%= volunteer.current_sign_in_at %> </td>
                 <td>
                   <%= link_to admin_volunteer_path(volunteer), :class => '' do %>
