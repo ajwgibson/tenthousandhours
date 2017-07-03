@@ -206,6 +206,11 @@
           <% end %>
         </div>
         <div>
+          <%= link_to edit_admin_volunteer_path, :class => 'btn btn-outline btn-primary' do %>
+            <i class="fa fa-edit"></i> Edit details
+          <% end %>
+        </div>
+        <div>
           <%= link_to new_sign_up_admin_volunteer_path(@volunteer), :class => 'btn btn-outline btn-success' do %>
             <i class="fa fa-check-square-o"></i> Sign up to project
           <% end %>

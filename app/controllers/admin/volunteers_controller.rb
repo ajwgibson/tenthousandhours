@@ -28,10 +28,24 @@ class Admin::VolunteersController < Admin::BaseController
 
 
   def create
-    @volunteer = Volunteer.new create_params
+    @volunteer = Volunteer.new volunteer_params
     @volunteer.confirmed_at = Time.new
     if @volunteer.save
       redirect_to admin_volunteer_url(@volunteer), notice: 'Volunteer was created successfully'
+    else
+      render :edit
+    end
+  end
+
+
+  def edit
+  end
+
+
+  def update
+    @volunteer.skip_reconfirmation!
+    if @volunteer.update_attributes volunteer_params
+      redirect_to [:admin, @volunteer], notice: 'Volunteer was updated successfully'
     else
       render :edit
     end
@@ -102,7 +116,7 @@ class Admin::VolunteersController < Admin::BaseController
 
 private
 
-  def create_params
+  def volunteer_params
 
     # Start with normal whitelisting
     return_values = params
