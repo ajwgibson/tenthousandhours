@@ -33,14 +33,16 @@ RSpec.describe HomeController, type: :controller do
       expect(assigns(:volunteer_count)).to eq(9)
     end
     it "passes the (rounded down) hours count to the view" do
-      slot = FactoryGirl.create(:default_project_slot)
+      project = FactoryGirl.create(:default_project,   morning_slot_length: 1.5)
+      slot = FactoryGirl.create(:default_project_slot, slot_type: :morning, project: project, extra_volunteers: 3)
       v1 = FactoryGirl.create(:family_of_four_volunteer)
       v2 = FactoryGirl.create(:family_of_five_volunteer)
       pp = FactoryGirl.create(:default_personal_project, duration: 1.1, volunteer_count: 3)
       slot.volunteers << v1
       slot.volunteers << v2
       get :index
-      expect(assigns(:commitment)).to eq((v1.commitment + v2.commitment + pp.commitment).floor)
+      # commitment = ((4*1.5) + (5*1.5) + (3*1.5) + (3*1.1)).floor = 21
+      expect(assigns(:commitment)).to eq(21)
     end
   end
 

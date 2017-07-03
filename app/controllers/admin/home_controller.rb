@@ -34,7 +34,9 @@ class Admin::HomeController < Admin::BaseController
     @volunteer_youth = volunteers.inject(0) { |sum,v| sum += v.youth_in_family }
     @volunteer_children = volunteers.inject(0) { |sum,v| sum += v.children_in_family }
 
-    @commitment = volunteers.inject(0) { |sum,v| sum += v.commitment }
+    up_front_commitment = volunteers.inject(0)      { |sum,v| sum += v.commitment }
+    extra_commitment    = ProjectSlot.all.inject(0) { |sum,s| sum += (s.slot_length * s.extra_volunteers) }
+    @commitment = up_front_commitment + extra_commitment
 
     @personal_project_count           = PersonalProject.count
     @personal_project_volunteer_count = PersonalProject.sum('volunteer_count')

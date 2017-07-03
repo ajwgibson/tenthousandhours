@@ -21,6 +21,20 @@ class Admin::SlotsController < Admin::BaseController
   end
 
 
+  def edit
+  end
+
+
+  def update
+    @ProjectSlot.attributes = update_params
+    if @ProjectSlot.save
+      redirect_to admin_slot_url, notice: 'Project slot was updated successfully'
+    else
+      render :edit
+    end
+  end
+
+
   def print
   end
 
@@ -43,6 +57,15 @@ class Admin::SlotsController < Admin::BaseController
 
 
 private
+
+  def update_params
+    params
+      .require(:project_slot)
+      .permit(
+        :extra_volunteers
+      )
+  end
+
 
   def compose_message_params
     params

@@ -17,6 +17,7 @@ class ProjectSlot < ActiveRecord::Base
 
   validates :slot_date, :presence => true
   validates :slot_type, :presence => true
+  validates :extra_volunteers, numericality: { only_integer: true, allow_nil: false, greater_than_or_equal_to: 0 }
 
   enum slot_type: [ :morning, :afternoon, :evening ]
 
@@ -68,7 +69,7 @@ class ProjectSlot < ActiveRecord::Base
 
 
   def volunteer_count
-    volunteers.inject(0) { |sum,v| sum + v.family_size }
+    extra_volunteers + volunteers.inject(0) { |sum,v| sum + v.family_size }
   end
 
   def adults

@@ -1,0 +1,47 @@
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+
+      <div class="ibox-title">
+        <h2>Update project slot details</h2>
+      </div>
+
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-sm-8">
+
+            <%= render partial: "layouts/errors", object: @ProjectSlot, as: 'form' %>
+
+            <%= bootstrap_form_for(
+                    @ProjectSlot,
+                    url: { :action => "update" },
+                    layout: :horizontal,
+                    inline_errors: false,
+                    html: { class: 'project-form' },
+                    label_col: "col-sm-3",
+                    control_col: "col-sm-9") do |f| %>
+
+              <%= f.number_field :extra_volunteers, :label => 'Extra volunteers', :min => 0,
+                    help: 'The number of extra volunteers who turned up to help without signing up beforehand.' %>
+
+              <div class="form-group" style="margin-top: 20px;">
+                <div class="col-sm-9 col-sm-offset-3">
+                  <%= button_tag(type: "submit", class: "btn btn-primary") do %>
+                    <i class="fa fa-check"></i> Save
+                  <% end %>
+                  <%= link_to admin_slot_path, :class => 'btn btn-default' do %>
+                    <i class="fa fa-times"></i> Cancel
+                  <% end %>
+                </div>
+              </div>
+
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

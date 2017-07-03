@@ -124,6 +124,62 @@ RSpec.describe Admin::SlotsController, type: :controller do
   end
 
 
+  describe "GET #edit" do
+    let(:slot) { FactoryGirl.create(:default_project_slot) }
+    it "shows a record for editing" do
+      get :edit, { id: slot.id }
+      expect(response).to render_template :edit
+      expect(response).to have_http_status(:success)
+      expect(assigns(:ProjectSlot).id).to eq(slot.id)
+    end
+    it "raises an exception for a missing record" do
+      assert_raises(ActiveRecord::RecordNotFound) do
+        get :edit, { id: 99 }
+      end
+    end
+  end
+
+
+  describe "PUT #update" do
+    context "with valid data" do
+      let(:slot) { FactoryGirl.create(:default_project_slot, extra_volunteers: 0) }
+      def post_update
+        put :update, :id => slot.id, :project_slot => { :extra_volunteers => 5 }
+        slot.reload
+      end
+      before(:each) do
+        post_update
+      end
+      it "updates the slot details" do
+        expect(slot.extra_volunteers).to eq(5)
+      end
+      it "redirects to the show action" do
+        expect(response).to redirect_to(admin_slot_path(assigns(:ProjectSlot)))
+      end
+      it "set a flash message" do
+        expect(flash[:notice]).to eq('Project slot was updated successfully')
+      end
+    end
+    context "with invalid data" do
+      let(:slot) { FactoryGirl.create(:default_project_slot, :extra_volunteers => 5) }
+      def post_update
+        put :update, :id => slot.id, :project_slot => { :extra_volunteers => nil }
+        slot.reload
+      end
+      before(:each) do
+        post_update
+      end
+      it "does not update the slot details" do
+        expect(slot.extra_volunteers).to eq(5)
+      end
+      it "re-renders the form with the posted data" do
+        expect(response).to render_template(:edit)
+        expect(assigns(:ProjectSlot).extra_volunteers).to be_nil
+      end
+    end
+  end
+
+
   describe "GET #compose_message" do
 
     let(:slot) { FactoryGirl.create(:default_project_slot) }

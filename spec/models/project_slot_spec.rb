@@ -10,11 +10,24 @@ RSpec.describe ProjectSlot, type: :model do
 
   # VALIDATION
 
-  it "is not valid without a slot_date" do
-    expect(FactoryGirl.build(:default_project_slot, slot_date: nil)).not_to be_valid
-  end
-  it "is not valid without a slot_type" do
-    expect(FactoryGirl.build(:default_project_slot, slot_type: nil)).not_to be_valid
+  describe "validation" do
+    it "a slot is not valid without a slot_date" do
+      expect(FactoryGirl.build(:default_project_slot, slot_date: nil)).not_to be_valid
+    end
+    it "a slot is not valid without a slot_type" do
+      expect(FactoryGirl.build(:default_project_slot, slot_type: nil)).not_to be_valid
+    end
+    describe "extra_volunteers" do
+      it "a slot is not valid without extra_volunteers" do
+        expect(FactoryGirl.build(:default_project_slot, extra_volunteers: nil)).not_to be_valid
+      end
+      it "a slot is not valid with less than zero extra_volunteers" do
+        expect(FactoryGirl.build(:default_project_slot, extra_volunteers: -1)).not_to be_valid
+      end
+      it "a slot is valid with zero extra_volunteers" do
+        expect(FactoryGirl.build(:default_project_slot, extra_volunteers: 0)).to be_valid
+      end
+    end
   end
 
 
@@ -48,12 +61,12 @@ RSpec.describe ProjectSlot, type: :model do
 
 
   describe "#volunteer_count" do
-    it "returns the sum of the volunteers signed up" do
-      slot = FactoryGirl.build(:default_project_slot)
+    it "returns the sum of the volunteers signed up plus the extra volunteers from the day" do
+      slot = FactoryGirl.build(:default_project_slot, extra_volunteers: 2)
       slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
       slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
       slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
-      expect(slot.volunteer_count).to eq(11)
+      expect(slot.volunteer_count).to eq(13)
     end
   end
 

@@ -109,14 +109,14 @@ RSpec.describe Admin::HomeController, type: :controller do
       before do
         v1 = FactoryGirl.create(:family_of_four_volunteer)
         v2 = FactoryGirl.create(:family_of_five_volunteer)
-        slot1 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :morning)
-        slot2 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :evening)
+        slot1 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :morning, extra_volunteers: 3)
+        slot2 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :evening, extra_volunteers: 1)
         slot1.volunteers << v1
         slot2.volunteers << v2
       end
       it "returns the total number of committed hours" do
         get :index
-        expect(assigns(:commitment)).to eq((4*1.5)+(5*2.5))
+        expect(assigns(:commitment)).to eq((4*1.5)+(3*1.5)+(5*2.5)+(1*2.5))
       end
     end
 

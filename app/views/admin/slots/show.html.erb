@@ -54,6 +54,12 @@
               </p>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Extra volunteers</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @ProjectSlot.extra_volunteers %></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -119,6 +125,11 @@
           <div>
             <%= link_to admin_project_path(@ProjectSlot.project), :class => 'btn btn-outline btn-default' do %>
               <i class="fa fa-reply"></i> Back to project
+            <% end %>
+          </div>
+          <div>
+            <%= link_to edit_admin_slot_path(@ProjectSlot), :class => 'btn btn-outline btn-primary' do %>
+              <i class="fa fa-print"></i> Edit details
             <% end %>
           </div>
           <div>
