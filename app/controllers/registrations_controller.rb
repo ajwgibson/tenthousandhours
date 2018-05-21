@@ -1,10 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
 
-  def create
-    super
-    TextLocalService.send_confirmation(resource)
-  end
-
 
   def confirm_mobile
   end
@@ -26,16 +21,12 @@ class RegistrationsController < Devise::RegistrationsController
 
   protected
 
-  def after_sign_up_path_for(resource)
-    volunteers_confirm_mobile_path
-  end
+    def after_inactive_sign_up_path_for(resource)
+      new_volunteer_session_path
+    end
 
-  def after_inactive_sign_up_path_for(resource)
-    new_volunteer_session_path
-  end
-
-  def after_update_path_for(resource)
-    my_projects_url
-  end
+    def after_update_path_for(resource)
+      my_projects_url
+    end
 
 end
