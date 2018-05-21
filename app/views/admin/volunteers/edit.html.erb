@@ -71,18 +71,6 @@
                 <%= render partial: "volunteer_family", locals: { f: f, volunteer: @volunteer } %>
               </fieldset>
 
-              <fieldset>
-                <legend>Skills</legend>
-                <%= f.form_group :skills do %>
-                  <%= f.collection_check_boxes_without_bootstrap(:skills, Project::SKILLS, :to_s, :to_s) do |s| %>
-                    <div class="checkbox">
-                      <%= s.check_box %>
-                      <%= s.label %>
-                    </div>
-                  <% end %>
-                <% end %>
-              </fieldset>
-
               <div class="form-group" style="margin-top: 20px;">
                 <div class="col-sm-9 col-sm-offset-3">
                   <%= button_tag(type: "submit", class: "btn btn-primary") do %>

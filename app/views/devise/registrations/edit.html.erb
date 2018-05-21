@@ -23,19 +23,6 @@
 
 
   <fieldset>
-    <legend>Skills</legend>
-    <%= f.form_group :skills do %>
-      <%= f.collection_check_boxes_without_bootstrap(:skills, Project::SKILLS, :to_s, :to_s) do |s| %>
-        <div class="checkbox">
-          <%= s.check_box %>
-          <%= s.label %>
-        </div>
-      <% end %>
-    <% end %>
-  </fieldset>
-
-
-  <fieldset>
     <legend>New password</legend>
     <p><em>Leave these fields blank if you don't want to change your password</em></p>
     <%= f.password_field :password, label: 'Password', autocomplete: "off",

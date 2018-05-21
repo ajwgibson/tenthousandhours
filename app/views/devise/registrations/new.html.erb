@@ -27,25 +27,6 @@
   </fieldset>
 
   <fieldset>
-    <legend>Skills</legend>
-    <p>
-      <em>
-      We'd love to know about specific, practical skills you have that could
-      be of use on our projects. Please choose as many of these as you feel
-      are appropriate.
-      </em>
-    </p>
-    <%= f.form_group :skills do %>
-      <%= f.collection_check_boxes_without_bootstrap(:skills, Project::SKILLS, :to_s, :to_s) do |s| %>
-        <div class="checkbox">
-          <%= s.check_box %>
-          <%= s.label %>
-        </div>
-      <% end %>
-    <% end %>
-  </fieldset>
-
-  <fieldset>
     <legend>Password</legend>
     <p>
       <em>
