@@ -169,7 +169,7 @@ private
 
   def get_filter
     filter =
-      params.slice(
+      params.permit(
         :with_first_name,
         :with_last_name,
         :with_email,
@@ -178,7 +178,7 @@ private
         :in_age_category,
         :without_projects,
         :order_by,
-      )
+      ).to_h
     filter = session[:filter_admin_volunteers].symbolize_keys! if filter.empty? && session.key?(:filter_admin_volunteers)
     filter = { :order_by => 'first_name,last_name' } if filter.empty?
     filter.delete_if { |key, value| value.blank? }

@@ -1,4 +1,4 @@
-class Volunteer < ActiveRecord::Base
+class Volunteer < ApplicationRecord
 
   include Filterable
 

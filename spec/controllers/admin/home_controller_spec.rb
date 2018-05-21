@@ -12,19 +12,19 @@ RSpec.describe Admin::HomeController, type: :controller do
     end
 
     it "returns total_project_count" do
-      FactoryGirl.create(:default_project)
-      FactoryGirl.create(:default_project)
-      FactoryGirl.create(:default_project)
+      FactoryBot.create(:default_project)
+      FactoryBot.create(:default_project)
+      FactoryBot.create(:default_project)
       get :index
       expect(assigns(:total_project_count)).to eq(3)
     end
 
     it "returns projects_by_organisation_type" do
-      FactoryGirl.create(:default_project, organisation_type: 'a')
-      FactoryGirl.create(:default_project, organisation_type: 'a')
-      FactoryGirl.create(:default_project, organisation_type: 'b')
-      FactoryGirl.create(:default_project, organisation_type: 'c')
-      FactoryGirl.create(:default_project, organisation_type: 'c')
+      FactoryBot.create(:default_project, organisation_type: 'a')
+      FactoryBot.create(:default_project, organisation_type: 'a')
+      FactoryBot.create(:default_project, organisation_type: 'b')
+      FactoryBot.create(:default_project, organisation_type: 'c')
+      FactoryBot.create(:default_project, organisation_type: 'c')
       get :index
       expect(assigns(:projects_by_organisation_type)).to eq(
         {
@@ -36,13 +36,13 @@ RSpec.describe Admin::HomeController, type: :controller do
     end
 
     it "returns projects_by_requested_week" do
-      FactoryGirl.create(:default_project, july_3:  true, any_week: false)
-      FactoryGirl.create(:default_project, july_3:  true, any_week: false)
-      FactoryGirl.create(:default_project, july_10: true, any_week: false)
-      FactoryGirl.create(:default_project, july_10: true, any_week: false)
-      FactoryGirl.create(:default_project, july_10: true, any_week: false)
-      FactoryGirl.create(:default_project, july_17: true, any_week: false)
-      FactoryGirl.create(:default_project, july_24: true, any_week: false)
+      FactoryBot.create(:default_project, july_3:  true, any_week: false)
+      FactoryBot.create(:default_project, july_3:  true, any_week: false)
+      FactoryBot.create(:default_project, july_10: true, any_week: false)
+      FactoryBot.create(:default_project, july_10: true, any_week: false)
+      FactoryBot.create(:default_project, july_10: true, any_week: false)
+      FactoryBot.create(:default_project, july_17: true, any_week: false)
+      FactoryBot.create(:default_project, july_24: true, any_week: false)
       get :index
       expect(assigns(:projects_by_requested_week)).to eq(
         {
@@ -55,11 +55,11 @@ RSpec.describe Admin::HomeController, type: :controller do
     end
 
     it "returns projects_by_evening" do
-      FactoryGirl.create(:default_project, evenings:  true)
-      FactoryGirl.create(:default_project, evenings:  false)
-      FactoryGirl.create(:default_project, evenings:  true)
-      FactoryGirl.create(:default_project, evenings:  false)
-      FactoryGirl.create(:default_project, evenings:  true)
+      FactoryBot.create(:default_project, evenings:  true)
+      FactoryBot.create(:default_project, evenings:  false)
+      FactoryBot.create(:default_project, evenings:  true)
+      FactoryBot.create(:default_project, evenings:  false)
+      FactoryBot.create(:default_project, evenings:  true)
       get :index
       expect(assigns(:projects_by_evening)).to eq(
         {
@@ -70,11 +70,11 @@ RSpec.describe Admin::HomeController, type: :controller do
     end
 
     it "returns projects_by_saturday" do
-      FactoryGirl.create(:default_project, saturday:  true)
-      FactoryGirl.create(:default_project, saturday:  false)
-      FactoryGirl.create(:default_project, saturday:  true)
-      FactoryGirl.create(:default_project, saturday:  false)
-      FactoryGirl.create(:default_project, saturday:  true)
+      FactoryBot.create(:default_project, saturday:  true)
+      FactoryBot.create(:default_project, saturday:  false)
+      FactoryBot.create(:default_project, saturday:  true)
+      FactoryBot.create(:default_project, saturday:  false)
+      FactoryBot.create(:default_project, saturday:  true)
       get :index
       expect(assigns(:projects_by_saturday)).to eq(
         {
@@ -86,9 +86,9 @@ RSpec.describe Admin::HomeController, type: :controller do
 
     context "volunteer counts" do
       before do
-        FactoryGirl.create(:family_of_four_volunteer)
-        FactoryGirl.create(:family_of_four_volunteer)
-        FactoryGirl.create(:family_of_five_volunteer)
+        FactoryBot.create(:family_of_four_volunteer)
+        FactoryBot.create(:family_of_four_volunteer)
+        FactoryBot.create(:family_of_five_volunteer)
       end
       it "returns the number of adult volunteers" do
         get :index
@@ -105,12 +105,12 @@ RSpec.describe Admin::HomeController, type: :controller do
     end
 
     context "commitment" do
-      let(:project) { FactoryGirl.create(:published_project, morning_slot_length: 1.5, evening_slot_length: 2.5) }
+      let(:project) { FactoryBot.create(:published_project, morning_slot_length: 1.5, evening_slot_length: 2.5) }
       before do
-        v1 = FactoryGirl.create(:family_of_four_volunteer)
-        v2 = FactoryGirl.create(:family_of_five_volunteer)
-        slot1 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :morning, extra_volunteers: 3)
-        slot2 = FactoryGirl.create(:default_project_slot, project: project, slot_type: :evening, extra_volunteers: 1)
+        v1 = FactoryBot.create(:family_of_four_volunteer)
+        v2 = FactoryBot.create(:family_of_five_volunteer)
+        slot1 = FactoryBot.create(:default_project_slot, project: project, slot_type: :morning, extra_volunteers: 3)
+        slot2 = FactoryBot.create(:default_project_slot, project: project, slot_type: :evening, extra_volunteers: 1)
         slot1.volunteers << v1
         slot2.volunteers << v2
       end
@@ -131,8 +131,8 @@ RSpec.describe Admin::HomeController, type: :controller do
       end
       context "with personal projects" do
         before(:each) do
-          FactoryGirl.create(:default_personal_project, duration: 1.5, volunteer_count: 10)
-          FactoryGirl.create(:default_personal_project, duration: 3.5, volunteer_count: 3)
+          FactoryBot.create(:default_personal_project, duration: 1.5, volunteer_count: 10)
+          FactoryBot.create(:default_personal_project, duration: 3.5, volunteer_count: 3)
           get :index
         end
         it "returns the total number of personal projects" do

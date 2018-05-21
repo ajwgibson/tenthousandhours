@@ -7,7 +7,7 @@ RSpec.describe TextLocalService do
     context "for a volunteer with an unconfirmed mobile number" do
 
       let(:volunteer) {
-        FactoryGirl.build(
+        FactoryBot.build(
           :default_volunteer,
           first_name: 'Bob',
           mobile: '1234567890',
@@ -45,7 +45,7 @@ RSpec.describe TextLocalService do
     end
 
     context "for a volunteer with no mobile number" do
-      let(:volunteer) { FactoryGirl.build(:default_volunteer, mobile: nil ) }
+      let(:volunteer) { FactoryBot.build(:default_volunteer, mobile: nil ) }
       it "does not send a text message" do
         expect {
           TextLocalService.send_confirmation volunteer
@@ -54,7 +54,7 @@ RSpec.describe TextLocalService do
     end
 
     context "for a volunteer with a confirmed mobile number" do
-      let(:volunteer) { FactoryGirl.build(:default_volunteer, mobile_confirmation_code: nil ) }
+      let(:volunteer) { FactoryBot.build(:default_volunteer, mobile_confirmation_code: nil ) }
       it "does not send a text message" do
         expect {
           TextLocalService.send_confirmation volunteer

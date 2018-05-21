@@ -28,7 +28,7 @@ class NotificationsController < ActionController::Base
       end
     end
 
-    render text: "#{count} #{'reminder'.pluralize(count)} sent"
+    render plain: "#{count} #{'reminder'.pluralize(count)} sent"
   end
 
 end

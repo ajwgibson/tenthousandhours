@@ -78,13 +78,13 @@ private
 
   def get_filter
     filter =
-      params.slice(
+      params.permit(
         :with_project_name,
         :for_week,
         :for_date,
         :of_type,
         :order_by,
-      )
+      ).to_h
     filter = session[:filter_admin_slots].symbolize_keys! if filter.empty? && session.key?(:filter_admin_slots)
     filter = { :order_by => 'projects.project_name' } if filter.empty?
     filter.delete_if { |key, value| value.blank? }

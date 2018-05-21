@@ -13,31 +13,31 @@ RSpec.describe HomeController, type: :controller do
       expect(response).to render_template :index
     end
     it "populates an array of published projects" do
-      p1 = FactoryGirl.create(:default_project)
-      p2 = FactoryGirl.create(:published_project)
+      p1 = FactoryBot.create(:default_project)
+      p2 = FactoryBot.create(:published_project)
       get :index
       expect(assigns(:projects)).to eq([p2])
     end
     it "populates no more than 3 published projects" do
-      p1 = FactoryGirl.create(:published_project)
-      p2 = FactoryGirl.create(:published_project)
-      p3 = FactoryGirl.create(:published_project)
-      p4 = FactoryGirl.create(:published_project)
+      p1 = FactoryBot.create(:published_project)
+      p2 = FactoryBot.create(:published_project)
+      p3 = FactoryBot.create(:published_project)
+      p4 = FactoryBot.create(:published_project)
       get :index
       expect(assigns(:projects).count).to eq(3)
     end
     it "passes the volunteer count to the view" do
-      v1 = FactoryGirl.create(:family_of_four_volunteer)
-      v2 = FactoryGirl.create(:family_of_five_volunteer)
+      v1 = FactoryBot.create(:family_of_four_volunteer)
+      v2 = FactoryBot.create(:family_of_five_volunteer)
       get :index
       expect(assigns(:volunteer_count)).to eq(9)
     end
     it "passes the (rounded down) hours count to the view" do
-      project = FactoryGirl.create(:default_project,   morning_slot_length: 1.5)
-      slot = FactoryGirl.create(:default_project_slot, slot_type: :morning, project: project, extra_volunteers: 3)
-      v1 = FactoryGirl.create(:family_of_four_volunteer)
-      v2 = FactoryGirl.create(:family_of_five_volunteer)
-      pp = FactoryGirl.create(:default_personal_project, duration: 1.1, volunteer_count: 3)
+      project = FactoryBot.create(:default_project,   morning_slot_length: 1.5)
+      slot = FactoryBot.create(:default_project_slot, slot_type: :morning, project: project, extra_volunteers: 3)
+      v1 = FactoryBot.create(:family_of_four_volunteer)
+      v2 = FactoryBot.create(:family_of_five_volunteer)
+      pp = FactoryBot.create(:default_personal_project, duration: 1.1, volunteer_count: 3)
       slot.volunteers << v1
       slot.volunteers << v2
       get :index

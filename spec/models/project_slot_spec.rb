@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProjectSlot, type: :model do
 
   it 'has a valid factory' do
-    s = FactoryGirl.build(:default_project_slot)
+    s = FactoryBot.build(:default_project_slot)
     expect(s).to be_valid
   end
 
@@ -12,20 +12,20 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "validation" do
     it "a slot is not valid without a slot_date" do
-      expect(FactoryGirl.build(:default_project_slot, slot_date: nil)).not_to be_valid
+      expect(FactoryBot.build(:default_project_slot, slot_date: nil)).not_to be_valid
     end
     it "a slot is not valid without a slot_type" do
-      expect(FactoryGirl.build(:default_project_slot, slot_type: nil)).not_to be_valid
+      expect(FactoryBot.build(:default_project_slot, slot_type: nil)).not_to be_valid
     end
     describe "extra_volunteers" do
       it "a slot is not valid without extra_volunteers" do
-        expect(FactoryGirl.build(:default_project_slot, extra_volunteers: nil)).not_to be_valid
+        expect(FactoryBot.build(:default_project_slot, extra_volunteers: nil)).not_to be_valid
       end
       it "a slot is not valid with less than zero extra_volunteers" do
-        expect(FactoryGirl.build(:default_project_slot, extra_volunteers: -1)).not_to be_valid
+        expect(FactoryBot.build(:default_project_slot, extra_volunteers: -1)).not_to be_valid
       end
       it "a slot is valid with zero extra_volunteers" do
-        expect(FactoryGirl.build(:default_project_slot, extra_volunteers: 0)).to be_valid
+        expect(FactoryBot.build(:default_project_slot, extra_volunteers: 0)).to be_valid
       end
     end
   end
@@ -35,8 +35,8 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "before_destroy" do
     it "removes linked entries from project_slots_volunteers" do
-      slot      = FactoryGirl.create(:default_project_slot)
-      volunteer = FactoryGirl.create(:default_volunteer)
+      slot      = FactoryBot.create(:default_project_slot)
+      volunteer = FactoryBot.create(:default_volunteer)
       slot.volunteers << volunteer
       slot.destroy!
       count = ActiveRecord::Base.connection.execute('select count(*) from project_slots_volunteers')[0]['count'].to_i
@@ -62,10 +62,10 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "#volunteer_count" do
     it "returns the sum of the volunteers signed up plus the extra volunteers from the day" do
-      slot = FactoryGirl.build(:default_project_slot, extra_volunteers: 2)
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot = FactoryBot.build(:default_project_slot, extra_volunteers: 2)
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
       expect(slot.volunteer_count).to eq(13)
     end
   end
@@ -73,10 +73,10 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "#adults" do
     it "returns the sum of the adult volunteers signed up" do
-      slot = FactoryGirl.build(:default_project_slot)
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot = FactoryBot.build(:default_project_slot)
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
       expect(slot.adults).to eq(5)
     end
   end
@@ -85,19 +85,19 @@ RSpec.describe ProjectSlot, type: :model do
   describe "adult_cover" do
     context "when the project.adults value is set" do
       it "returns the fraction of the required adults as a percentage" do
-        project = FactoryGirl.build(:default_project, adults: 9)
-        slot    = FactoryGirl.build(:default_project_slot, project: project)
-        slot.volunteers << FactoryGirl.build(:default_volunteer)
-        slot.volunteers << FactoryGirl.build(:default_volunteer)
-        slot.volunteers << FactoryGirl.build(:default_volunteer)
+        project = FactoryBot.build(:default_project, adults: 9)
+        slot    = FactoryBot.build(:default_project_slot, project: project)
+        slot.volunteers << FactoryBot.build(:default_volunteer)
+        slot.volunteers << FactoryBot.build(:default_volunteer)
+        slot.volunteers << FactoryBot.build(:default_volunteer)
         expect(slot.adult_cover).to eq(33)
       end
     end
     context "when the project.adults value is not set" do
       it "returns 0" do
-        project = FactoryGirl.build(:default_project, adults: nil)
-        slot    = FactoryGirl.build(:default_project_slot, project: project)
-        slot.volunteers << FactoryGirl.build(:default_volunteer)
+        project = FactoryBot.build(:default_project, adults: nil)
+        slot    = FactoryBot.build(:default_project_slot, project: project)
+        slot.volunteers << FactoryBot.build(:default_volunteer)
         expect(slot.adult_cover).to eq(0)
       end
     end
@@ -106,10 +106,10 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "#youth" do
     it "returns the sum of the youth volunteers signed up" do
-      slot = FactoryGirl.build(:default_project_slot)
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"child"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot = FactoryBot.build(:default_project_slot)
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
       expect(slot.youth).to eq(2)
     end
   end
@@ -117,10 +117,10 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "#children" do
     it "returns the sum of the child volunteers signed up" do
-      slot = FactoryGirl.build(:default_project_slot)
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"child"},{"age_category":"child"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"youth"}]')
-      slot.volunteers << FactoryGirl.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot = FactoryBot.build(:default_project_slot)
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"child"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
       expect(slot.children).to eq(3)
     end
   end
@@ -128,8 +128,8 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "#start_time" do
     context "when the slot is in the morning" do
-      let(:project) { FactoryGirl.build(:default_project) }
-      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :morning, project: project) }
+      let(:project) { FactoryBot.build(:default_project) }
+      let(:slot) { FactoryBot.build(:default_project_slot, slot_type: :morning, project: project) }
       context "when the project morning_start_time is not set" do
         it "returns 'tbc'" do
           project.morning_start_time = nil
@@ -146,8 +146,8 @@ RSpec.describe ProjectSlot, type: :model do
       end
     end
     context "when the slot is in the afternoon" do
-      let(:project) { FactoryGirl.build(:default_project) }
-      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :afternoon, project: project) }
+      let(:project) { FactoryBot.build(:default_project) }
+      let(:slot) { FactoryBot.build(:default_project_slot, slot_type: :afternoon, project: project) }
       context "when the project afternoon_start_time is not set" do
         it "returns 'tbc'" do
           project.afternoon_start_time = nil
@@ -164,8 +164,8 @@ RSpec.describe ProjectSlot, type: :model do
       end
     end
     context "when the slot is in the evening" do
-      let(:project) { FactoryGirl.build(:default_project) }
-      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :evening, project: project) }
+      let(:project) { FactoryBot.build(:default_project) }
+      let(:slot) { FactoryBot.build(:default_project_slot, slot_type: :evening, project: project) }
       context "when the project evening_start_time is not set" do
         it "returns 'tbc'" do
           project.evening_start_time = nil
@@ -186,7 +186,7 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "#slot_length" do
     let(:project) {
-      FactoryGirl.build(
+      FactoryBot.build(
         :default_project,
         morning_slot_length: 1.5,
         afternoon_slot_length: 2.5,
@@ -194,7 +194,7 @@ RSpec.describe ProjectSlot, type: :model do
       )
     }
     context "when the slot is in the morning" do
-      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :morning, project: project) }
+      let(:slot) { FactoryBot.build(:default_project_slot, slot_type: :morning, project: project) }
       context "when the project morning_slot_length value is set" do
         it "returns the project morning_slot_length value" do
           expect(slot.slot_length).to eq(1.5)
@@ -208,7 +208,7 @@ RSpec.describe ProjectSlot, type: :model do
       end
     end
     context "when the slot is in the afternoon" do
-      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :afternoon, project: project) }
+      let(:slot) { FactoryBot.build(:default_project_slot, slot_type: :afternoon, project: project) }
       context "when the project afternoon_slot_length value is set" do
         it "returns the project afternoon_slot_length value" do
           expect(slot.slot_length).to eq(2.5)
@@ -222,7 +222,7 @@ RSpec.describe ProjectSlot, type: :model do
       end
     end
     context "when the slot is in the evening" do
-      let(:slot) { FactoryGirl.build(:default_project_slot, slot_type: :evening, project: project) }
+      let(:slot) { FactoryBot.build(:default_project_slot, slot_type: :evening, project: project) }
       context "when the project evening_slot_length value is set" do
         it "returns the project evening_slot_length value" do
           expect(slot.slot_length).to eq(3.5)
@@ -239,7 +239,7 @@ RSpec.describe ProjectSlot, type: :model do
 
 
   describe "#end_time" do
-    let(:slot) { FactoryGirl.build(:default_project_slot) }
+    let(:slot) { FactoryBot.build(:default_project_slot) }
     context "when the slot_length is not set" do
       it "returns 'tbc'" do
         allow(slot).to receive(:slot_length) { 0 }
@@ -264,20 +264,20 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe "#can_sign_up?(volunteer)" do
     context "when the volunteer is a youth" do
-      let(:volunteer) { FactoryGirl.build(:default_volunteer, age_category: 'youth') }
+      let(:volunteer) { FactoryBot.build(:default_volunteer, age_category: 'youth') }
       context "when the project is not suitable for youth" do
-        let(:project) { FactoryGirl.build(:default_project, youth: 0) }
-        let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
+        let(:project) { FactoryBot.build(:default_project, youth: 0) }
+        let(:slot) { FactoryBot.build(:default_project_slot, project: project) }
         it "returns false" do
           expect(slot.can_sign_up?(volunteer)).to be_falsey
         end
       end
       context "when the project is suitable for youth" do
-        let(:project) { FactoryGirl.build(:default_project, youth: 1) }
-        let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
+        let(:project) { FactoryBot.build(:default_project, youth: 1) }
+        let(:slot) { FactoryBot.build(:default_project_slot, project: project) }
         context "when the project is already full of youth" do
           before do
-            slot.volunteers << FactoryGirl.build(:default_volunteer, age_category: 'youth')
+            slot.volunteers << FactoryBot.build(:default_volunteer, age_category: 'youth')
           end
           it "returns false" do
             expect(slot.can_sign_up?(volunteer)).to be_falsey
@@ -292,12 +292,12 @@ RSpec.describe ProjectSlot, type: :model do
     end
     context "when the volunteer is an adult" do
       context "when the volunteer has no family" do
-        let(:volunteer) { FactoryGirl.build(:default_volunteer, age_category: 'adult') }
-        let(:project) { FactoryGirl.build(:default_project, adults: 1) }
-        let(:slot) { FactoryGirl.build(:default_project_slot, project: project) }
+        let(:volunteer) { FactoryBot.build(:default_volunteer, age_category: 'adult') }
+        let(:project) { FactoryBot.build(:default_project, adults: 1) }
+        let(:slot) { FactoryBot.build(:default_project_slot, project: project) }
         context "when the project is already full" do
           before do
-            slot.volunteers << FactoryGirl.build(:default_volunteer, age_category: 'adult')
+            slot.volunteers << FactoryBot.build(:default_volunteer, age_category: 'adult')
           end
           it "returns false" do
             expect(slot.can_sign_up?(volunteer)).to be_falsey
@@ -310,17 +310,17 @@ RSpec.describe ProjectSlot, type: :model do
         end
       end
       context "when the volunteer has children and the project is not suitable for children" do
-        let(:volunteer) { FactoryGirl.build(:adult_volunteer_with_one_child) }
-        let(:project)   { FactoryGirl.build(:default_project, adults: 10, kids: 0) }
-        let(:slot)      { FactoryGirl.build(:default_project_slot, project: project) }
+        let(:volunteer) { FactoryBot.build(:adult_volunteer_with_one_child) }
+        let(:project)   { FactoryBot.build(:default_project, adults: 10, kids: 0) }
+        let(:slot)      { FactoryBot.build(:default_project_slot, project: project) }
         it "returns false" do
           expect(slot.can_sign_up?(volunteer)).to be_falsey
         end
       end
       context "when the volunteer has youth and the project is not suitable for youth" do
-        let(:volunteer) { FactoryGirl.build(:adult_volunteer_with_one_youth) }
-        let(:project)   { FactoryGirl.build(:default_project, adults: 10, youth: 0) }
-        let(:slot)      { FactoryGirl.build(:default_project_slot, project: project) }
+        let(:volunteer) { FactoryBot.build(:adult_volunteer_with_one_youth) }
+        let(:project)   { FactoryBot.build(:default_project, adults: 10, youth: 0) }
+        let(:slot)      { FactoryBot.build(:default_project_slot, project: project) }
         it "returns false" do
           expect(slot.can_sign_up?(volunteer)).to be_falsey
         end
@@ -333,11 +333,11 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe 'scope:for_week' do
     it 'includes records from the same week as the specified one' do
-      a = FactoryGirl.create(:default_project_slot, :slot_date => Date.new(2017,7,3))
-      b = FactoryGirl.create(:default_project_slot, :slot_date => Date.new(2017,7,10))
-      c = FactoryGirl.create(:default_project_slot, :slot_date => Date.new(2017,7,4))
-      d = FactoryGirl.create(:default_project_slot, :slot_date => Date.new(2017,7,2))
-      e = FactoryGirl.create(:default_project_slot, :slot_date => Date.new(2017,7,9))
+      a = FactoryBot.create(:default_project_slot, :slot_date => Date.new(2017,7,3))
+      b = FactoryBot.create(:default_project_slot, :slot_date => Date.new(2017,7,10))
+      c = FactoryBot.create(:default_project_slot, :slot_date => Date.new(2017,7,4))
+      d = FactoryBot.create(:default_project_slot, :slot_date => Date.new(2017,7,2))
+      e = FactoryBot.create(:default_project_slot, :slot_date => Date.new(2017,7,9))
       filtered = ProjectSlot.for_week(Date.new(2017,7,4).cweek)
       expect(filtered).to     include(a,c,e)
       expect(filtered).not_to include(b,d)
@@ -346,8 +346,8 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe 'scope:for_date' do
     it 'includes records from the same date as the specified one' do
-      a = FactoryGirl.create(:default_project_slot, :slot_date => Date.new(2017,7,3))
-      b = FactoryGirl.create(:default_project_slot, :slot_date => Date.new(2017,7,10))
+      a = FactoryBot.create(:default_project_slot, :slot_date => Date.new(2017,7,3))
+      b = FactoryBot.create(:default_project_slot, :slot_date => Date.new(2017,7,10))
       filtered = ProjectSlot.for_date(Date.new(2017,7,10))
       expect(filtered).to     include(b)
       expect(filtered).not_to include(a)
@@ -356,8 +356,8 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe 'scope:of_type' do
     it 'includes records where the slot_type equals the specified one' do
-      a = FactoryGirl.create(:default_project_slot, :slot_type => :evening)
-      b = FactoryGirl.create(:default_project_slot, :slot_type => :morning)
+      a = FactoryBot.create(:default_project_slot, :slot_type => :evening)
+      b = FactoryBot.create(:default_project_slot, :slot_type => :morning)
       filtered = ProjectSlot.of_type(:morning)
       expect(filtered).to     include(b)
       expect(filtered).not_to include(a)
@@ -366,12 +366,12 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe 'scope:for_children' do
     it 'includes records for projects where activities are suitable for children' do
-      project_a = FactoryGirl.create(:default_project, activity_1_under_18: true, kids: nil)
-      project_b = FactoryGirl.create(:default_project, activity_1_under_18: true, kids: 0)
-      project_c = FactoryGirl.create(:default_project, activity_1_under_18: true, kids: 1)
-      a = FactoryGirl.create(:default_project_slot, project: project_a)
-      b = FactoryGirl.create(:default_project_slot, project: project_b)
-      c = FactoryGirl.create(:default_project_slot, project: project_c)
+      project_a = FactoryBot.create(:default_project, activity_1_under_18: true, kids: nil)
+      project_b = FactoryBot.create(:default_project, activity_1_under_18: true, kids: 0)
+      project_c = FactoryBot.create(:default_project, activity_1_under_18: true, kids: 1)
+      a = FactoryBot.create(:default_project_slot, project: project_a)
+      b = FactoryBot.create(:default_project_slot, project: project_b)
+      c = FactoryBot.create(:default_project_slot, project: project_c)
       filtered = ProjectSlot.for_children(true)
       expect(filtered).to     include(c)
       expect(filtered).not_to include(a,b)
@@ -380,12 +380,12 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe 'scope:for_youth' do
     it 'includes records for projects where activities are suitable for youth' do
-      project_a = FactoryGirl.create(:default_project, activity_1_under_18: true, youth: nil)
-      project_b = FactoryGirl.create(:default_project, activity_1_under_18: true, youth: 0)
-      project_c = FactoryGirl.create(:default_project, activity_1_under_18: true, youth: 1)
-      a = FactoryGirl.create(:default_project_slot, project: project_a)
-      b = FactoryGirl.create(:default_project_slot, project: project_b)
-      c = FactoryGirl.create(:default_project_slot, project: project_c)
+      project_a = FactoryBot.create(:default_project, activity_1_under_18: true, youth: nil)
+      project_b = FactoryBot.create(:default_project, activity_1_under_18: true, youth: 0)
+      project_c = FactoryBot.create(:default_project, activity_1_under_18: true, youth: 1)
+      a = FactoryBot.create(:default_project_slot, project: project_a)
+      b = FactoryBot.create(:default_project_slot, project: project_b)
+      c = FactoryBot.create(:default_project_slot, project: project_c)
       filtered = ProjectSlot.for_youth(true)
       expect(filtered).to     include(c)
       expect(filtered).not_to include(a,b)
@@ -394,12 +394,12 @@ RSpec.describe ProjectSlot, type: :model do
 
   describe 'scope:with_project_name' do
     it 'includes records for projects whose name matches the specified value' do
-      aaa    = FactoryGirl.create(:default_project, project_name: 'aaa')
-      bab    = FactoryGirl.create(:default_project, project_name: 'bab')
-      bbb    = FactoryGirl.create(:default_project, project_name: 'bbb')
-      a = FactoryGirl.create(:default_project_slot, project: aaa)
-      b = FactoryGirl.create(:default_project_slot, project: bab)
-      c = FactoryGirl.create(:default_project_slot, project: bbb)
+      aaa    = FactoryBot.create(:default_project, project_name: 'aaa')
+      bab    = FactoryBot.create(:default_project, project_name: 'bab')
+      bbb    = FactoryBot.create(:default_project, project_name: 'bbb')
+      a = FactoryBot.create(:default_project_slot, project: aaa)
+      b = FactoryBot.create(:default_project_slot, project: bab)
+      c = FactoryBot.create(:default_project_slot, project: bbb)
       filtered = ProjectSlot.with_project_name('a')
       expect(filtered).not_to  include(c)
       expect(filtered).to      include(a,b)

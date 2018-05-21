@@ -14,90 +14,90 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       expect(response).to render_template :index
     end
     it "populates an array of projects" do
-      project = FactoryGirl.create(:default_project)
+      project = FactoryBot.create(:default_project)
       get :index
       expect(assigns(:projects)).to eq([project])
     end
     it "orders projects by project_name by default" do
-      b = FactoryGirl.create(:default_project, project_name: 'b')
-      c = FactoryGirl.create(:default_project, project_name: 'c')
-      a = FactoryGirl.create(:default_project, project_name: 'a')
+      b = FactoryBot.create(:default_project, project_name: 'b')
+      c = FactoryBot.create(:default_project, project_name: 'c')
+      a = FactoryBot.create(:default_project, project_name: 'a')
       get :index
       expect(assigns(:projects)).to eq([a,b,c])
     end
     it "applies the 'order_by' parameter" do
-      b = FactoryGirl.create(:default_project, project_name: 'b')
-      c = FactoryGirl.create(:default_project, project_name: 'c')
-      a = FactoryGirl.create(:default_project, project_name: 'a')
-      get :index, order_by: 'project_name desc'
+      b = FactoryBot.create(:default_project, project_name: 'b')
+      c = FactoryBot.create(:default_project, project_name: 'c')
+      a = FactoryBot.create(:default_project, project_name: 'a')
+      get :index, params: {order_by: 'project_name desc' }
       expect(assigns(:projects)).to eq([c,b,a])
     end
     it "applies the 'could_run_wc_july_3rd' filter" do
-      a = FactoryGirl.create(:default_project, :july_3 => true , any_week: false)
-      b = FactoryGirl.create(:default_project, :july_3 => false, any_week: false)
-      get :index, could_run_wc_july_3rd: true
+      a = FactoryBot.create(:default_project, :july_3 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :july_3 => false, any_week: false)
+      get :index, params: {could_run_wc_july_3rd: true }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'could_run_wc_july_10th' filter" do
-      a = FactoryGirl.create(:default_project, :july_10 => true , any_week: false)
-      b = FactoryGirl.create(:default_project, :july_10 => false, any_week: false)
-      get :index, could_run_wc_july_10th: true
+      a = FactoryBot.create(:default_project, :july_10 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :july_10 => false, any_week: false)
+      get :index, params: {could_run_wc_july_10th: true }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'could_run_wc_july_17th' filter" do
-      a = FactoryGirl.create(:default_project, :july_17 => true , any_week: false)
-      b = FactoryGirl.create(:default_project, :july_17 => false, any_week: false)
-      get :index, could_run_wc_july_17th: true
+      a = FactoryBot.create(:default_project, :july_17 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :july_17 => false, any_week: false)
+      get :index, params: {could_run_wc_july_17th: true }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'could_run_wc_july_24th' filter" do
-      a = FactoryGirl.create(:default_project, :july_24 => true , any_week: false)
-      b = FactoryGirl.create(:default_project, :july_24 => false, any_week: false)
-      get :index, could_run_wc_july_24th: true
+      a = FactoryBot.create(:default_project, :july_24 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :july_24 => false, any_week: false)
+      get :index, params: {could_run_wc_july_24th: true }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'could_run_evenings' filter" do
-      a = FactoryGirl.create(:default_project, evenings: true)
-      b = FactoryGirl.create(:default_project, evenings: false)
-      get :index, could_run_evenings: true
+      a = FactoryBot.create(:default_project, evenings: true)
+      b = FactoryBot.create(:default_project, evenings: false)
+      get :index, params: {could_run_evenings: true }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'could_run_saturday' filter" do
-      a = FactoryGirl.create(:default_project, saturday: true)
-      b = FactoryGirl.create(:default_project, saturday: false)
-      get :index, could_run_saturday: true
+      a = FactoryBot.create(:default_project, saturday: true)
+      b = FactoryBot.create(:default_project, saturday: false)
+      get :index, params: {could_run_saturday: true }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'with_name' filter" do
-      a = FactoryGirl.create(:default_project, project_name: 'a')
-      b = FactoryGirl.create(:default_project, project_name: 'b')
-      get :index, with_name: 'a'
+      a = FactoryBot.create(:default_project, project_name: 'a')
+      b = FactoryBot.create(:default_project, project_name: 'b')
+      get :index, params: {with_name: 'a' }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'of_type' filter" do
-      a = FactoryGirl.create(:default_project, organisation_type: 'a')
-      b = FactoryGirl.create(:default_project, organisation_type: 'b')
-      get :index, of_type: 'a'
+      a = FactoryBot.create(:default_project, organisation_type: 'a')
+      b = FactoryBot.create(:default_project, organisation_type: 'b')
+      get :index, params: {of_type: 'a' }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'with_status' filter" do
-      a = FactoryGirl.create(:default_project, status: :draft)
-      b = FactoryGirl.create(:default_project, status: :published)
-      get :index, with_status: Project.statuses[:draft]
+      a = FactoryBot.create(:default_project, status: :draft)
+      b = FactoryBot.create(:default_project, status: :published)
+      get :index, params: {with_status: Project.statuses[:draft] }
       expect(assigns(:projects)).to eq([a])
     end
     it "stores filters to the session" do
-      get :index, could_run_wc_july_3rd: true
-      expect(session[:filter_admin_projects]).to eq({'could_run_wc_july_3rd' => true})
+      get :index, params: {could_run_wc_july_3rd: true }
+      expect(session[:filter_admin_projects]).to eq({'could_run_wc_july_3rd' => 'true'})
     end
     it "removes blank filter values" do
-      get :index, could_run_wc_july_3rd: nil
+      get :index, params: {could_run_wc_july_3rd: nil }
       expect(assigns(:filter)).to eq({})
     end
     it "retrieves filters from the session if none have been supplied" do
-      a = FactoryGirl.create(:default_project, :july_3 => true , any_week: false)
-      b = FactoryGirl.create(:default_project, :july_3 => false, any_week: false)
-      get :index, { }, { :filter_admin_projects => {'could_run_wc_july_3rd' => true} }
+      a = FactoryBot.create(:default_project, :july_3 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :july_3 => false, any_week: false)
+      get :index, session: { :filter_admin_projects => {'could_run_wc_july_3rd' => 'true'} }
       expect(assigns(:projects)).to eq([a])
     end
   end
@@ -126,10 +126,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       expect(response).to render_template :print_list
     end
     it "populates an array of projects using the current filter settings" do
-      a = FactoryGirl.create(:default_project, organisation_type: 'a', project_name: 'a')
-      b = FactoryGirl.create(:default_project, organisation_type: 'b', project_name: 'b')
-      c = FactoryGirl.create(:default_project, organisation_type: 'a', project_name: 'c')
-      get :print_list, { }, { :filter_admin_projects => {'of_type' => 'a', 'order_by' => 'project_name desc'} }
+      a = FactoryBot.create(:default_project, organisation_type: 'a', project_name: 'a')
+      b = FactoryBot.create(:default_project, organisation_type: 'b', project_name: 'b')
+      c = FactoryBot.create(:default_project, organisation_type: 'a', project_name: 'c')
+      get :print_list, session: { filter_admin_projects: { 'of_type' => 'a', 'order_by' => 'project_name desc' } }
       expect(assigns(:projects).map { |p| p.project_name }).to eq(['c','a'])
     end
   end
@@ -145,10 +145,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "GET #show" do
 
-    let(:project) { FactoryGirl.create(:default_project) }
+    let(:project) { FactoryBot.create(:default_project) }
 
     it "shows a record" do
-      get :show, { id: project.id }
+      get :show, params: { id: project.id }
       expect(response).to render_template :show
       expect(response).to have_http_status(:success)
       expect(assigns(:project).id).to eq(project.id)
@@ -156,7 +156,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :show, { id: 99 }
+        get :show, params: { id: 99 }
       end
     end
 
@@ -218,7 +218,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
           afternoon_slot_length: 2.5,
           evening_slot_length:   3.5,
         }
-        post :create, { project: attrs }
+        post :create, params: { project: attrs }
       end
 
       before(:each) do
@@ -280,8 +280,8 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with invalid data" do
       def post_create
-        attrs = FactoryGirl.attributes_for(:project, :project_name => 'A')
-        post :create, { project: attrs }
+        attrs = FactoryBot.attributes_for(:project, :project_name => 'A')
+        post :create, params: { project: attrs }
       end
       it "does not create a new record" do
         expect {
@@ -299,10 +299,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "GET #edit" do
 
-    let(:project) { FactoryGirl.create(:default_project) }
+    let(:project) { FactoryBot.create(:default_project) }
 
     it "shows a record for editing" do
-      get :edit, { id: project.id }
+      get :edit, params: { id: project.id }
       expect(response).to render_template :edit
       expect(response).to have_http_status(:success)
       expect(assigns(:project).id).to eq(project.id)
@@ -310,7 +310,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :edit, { id: 99 }
+        get :edit, params: { id: 99 }
       end
     end
 
@@ -321,10 +321,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with valid data" do
 
-      let(:project) { FactoryGirl.create(:default_project, :project_name => 'Original') }
+      let(:project) { FactoryBot.create(:default_project, :project_name => 'Original') }
 
       def post_update
-        put :update, :id => project.id, :project => { :project_name => 'Changed' }
+        put :update, params: {id: project.id, project: { :project_name => 'Changed' } }
         project.reload
       end
 
@@ -348,10 +348,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with invalid data" do
 
-      let(:project) { FactoryGirl.create(:default_project, :project_name => 'Original') }
+      let(:project) { FactoryBot.create(:default_project, :project_name => 'Original') }
 
       def post_update
-        put :update, :id => project.id, :project => { :project_name => nil }
+        put :update, params: { id: project.id, project: { :project_name => nil } }
         project.reload
       end
 
@@ -365,7 +365,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
       it "re-renders the form with the posted data" do
         expect(response).to render_template(:edit)
-        expect(assigns(:project).project_name).to be_nil
+        expect(assigns(:project).project_name).to be_empty
       end
 
     end
@@ -375,27 +375,27 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "DELETE #destroy" do
 
-    let!(:project) { FactoryGirl.create(:default_project) }
+    let!(:project) { FactoryBot.create(:default_project) }
     before do
-      FactoryGirl.create(:default_project_slot, project: project)
+      FactoryBot.create(:default_project_slot, project: project)
     end
 
     it "soft deletes the project" do
       expect {
-        delete :destroy, :id => project.id
+        delete :destroy, params: { id: project.id }
       }.to change(Project, :count).by(-1)
       expect(Project.only_deleted.count).to eq(1)
     end
 
     it "soft deletes the project slots" do
       expect {
-        delete :destroy, :id => project.id
+        delete :destroy, params: { id: project.id }
       }.to change(ProjectSlot, :count).by(-1)
       expect(ProjectSlot.only_deleted.count).to eq(1)
     end
 
     it "redirects to #index" do
-      delete :destroy, :id => project.id
+      delete :destroy, params: { id: project.id }
       expect(response).to redirect_to([:admin,:projects])
     end
 
@@ -404,17 +404,17 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "GET #review" do
 
-    let(:project) { FactoryGirl.create(:default_project) }
+    let(:project) { FactoryBot.create(:default_project) }
 
     it "shows a record for editing" do
-      get :review, { id: project.id }
+      get :review, params: { id: project.id }
       expect(response).to render_template :review
       expect(response).to have_http_status(:success)
       expect(assigns(:project).id).to eq(project.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :review, { id: 99 }
+        get :review, params: { id: 99 }
       end
     end
   end
@@ -423,24 +423,26 @@ RSpec.describe Admin::ProjectsController, type: :controller do
   describe "PUT #do_review" do
     context "with valid data" do
 
-      let(:project) { FactoryGirl.create(:default_project) }
+      let(:project) { FactoryBot.create(:default_project) }
 
       def post_update
-        put :do_review, :id => project.id, :project => {
-          adults:                4,
-          youth:                 2,
-          kids:                  1,
-          materials:             'Stuff',
-          activity_1_summary:     'The first project',
-          activity_1_information: 'More info about the first project',
-          activity_1_under_18:    true,
-          activity_2_summary:     'The second project',
-          activity_2_information: 'More info about the second project',
-          activity_2_under_18:    true,
-          activity_3_summary:     'The third project',
-          activity_3_information: 'More info about the third project',
-          activity_3_under_18:    true,
-        }
+        put :do_review, params: {
+          id: project.id,
+          project: {
+            adults:                4,
+            youth:                 2,
+            kids:                  1,
+            materials:             'Stuff',
+            activity_1_summary:     'The first project',
+            activity_1_information: 'More info about the first project',
+            activity_1_under_18:    true,
+            activity_2_summary:     'The second project',
+            activity_2_information: 'More info about the second project',
+            activity_2_under_18:    true,
+            activity_3_summary:     'The third project',
+            activity_3_information: 'More info about the third project',
+            activity_3_under_18:    true,
+          }}
         project.reload
       end
 
@@ -472,10 +474,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with invalid data" do
 
-      let(:project) { FactoryGirl.create(:default_project, :adults => 10) }
+      let(:project) { FactoryBot.create(:default_project, :adults => 10) }
 
       def post_update
-        put :do_review, :id => project.id, :project => { :adults => 0 }
+        put :do_review, params: { id: project.id, project: { :adults => 0 } }
         project.reload
       end
 
@@ -496,17 +498,17 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "GET #summary" do
 
-    let(:project) { FactoryGirl.create(:default_project) }
+    let(:project) { FactoryBot.create(:default_project) }
 
     it "shows a record for editing" do
-      get :summary, { id: project.id }
+      get :summary, params: { id: project.id }
       expect(response).to render_template :summary
       expect(response).to have_http_status(:success)
       expect(assigns(:project).id).to eq(project.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :summary, { id: 99 }
+        get :summary, params: { id: 99 }
       end
     end
 
@@ -515,12 +517,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "PUT #do_summary" do
 
-    let(:project) { FactoryGirl.create(:default_project) }
+    let(:project) { FactoryBot.create(:default_project) }
 
     def post_update
-      put :do_summary, :id => project.id, :project => {
-        summary: 'Some summary text'
-      }
+      put :do_summary, params: { id: project.id, project: { summary: 'Some summary text' } }
       project.reload
     end
 
@@ -545,17 +545,17 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "GET #publish" do
 
-    let(:project) { FactoryGirl.create(:default_project) }
+    let(:project) { FactoryBot.create(:default_project) }
 
     it "shows a record for editing" do
-      get :publish, { id: project.id }
+      get :publish, params: { id: project.id }
       expect(response).to render_template :publish
       expect(response).to have_http_status(:success)
       expect(assigns(:project).id).to eq(project.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :publish, { id: 99 }
+        get :publish, params: { id: 99 }
       end
     end
 
@@ -565,9 +565,9 @@ RSpec.describe Admin::ProjectsController, type: :controller do
   describe "PUT #do_publish" do
 
     context "when a project is good to go" do
-      let(:project) { FactoryGirl.create(:good_to_publish_project) }
+      let(:project) { FactoryBot.create(:good_to_publish_project) }
       def post_update
-        put :do_publish, :id => project.id
+        put :do_publish, params: { id: project.id }
         project.reload
       end
       before(:each) do
@@ -585,9 +585,9 @@ RSpec.describe Admin::ProjectsController, type: :controller do
     end
 
     context "when a project is not ready to publish" do
-      let(:project) { FactoryGirl.create(:default_project) }
+      let(:project) { FactoryBot.create(:default_project) }
       def post_update
-        put :do_publish, :id => project.id
+        put :do_publish, params: { id: project.id }
         project.reload
       end
       before(:each) do
@@ -610,12 +610,12 @@ RSpec.describe Admin::ProjectsController, type: :controller do
   describe "PUT #do_unpublish" do
 
     def post_update
-      put :do_unpublish, :id => project.id
+      put :do_unpublish, params: { id: project.id }
       project.reload
     end
 
     context "when a project is published" do
-      let(:project) { FactoryGirl.create(:published_project) }
+      let(:project) { FactoryBot.create(:published_project) }
       before(:each) do
         post_update
       end
@@ -631,7 +631,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
     end
 
     context "when a project is not published" do
-      let(:project) { FactoryGirl.create(:default_project) }
+      let(:project) { FactoryBot.create(:default_project) }
       before(:each) do
         post_update
       end
@@ -649,10 +649,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
   describe "GET #compose_message" do
 
     context "with a valid project id" do
-      let(:slot) { FactoryGirl.create(:default_project_slot) }
+      let(:slot) { FactoryBot.create(:default_project_slot) }
 
       before(:each) do
-        get :compose_message, id: slot.project.id
+        get :compose_message, params: { id: slot.project.id }
       end
 
       it "returns http success" do
@@ -672,7 +672,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
     context "with an invalid project id" do
       it "raises an exception" do
         assert_raises(ActiveRecord::RecordNotFound) do
-          get :compose_message, { id: 99 }
+          get :compose_message, params: { id: 99 }
         end
       end
     end
@@ -682,17 +682,17 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
   describe "GET #send_message" do
 
-    let(:project) { FactoryGirl.create(:default_project) }
+    let(:project) { FactoryBot.create(:default_project) }
 
-    let(:slot1) { FactoryGirl.create(:default_project_slot, project: project) }
-    let(:slot2) { FactoryGirl.create(:default_project_slot, project: project) }
+    let(:slot1) { FactoryBot.create(:default_project_slot, project: project) }
+    let(:slot2) { FactoryBot.create(:default_project_slot, project: project) }
 
-    let(:vol1)  { FactoryGirl.create(:default_volunteer, mobile: '1234') }
-    let(:vol2)  { FactoryGirl.create(:default_volunteer, mobile: '5678') }
+    let(:vol1)  { FactoryBot.create(:default_volunteer, mobile: '1234') }
+    let(:vol2)  { FactoryBot.create(:default_volunteer, mobile: '5678') }
 
     context "with an invalid message" do
       def send_message
-        post :send_message, { id: project.id, compose_message: { message_text: nil } }
+        post :send_message, params: { id: project.id, compose_message: { message_text: nil } }
       end
       it "does not send a message" do
         expect {
@@ -707,7 +707,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
 
     context "with a valid message" do
       def send_message
-        post :send_message, { id: project.id, compose_message: { message_text: 'Hello world' } }
+        post :send_message, params: { id: project.id, compose_message: { message_text: 'Hello world' } }
       end
 
       before(:each) do

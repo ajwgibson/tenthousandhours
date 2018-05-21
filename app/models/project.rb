@@ -1,6 +1,6 @@
 require 'csv'
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
 
   acts_as_paranoid
   include Filterable
@@ -99,17 +99,17 @@ class Project < ActiveRecord::Base
 
 
   def needs_morning_start_time?
-    has_slots_of_type? ProjectSlot.slot_types['morning']
+    has_slots_of_type? 'morning'
   end
 
 
   def needs_afternoon_start_time?
-    has_slots_of_type? ProjectSlot.slot_types['afternoon']
+    has_slots_of_type? 'afternoon'
   end
 
 
   def needs_evening_start_time?
-    has_slots_of_type? ProjectSlot.slot_types['evening']
+    has_slots_of_type? 'evening'
   end
 
 

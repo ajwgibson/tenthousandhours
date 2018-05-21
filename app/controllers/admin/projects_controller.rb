@@ -233,7 +233,7 @@ class Admin::ProjectsController < Admin::BaseController
 
     def get_filter
       filter =
-        params.slice(
+        params.permit(
           :could_run_wc_july_3rd,
           :could_run_wc_july_10th,
           :could_run_wc_july_17th,
@@ -244,7 +244,7 @@ class Admin::ProjectsController < Admin::BaseController
           :of_type,
           :with_status,
           :order_by,
-        )
+        ).to_h
       filter = session[:filter_admin_projects].symbolize_keys! if filter.empty? && session.key?(:filter_admin_projects)
       filter = { :order_by => 'project_name' } if filter.empty?
       filter.delete_if { |key, value| value.blank? }

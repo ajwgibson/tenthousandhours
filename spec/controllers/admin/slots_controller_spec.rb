@@ -14,70 +14,70 @@ RSpec.describe Admin::SlotsController, type: :controller do
       expect(response).to render_template :index
     end
     it "populates an array of slots" do
-      slot = FactoryGirl.create(:default_project_slot)
+      slot = FactoryBot.create(:default_project_slot)
       get :index
       expect(assigns(:slots)).to eq([slot])
     end
     it "orders slots by project_name by default" do
-      project_b = FactoryGirl.create(:default_project, project_name: 'b')
-      project_a = FactoryGirl.create(:default_project, project_name: 'a')
-      slot_b = FactoryGirl.create(:default_project_slot, project: project_b)
-      slot_a = FactoryGirl.create(:default_project_slot, project: project_a)
+      project_b = FactoryBot.create(:default_project, project_name: 'b')
+      project_a = FactoryBot.create(:default_project, project_name: 'a')
+      slot_b = FactoryBot.create(:default_project_slot, project: project_b)
+      slot_a = FactoryBot.create(:default_project_slot, project: project_a)
       get :index
       expect(assigns(:slots)).to eq([slot_a, slot_b])
     end
     it "stores filters to the session" do
-      get :index, with_project_name: 'abc'
+      get :index, params: { with_project_name: 'abc' }
       expect(session[:filter_admin_slots]).to eq({'with_project_name' => 'abc'})
     end
     it "removes blank filter values" do
-      get :index, with_project_name: nil
+      get :index, params: { with_project_name: nil }
       expect(assigns(:filter)).to eq({})
     end
     it "retrieves filters from the session if none have been supplied" do
-      a = FactoryGirl.create(:default_project_slot, slot_type: 'evening')
-      b = FactoryGirl.create(:default_project_slot, slot_type: 'morning')
-      get :index, { }, { :filter_admin_slots => {'of_type' => 'evening'} }
+      a = FactoryBot.create(:default_project_slot, slot_type: 'evening')
+      b = FactoryBot.create(:default_project_slot, slot_type: 'morning')
+      get :index, session: { filter_admin_slots: {'of_type' => 'evening'} }
       expect(assigns(:slots)).to eq([a])
     end
     it "applies the 'order_by' parameter" do
-      project_b = FactoryGirl.create(:default_project, project_name: 'b')
-      project_a = FactoryGirl.create(:default_project, project_name: 'a')
-      slot_b = FactoryGirl.create(:default_project_slot, project: project_b)
-      slot_a = FactoryGirl.create(:default_project_slot, project: project_a)
-      get :index, order_by: 'projects.project_name desc'
+      project_b = FactoryBot.create(:default_project, project_name: 'b')
+      project_a = FactoryBot.create(:default_project, project_name: 'a')
+      slot_b = FactoryBot.create(:default_project_slot, project: project_b)
+      slot_a = FactoryBot.create(:default_project_slot, project: project_a)
+      get :index, params: { order_by: 'projects.project_name desc' }
       expect(assigns(:slots)).to eq([slot_b, slot_a])
     end
     it "applies the 'with_project_name' parameter" do
-      project_b = FactoryGirl.create(:default_project, project_name: 'b')
-      project_a = FactoryGirl.create(:default_project, project_name: 'a')
-      slot_b = FactoryGirl.create(:default_project_slot, project: project_b)
-      slot_a = FactoryGirl.create(:default_project_slot, project: project_a)
-      get :index, with_project_name: 'a'
+      project_b = FactoryBot.create(:default_project, project_name: 'b')
+      project_a = FactoryBot.create(:default_project, project_name: 'a')
+      slot_b = FactoryBot.create(:default_project_slot, project: project_b)
+      slot_a = FactoryBot.create(:default_project_slot, project: project_a)
+      get :index, params: { with_project_name: 'a' }
       expect(assigns(:slots)).to eq([slot_a])
     end
     it "applies the 'for_week' filter" do
-      a = FactoryGirl.create(:default_project_slot, slot_date: Date.new(2017,1,1))
-      b = FactoryGirl.create(:default_project_slot, slot_date: Date.new(2017,1,21))
-      get :index, for_week: Date.new(2017,1,1).cweek
+      a = FactoryBot.create(:default_project_slot, slot_date: Date.new(2017,1,1))
+      b = FactoryBot.create(:default_project_slot, slot_date: Date.new(2017,1,21))
+      get :index, params: { for_week: Date.new(2017,1,1).cweek }
       expect(assigns(:slots)).to eq([a])
     end
     it "applies the 'for_date' filter" do
-      a = FactoryGirl.create(:default_project_slot, slot_date: Date.new(2017,1,1))
-      b = FactoryGirl.create(:default_project_slot, slot_date: Date.new(2017,1,21))
-      get :index, for_date: Date.new(2017,1,1)
+      a = FactoryBot.create(:default_project_slot, slot_date: Date.new(2017,1,1))
+      b = FactoryBot.create(:default_project_slot, slot_date: Date.new(2017,1,21))
+      get :index, params: { for_date: Date.new(2017,1,1) }
       expect(assigns(:slots)).to eq([a])
     end
     it "applies the 'of_type' filter" do
-      a = FactoryGirl.create(:default_project_slot, slot_type: 'evening')
-      b = FactoryGirl.create(:default_project_slot, slot_type: 'morning')
-      get :index, of_type: 'evening'
+      a = FactoryBot.create(:default_project_slot, slot_type: 'evening')
+      b = FactoryBot.create(:default_project_slot, slot_type: 'morning')
+      get :index, params: { of_type: 'evening' }
       expect(assigns(:slots)).to eq([a])
     end
     context "with no explicit page value" do
       it "returns the first page of slots" do
         30.times do |i|
-          FactoryGirl.create(:default_project_slot)
+          FactoryBot.create(:default_project_slot)
         end
         get :index
         expect(assigns(:slots).count).to eq(25)
@@ -86,9 +86,9 @@ RSpec.describe Admin::SlotsController, type: :controller do
     context "with an explicit page value" do
       it "returns the requested page of slots" do
         30.times do |i|
-          FactoryGirl.create(:default_project_slot)
+          FactoryBot.create(:default_project_slot)
         end
-        get :index, page: 2
+        get :index, params: { page: 2 }
         expect(assigns(:slots).count).to eq(5)
       end
     end
@@ -109,32 +109,32 @@ RSpec.describe Admin::SlotsController, type: :controller do
 
 
   describe "GET #show" do
-    let(:slot) { FactoryGirl.create(:default_project_slot) }
+    let(:slot) { FactoryBot.create(:default_project_slot) }
     it "shows a record" do
-      get :show, { id: slot.id }
+      get :show, params: { id: slot.id }
       expect(response).to render_template :show
       expect(response).to have_http_status(:success)
       expect(assigns(:ProjectSlot).id).to eq(slot.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :show, { id: 99 }
+        get :show, params: { id: 99 }
       end
     end
   end
 
 
   describe "GET #edit" do
-    let(:slot) { FactoryGirl.create(:default_project_slot) }
+    let(:slot) { FactoryBot.create(:default_project_slot) }
     it "shows a record for editing" do
-      get :edit, { id: slot.id }
+      get :edit, params: { id: slot.id }
       expect(response).to render_template :edit
       expect(response).to have_http_status(:success)
       expect(assigns(:ProjectSlot).id).to eq(slot.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :edit, { id: 99 }
+        get :edit, params: { id: 99 }
       end
     end
   end
@@ -142,9 +142,9 @@ RSpec.describe Admin::SlotsController, type: :controller do
 
   describe "PUT #update" do
     context "with valid data" do
-      let(:slot) { FactoryGirl.create(:default_project_slot, extra_volunteers: 0) }
+      let(:slot) { FactoryBot.create(:default_project_slot, extra_volunteers: 0) }
       def post_update
-        put :update, :id => slot.id, :project_slot => { :extra_volunteers => 5 }
+        put :update, params: { :id => slot.id, :project_slot => { :extra_volunteers => 5 } }
         slot.reload
       end
       before(:each) do
@@ -161,9 +161,9 @@ RSpec.describe Admin::SlotsController, type: :controller do
       end
     end
     context "with invalid data" do
-      let(:slot) { FactoryGirl.create(:default_project_slot, :extra_volunteers => 5) }
+      let(:slot) { FactoryBot.create(:default_project_slot, :extra_volunteers => 5) }
       def post_update
-        put :update, :id => slot.id, :project_slot => { :extra_volunteers => nil }
+        put :update, params: { :id => slot.id, :project_slot => { :extra_volunteers => nil } }
         slot.reload
       end
       before(:each) do
@@ -182,31 +182,31 @@ RSpec.describe Admin::SlotsController, type: :controller do
 
   describe "GET #compose_message" do
 
-    let(:slot) { FactoryGirl.create(:default_project_slot) }
+    let(:slot) { FactoryBot.create(:default_project_slot) }
 
     it "returns http success" do
-      get :compose_message, id: slot.id
+      get :compose_message, params: { id: slot.id }
       expect(response).to have_http_status(:success)
     end
 
     it "renders the :compose_message view" do
-      get :compose_message, id: slot.id
+      get :compose_message, params: { id: slot.id }
       expect(response).to render_template :compose_message
     end
 
     it "populates the project slot" do
-      get :compose_message, id: slot.id
+      get :compose_message, params: { id: slot.id }
       expect(assigns(:ProjectSlot)).to eq(slot)
     end
 
     it "populates an empty model" do
-      get :compose_message, id: slot.id
+      get :compose_message, params: { id: slot.id }
       expect(assigns(:ComposeMessage).class).to eq(ComposeMessage)
     end
 
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :compose_message, { id: 99 }
+        get :compose_message, params: { id: 99 }
       end
     end
 
@@ -215,14 +215,14 @@ RSpec.describe Admin::SlotsController, type: :controller do
 
   describe "GET #send_message" do
 
-    let(:slot) { FactoryGirl.create(:default_project_slot) }
+    let(:slot) { FactoryBot.create(:default_project_slot) }
 
-    let(:vol1) { FactoryGirl.create(:default_volunteer, mobile: '1234') }
-    let(:vol2) { FactoryGirl.create(:default_volunteer, mobile: '5678') }
+    let(:vol1) { FactoryBot.create(:default_volunteer, mobile: '1234') }
+    let(:vol2) { FactoryBot.create(:default_volunteer, mobile: '5678') }
 
     context "with an invalid message" do
       def send_message
-        post :send_message, { id: slot.id, compose_message: { message_text: nil } }
+        post :send_message, params: { id: slot.id, compose_message: { message_text: nil } }
       end
       it "does not send a message" do
         expect {
@@ -242,7 +242,7 @@ RSpec.describe Admin::SlotsController, type: :controller do
         send_message
       end
       def send_message
-        post :send_message, { id: slot.id, compose_message: { message_text: 'Hello world' } }
+        post :send_message, params: { id: slot.id, compose_message: { message_text: 'Hello world' } }
       end
       it "sends a message" do
         expect {

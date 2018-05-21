@@ -3,54 +3,54 @@ require 'rails_helper'
 RSpec.describe Project, type: :model do
 
   it 'has a valid factory' do
-    expect(FactoryGirl.build(:default_project)).to be_valid
+    expect(FactoryBot.build(:default_project)).to be_valid
   end
 
 
   # VALIDATION
 
   it "is not valid without an organisation type" do
-    expect(FactoryGirl.build(:default_project, organisation_type: nil)).not_to be_valid
+    expect(FactoryBot.build(:default_project, organisation_type: nil)).not_to be_valid
   end
 
   it "is not valid without a project name" do
-    expect(FactoryGirl.build(:default_project, project_name: nil)).not_to be_valid
+    expect(FactoryBot.build(:default_project, project_name: nil)).not_to be_valid
   end
 
   it "is not valid when adults is not a number" do
-    expect(FactoryGirl.build(:default_project, adults: 'yes')).not_to be_valid
+    expect(FactoryBot.build(:default_project, adults: 'yes')).not_to be_valid
   end
   it "is not valid when adults < 2" do
-    expect(FactoryGirl.build(:default_project, adults: 1)).not_to be_valid
+    expect(FactoryBot.build(:default_project, adults: 1)).not_to be_valid
   end
   it "is not valid when adults is not a whole number" do
-    expect(FactoryGirl.build(:default_project, adults: 2.5)).not_to be_valid
+    expect(FactoryBot.build(:default_project, adults: 2.5)).not_to be_valid
   end
   it "is valid when adults >= 2" do
-    expect(FactoryGirl.build(:default_project, adults: 2)).to be_valid
+    expect(FactoryBot.build(:default_project, adults: 2)).to be_valid
   end
   it "is valid when adults is nil" do
-    expect(FactoryGirl.build(:default_project, adults: nil)).to be_valid
+    expect(FactoryBot.build(:default_project, adults: nil)).to be_valid
   end
 
   it "is not valid when youth is not a number" do
-    expect(FactoryGirl.build(:default_project, youth: 'yes')).not_to be_valid
+    expect(FactoryBot.build(:default_project, youth: 'yes')).not_to be_valid
   end
   it "is not valid when youth < 0" do
-    expect(FactoryGirl.build(:default_project, youth: -1)).not_to be_valid
+    expect(FactoryBot.build(:default_project, youth: -1)).not_to be_valid
   end
   it "is not valid when youth is not a whole number" do
-    expect(FactoryGirl.build(:default_project, youth: 2.5)).not_to be_valid
+    expect(FactoryBot.build(:default_project, youth: 2.5)).not_to be_valid
   end
   it "is valid when youth >= 0" do
-    expect(FactoryGirl.build(:default_project, youth: 2, activity_1_under_18: true)).to be_valid
+    expect(FactoryBot.build(:default_project, youth: 2, activity_1_under_18: true)).to be_valid
   end
   it "is valid when youth is nil" do
-    expect(FactoryGirl.build(:default_project, youth: nil)).to be_valid
+    expect(FactoryBot.build(:default_project, youth: nil)).to be_valid
   end
 
   it "is not valid when youth is > zero but none of the activities are suitable for under 18s" do
-    expect(FactoryGirl.build(:default_project,
+    expect(FactoryBot.build(:default_project,
                               activity_1_under_18: false,
                               activity_2_under_18: false,
                               activity_3_under_18: false,
@@ -58,23 +58,23 @@ RSpec.describe Project, type: :model do
   end
 
   it "is not valid when kids is not a number" do
-    expect(FactoryGirl.build(:default_project, kids: 'yes')).not_to be_valid
+    expect(FactoryBot.build(:default_project, kids: 'yes')).not_to be_valid
   end
   it "is not valid when kids < 0" do
-    expect(FactoryGirl.build(:default_project, kids: -1)).not_to be_valid
+    expect(FactoryBot.build(:default_project, kids: -1)).not_to be_valid
   end
   it "is not valid when kids is not a whole number" do
-    expect(FactoryGirl.build(:default_project, kids: 2.5)).not_to be_valid
+    expect(FactoryBot.build(:default_project, kids: 2.5)).not_to be_valid
   end
   it "is valid when kids >= 0" do
-    expect(FactoryGirl.build(:default_project, kids: 2, activity_1_under_18: true)).to be_valid
+    expect(FactoryBot.build(:default_project, kids: 2, activity_1_under_18: true)).to be_valid
   end
   it "is valid when kids is nil" do
-    expect(FactoryGirl.build(:default_project, kids: nil)).to be_valid
+    expect(FactoryBot.build(:default_project, kids: nil)).to be_valid
   end
 
   it "is not valid when kids is > zero but none of the activities are suitable for under 18s" do
-    expect(FactoryGirl.build(:default_project,
+    expect(FactoryBot.build(:default_project,
                               activity_1_under_18: false,
                               activity_2_under_18: false,
                               activity_3_under_18: false,
@@ -82,48 +82,48 @@ RSpec.describe Project, type: :model do
   end
 
   it "is not valid when morning_start_time is not a valid 24 hour clock time" do
-    expect(FactoryGirl.build(:default_project, morning_start_time: 'abc')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, morning_start_time: '9 am')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, morning_start_time: '24:00')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, morning_start_time: '00:00')).to be_valid
-    expect(FactoryGirl.build(:default_project, morning_start_time: '23:59')).to be_valid
+    expect(FactoryBot.build(:default_project, morning_start_time: 'abc')).not_to be_valid
+    expect(FactoryBot.build(:default_project, morning_start_time: '9 am')).not_to be_valid
+    expect(FactoryBot.build(:default_project, morning_start_time: '24:00')).not_to be_valid
+    expect(FactoryBot.build(:default_project, morning_start_time: '00:00')).to be_valid
+    expect(FactoryBot.build(:default_project, morning_start_time: '23:59')).to be_valid
   end
 
   it "is not valid when afternoon_start_time is not a valid 24 hour clock time" do
-    expect(FactoryGirl.build(:default_project, afternoon_start_time: 'abc')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, afternoon_start_time: '9 am')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, afternoon_start_time: '24:00')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, afternoon_start_time: '00:00')).to be_valid
-    expect(FactoryGirl.build(:default_project, afternoon_start_time: '23:59')).to be_valid
+    expect(FactoryBot.build(:default_project, afternoon_start_time: 'abc')).not_to be_valid
+    expect(FactoryBot.build(:default_project, afternoon_start_time: '9 am')).not_to be_valid
+    expect(FactoryBot.build(:default_project, afternoon_start_time: '24:00')).not_to be_valid
+    expect(FactoryBot.build(:default_project, afternoon_start_time: '00:00')).to be_valid
+    expect(FactoryBot.build(:default_project, afternoon_start_time: '23:59')).to be_valid
   end
 
   it "is not valid when evening_start_time is not a valid 24 hour clock time" do
-    expect(FactoryGirl.build(:default_project, evening_start_time: 'abc')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, evening_start_time: '9 am')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, evening_start_time: '24:00')).not_to be_valid
-    expect(FactoryGirl.build(:default_project, evening_start_time: '00:00')).to be_valid
-    expect(FactoryGirl.build(:default_project, evening_start_time: '23:59')).to be_valid
+    expect(FactoryBot.build(:default_project, evening_start_time: 'abc')).not_to be_valid
+    expect(FactoryBot.build(:default_project, evening_start_time: '9 am')).not_to be_valid
+    expect(FactoryBot.build(:default_project, evening_start_time: '24:00')).not_to be_valid
+    expect(FactoryBot.build(:default_project, evening_start_time: '00:00')).to be_valid
+    expect(FactoryBot.build(:default_project, evening_start_time: '23:59')).to be_valid
   end
 
   it "is not valid when morning_slot_length is less than 0.5" do
-    expect(FactoryGirl.build(:default_project, morning_slot_length: 0.4)).not_to be_valid
+    expect(FactoryBot.build(:default_project, morning_slot_length: 0.4)).not_to be_valid
   end
   it "is not valid when morning_slot_length is more than 5.0" do
-    expect(FactoryGirl.build(:default_project, morning_slot_length: 5.1)).not_to be_valid
+    expect(FactoryBot.build(:default_project, morning_slot_length: 5.1)).not_to be_valid
   end
 
   it "is not valid when afternoon_slot_length is less than 0.5" do
-    expect(FactoryGirl.build(:default_project, afternoon_slot_length: 0.4)).not_to be_valid
+    expect(FactoryBot.build(:default_project, afternoon_slot_length: 0.4)).not_to be_valid
   end
   it "is not valid when afternoon_slot_length is more than 5.0" do
-    expect(FactoryGirl.build(:default_project, afternoon_slot_length: 5.1)).not_to be_valid
+    expect(FactoryBot.build(:default_project, afternoon_slot_length: 5.1)).not_to be_valid
   end
 
   it "is not valid when evening_slot_length is less than 0.5" do
-    expect(FactoryGirl.build(:default_project, evening_slot_length: 0.4)).not_to be_valid
+    expect(FactoryBot.build(:default_project, evening_slot_length: 0.4)).not_to be_valid
   end
   it "is not valid when evening_slot_length is more than 5.0" do
-    expect(FactoryGirl.build(:default_project, evening_slot_length: 5.1)).not_to be_valid
+    expect(FactoryBot.build(:default_project, evening_slot_length: 5.1)).not_to be_valid
   end
 
   # IMPORT
@@ -349,16 +349,16 @@ RSpec.describe Project, type: :model do
 
   describe "#start_date" do
     context "with no slots" do
-      let(:project) { FactoryGirl.build(:default_project) }
+      let(:project) { FactoryBot.build(:default_project) }
       it "returns nil" do
         expect(project.start_date).to eq(nil)
       end
     end
     context "with slots" do
-      let(:project) { FactoryGirl.create(:default_project) }
+      let(:project) { FactoryBot.create(:default_project) }
       before do
-        FactoryGirl.create(:default_project_slot, slot_date: 5.days.from_now.to_s, project: project)
-        FactoryGirl.create(:default_project_slot, slot_date: 2.days.from_now.to_s, project: project)
+        FactoryBot.create(:default_project_slot, slot_date: 5.days.from_now.to_s, project: project)
+        FactoryBot.create(:default_project_slot, slot_date: 2.days.from_now.to_s, project: project)
       end
       it "returns the date of the earliest slot" do
         expect(project.start_date).to eq(2.days.from_now.to_date)
@@ -368,16 +368,16 @@ RSpec.describe Project, type: :model do
 
   describe "#end_date" do
     context "with no slots" do
-      let(:project) { FactoryGirl.build(:default_project) }
+      let(:project) { FactoryBot.build(:default_project) }
       it "returns nil" do
         expect(project.end_date).to eq(nil)
       end
     end
     context "with slots" do
-      let(:project) { FactoryGirl.create(:default_project) }
+      let(:project) { FactoryBot.create(:default_project) }
       before do
-        FactoryGirl.create(:default_project_slot, slot_date: 5.days.from_now.to_s, project: project)
-        FactoryGirl.create(:default_project_slot, slot_date: 2.days.from_now.to_s, project: project)
+        FactoryBot.create(:default_project_slot, slot_date: 5.days.from_now.to_s, project: project)
+        FactoryBot.create(:default_project_slot, slot_date: 2.days.from_now.to_s, project: project)
       end
       it "returns the date of the latest slot" do
         expect(project.end_date).to eq(5.days.from_now.to_date)
@@ -389,67 +389,67 @@ RSpec.describe Project, type: :model do
   describe "#can_publish?" do
     context "when a project is good to go" do
       it "returns true" do
-        project = FactoryGirl.create(:good_to_publish_project)
+        project = FactoryBot.create(:good_to_publish_project)
         expect(project.can_publish?).to eq(true)
       end
     end
     context "when a project has no slots" do
       it "returns false" do
-        project = FactoryGirl.create(:default_project, adults: 10, summary: 'Something')
+        project = FactoryBot.create(:default_project, adults: 10, summary: 'Something')
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has morning slots but no morning start time" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, morning_slot_length: 1.0, morning_start_time: nil)
+        project = FactoryBot.create(:good_to_publish_project, morning_slot_length: 1.0, morning_start_time: nil)
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has morning slots but no morning slot_length" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, morning_slot_length: nil, morning_start_time: '09:30')
+        project = FactoryBot.create(:good_to_publish_project, morning_slot_length: nil, morning_start_time: '09:30')
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has afternoon slots but no afternoon start time" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, afternoon_slot_length: 1.0, afternoon_start_time: nil)
+        project = FactoryBot.create(:good_to_publish_project, afternoon_slot_length: 1.0, afternoon_start_time: nil)
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has afternoon slots but no afternoon slot_length" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, afternoon_slot_length: nil, afternoon_start_time: '14:30')
+        project = FactoryBot.create(:good_to_publish_project, afternoon_slot_length: nil, afternoon_start_time: '14:30')
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has evening slots but no evening start time" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, evening_slot_length: 1.0, evening_start_time: nil)
+        project = FactoryBot.create(:good_to_publish_project, evening_slot_length: 1.0, evening_start_time: nil)
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has evening slots but no evening slot length" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, evening_slot_length: nil, evening_start_time: '19:00')
+        project = FactoryBot.create(:good_to_publish_project, evening_slot_length: nil, evening_start_time: '19:00')
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has no summary" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, summary: '')
+        project = FactoryBot.create(:good_to_publish_project, summary: '')
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has no adult quota set" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, adults: nil)
+        project = FactoryBot.create(:good_to_publish_project, adults: nil)
         expect(project.can_publish?).to eq(false)
       end
     end
     context "when a project has no leader" do
       it "returns false" do
-        project = FactoryGirl.create(:good_to_publish_project, leader: nil)
+        project = FactoryBot.create(:good_to_publish_project, leader: nil)
         expect(project.can_publish?).to eq(false)
       end
     end
@@ -459,19 +459,19 @@ RSpec.describe Project, type: :model do
   describe "#suitable_for_youth?" do
     context "when the youth counter is nil" do
       it "returns false" do
-        project = FactoryGirl.build(:default_project, youth: nil)
+        project = FactoryBot.build(:default_project, youth: nil)
         expect(project.suitable_for_youth?).to eq(false)
       end
     end
     context "when the youth counter is zero" do
       it "returns false" do
-        project = FactoryGirl.build(:default_project, youth: 0)
+        project = FactoryBot.build(:default_project, youth: 0)
         expect(project.suitable_for_youth?).to eq(false)
       end
     end
     context "when the youth counter is more than zero" do
       it "returns true" do
-        project = FactoryGirl.build(:default_project, youth: 1)
+        project = FactoryBot.build(:default_project, youth: 1)
         expect(project.suitable_for_youth?).to eq(true)
       end
     end
@@ -480,19 +480,19 @@ RSpec.describe Project, type: :model do
   describe "#suitable_for_kids?" do
     context "when the kids counter is nil" do
       it "returns false" do
-        project = FactoryGirl.build(:default_project, kids: nil)
+        project = FactoryBot.build(:default_project, kids: nil)
         expect(project.suitable_for_kids?).to eq(false)
       end
     end
     context "when the kids counter is zero" do
       it "returns false" do
-        project = FactoryGirl.build(:default_project, kids: 0)
+        project = FactoryBot.build(:default_project, kids: 0)
         expect(project.suitable_for_kids?).to eq(false)
       end
     end
     context "when the kids counter is more than zero" do
       it "returns true" do
-        project = FactoryGirl.build(:default_project, kids: 1)
+        project = FactoryBot.build(:default_project, kids: 1)
         expect(project.suitable_for_kids?).to eq(true)
       end
     end
@@ -504,15 +504,15 @@ RSpec.describe Project, type: :model do
   #
   describe 'scope:could_run_wc_july_3rd' do
     it 'includes records with july_3 set true' do
-      a    = FactoryGirl.create(:default_project, :july_3 => true , any_week: false)
-      b    = FactoryGirl.create(:default_project, :july_3 => false, any_week: false)
+      a    = FactoryBot.create(:default_project, :july_3 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :july_3 => false, any_week: false)
       filtered = Project.could_run_wc_july_3rd(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryGirl.create(:default_project, july_3: false, any_week: true)
-      b    = FactoryGirl.create(:default_project, july_3: false, any_week: false)
+      a    = FactoryBot.create(:default_project, july_3: false, any_week: true)
+      b    = FactoryBot.create(:default_project, july_3: false, any_week: false)
       filtered = Project.could_run_wc_july_3rd(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
@@ -520,15 +520,15 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:could_run_wc_july_10th' do
     it 'includes records with july_10 set true' do
-      a    = FactoryGirl.create(:default_project, :july_10 => true , any_week: false)
-      b    = FactoryGirl.create(:default_project, :july_10 => false, any_week: false)
+      a    = FactoryBot.create(:default_project, :july_10 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :july_10 => false, any_week: false)
       filtered = Project.could_run_wc_july_10th(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryGirl.create(:default_project, july_10: false, any_week: true)
-      b    = FactoryGirl.create(:default_project, july_10: false, any_week: false)
+      a    = FactoryBot.create(:default_project, july_10: false, any_week: true)
+      b    = FactoryBot.create(:default_project, july_10: false, any_week: false)
       filtered = Project.could_run_wc_july_10th(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
@@ -536,15 +536,15 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:could_run_wc_july_17th' do
     it 'includes records with july_17 set true' do
-      a    = FactoryGirl.create(:default_project, :july_17 => true , any_week: false)
-      b    = FactoryGirl.create(:default_project, :july_17 => false, any_week: false)
+      a    = FactoryBot.create(:default_project, :july_17 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :july_17 => false, any_week: false)
       filtered = Project.could_run_wc_july_17th(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryGirl.create(:default_project, july_17: false, any_week: true)
-      b    = FactoryGirl.create(:default_project, july_17: false, any_week: false)
+      a    = FactoryBot.create(:default_project, july_17: false, any_week: true)
+      b    = FactoryBot.create(:default_project, july_17: false, any_week: false)
       filtered = Project.could_run_wc_july_17th(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
@@ -552,15 +552,15 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:could_run_wc_july_24th' do
     it 'includes records with july_24 set true' do
-      a    = FactoryGirl.create(:default_project, :july_24 => true , any_week: false)
-      b    = FactoryGirl.create(:default_project, :july_24 => false, any_week: false)
+      a    = FactoryBot.create(:default_project, :july_24 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :july_24 => false, any_week: false)
       filtered = Project.could_run_wc_july_24th(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryGirl.create(:default_project, july_24: false, any_week: true)
-      b    = FactoryGirl.create(:default_project, july_24: false, any_week: false)
+      a    = FactoryBot.create(:default_project, july_24: false, any_week: true)
+      b    = FactoryBot.create(:default_project, july_24: false, any_week: false)
       filtered = Project.could_run_wc_july_24th(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
@@ -568,8 +568,8 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:could_run_evenings' do
     it 'includes records with evenings set true' do
-      a    = FactoryGirl.create(:default_project, evenings: true)
-      b    = FactoryGirl.create(:default_project, evenings: false)
+      a    = FactoryBot.create(:default_project, evenings: true)
+      b    = FactoryBot.create(:default_project, evenings: false)
       filtered = Project.could_run_evenings(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
@@ -577,8 +577,8 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:could_run_saturday' do
     it 'includes records with saturday set true' do
-      a    = FactoryGirl.create(:default_project, saturday: true)
-      b    = FactoryGirl.create(:default_project, saturday: false)
+      a    = FactoryBot.create(:default_project, saturday: true)
+      b    = FactoryBot.create(:default_project, saturday: false)
       filtered = Project.could_run_saturday(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
@@ -586,9 +586,9 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:with_name' do
     it 'includes records where the project_name contains the value' do
-      aaa    = FactoryGirl.create(:default_project, project_name: 'aaa')
-      bab    = FactoryGirl.create(:default_project, project_name: 'bab')
-      bbb    = FactoryGirl.create(:default_project, project_name: 'bbb')
+      aaa    = FactoryBot.create(:default_project, project_name: 'aaa')
+      bab    = FactoryBot.create(:default_project, project_name: 'bab')
+      bbb    = FactoryBot.create(:default_project, project_name: 'bbb')
       filtered = Project.with_name('a')
       expect(filtered).to include(aaa)
       expect(filtered).to include(bab)
@@ -597,8 +597,8 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:of_type' do
     it 'includes records where the organisation_type matches the value' do
-      a    = FactoryGirl.create(:default_project, organisation_type: 'a')
-      b    = FactoryGirl.create(:default_project, organisation_type: 'b')
+      a    = FactoryBot.create(:default_project, organisation_type: 'a')
+      b    = FactoryBot.create(:default_project, organisation_type: 'b')
       filtered = Project.of_type('a')
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
@@ -606,8 +606,8 @@ RSpec.describe Project, type: :model do
   end
   describe 'scope:with_status' do
     it 'includes records where the status matches the value' do
-      a    = FactoryGirl.create(:default_project, status: :draft)
-      b    = FactoryGirl.create(:default_project, status: :published)
+      a    = FactoryBot.create(:default_project, status: :draft)
+      b    = FactoryBot.create(:default_project, status: :published)
       filtered = Project.with_status(Project.statuses[:draft])
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)

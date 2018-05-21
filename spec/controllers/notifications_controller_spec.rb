@@ -6,15 +6,15 @@ RSpec.describe NotificationsController, type: :controller do
 
   describe "GET #reminders" do
 
-    let(:project_a)   { FactoryGirl.create(:published_project, project_name: 'Project A') }
-    let(:project_b)   { FactoryGirl.create(:default_project,   project_name: 'Project B') }
-    let(:volunteer_a) { FactoryGirl.create(:default_volunteer, first_name:   'AAA') }
-    let(:volunteer_b) { FactoryGirl.create(:default_volunteer, first_name:   'BBB') }
-    let(:slot1)  { FactoryGirl.create(:default_project_slot, project: project_a, slot_date:  1.days.from_now, slot_type:  :morning) }
-    let(:slot1a) { FactoryGirl.create(:default_project_slot, project: project_a, slot_date:  1.days.from_now, slot_type:  :afternoon) }
-    let(:slot1b) { FactoryGirl.create(:default_project_slot, project: project_b, slot_date:  1.days.from_now, slot_type:  :afternoon) }
-    let(:slot2)  { FactoryGirl.create(:default_project_slot, project: project_a, slot_date:  2.days.from_now, slot_type:  :morning) }
-    let(:slot3)  { FactoryGirl.create(:default_project_slot, project: project_a, slot_date: -1.days.from_now, slot_type:  :morning) }
+    let(:project_a)   { FactoryBot.create(:published_project, project_name: 'Project A') }
+    let(:project_b)   { FactoryBot.create(:default_project,   project_name: 'Project B') }
+    let(:volunteer_a) { FactoryBot.create(:default_volunteer, first_name:   'AAA') }
+    let(:volunteer_b) { FactoryBot.create(:default_volunteer, first_name:   'BBB') }
+    let(:slot1)  { FactoryBot.create(:default_project_slot, project: project_a, slot_date:  1.days.from_now, slot_type:  :morning) }
+    let(:slot1a) { FactoryBot.create(:default_project_slot, project: project_a, slot_date:  1.days.from_now, slot_type:  :afternoon) }
+    let(:slot1b) { FactoryBot.create(:default_project_slot, project: project_b, slot_date:  1.days.from_now, slot_type:  :afternoon) }
+    let(:slot2)  { FactoryBot.create(:default_project_slot, project: project_a, slot_date:  2.days.from_now, slot_type:  :morning) }
+    let(:slot3)  { FactoryBot.create(:default_project_slot, project: project_a, slot_date: -1.days.from_now, slot_type:  :morning) }
 
     before(:each) do
       slot1.volunteers << volunteer_a

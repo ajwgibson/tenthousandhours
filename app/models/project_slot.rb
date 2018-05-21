@@ -1,4 +1,4 @@
-class ProjectSlot < ActiveRecord::Base
+class ProjectSlot < ApplicationRecord
 
   acts_as_paranoid
 

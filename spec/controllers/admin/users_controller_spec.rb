@@ -22,8 +22,8 @@ RSpec.describe Admin::UsersController, type: :controller do
     it "orders the users by email address" do
       # Note: the login_user method creates a user!
       default_user = User.first
-      user_z = FactoryGirl.create(:default_user, :email => 'z@z.com')
-      user_y = FactoryGirl.create(:default_user, :email => 'y@y.com')
+      user_z = FactoryBot.create(:default_user, :email => 'z@z.com')
+      user_y = FactoryBot.create(:default_user, :email => 'y@y.com')
       get :index
       expect(assigns(:users)).to eq([default_user, user_y, user_z])
     end
@@ -32,17 +32,17 @@ RSpec.describe Admin::UsersController, type: :controller do
 
   describe "GET #show" do
 
-    let(:user) { FactoryGirl.create(:default_user, :email => 'a@a.com') }
+    let(:user) { FactoryBot.create(:default_user, :email => 'a@a.com') }
 
     it "shows a record" do
-      get :show, { id: user.id }
+      get :show, params: { id: user.id }
       expect(response).to render_template :show
       expect(response).to have_http_status(:success)
       expect(assigns(:user).id).to eq(user.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :show, { id: 99 }
+        get :show, params: { id: 99 }
       end
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe Admin::UsersController, type: :controller do
           password:              'Pa$$w0rd',
           password_confirmation: 'Pa$$w0rd',
         }
-        post :create, { user: attrs }
+        post :create, params: { user: attrs }
       end
 
       before(:each) do
@@ -82,7 +82,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
       it "creates a new record" do
         expect {
-          post :create, { user: FactoryGirl.attributes_for(:default_user) }
+          post :create, params: { user: FactoryBot.attributes_for(:default_user) }
         }.to change(User, :count).by(1)
       end
       it "redirects to the index action" do
@@ -99,8 +99,8 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context "with invalid data" do
       def post_create
-        attrs = FactoryGirl.attributes_for(:user, :first_name => 'A')
-        post :create, { user: attrs }
+        attrs = FactoryBot.attributes_for(:user, :first_name => 'A')
+        post :create, params: { user: attrs }
       end
       it "does not create a new record" do
         expect {
@@ -118,17 +118,17 @@ RSpec.describe Admin::UsersController, type: :controller do
 
   describe "GET #edit" do
 
-    let(:user) { FactoryGirl.create(:default_user) }
+    let(:user) { FactoryBot.create(:default_user) }
 
     it "shows a record for editing" do
-      get :edit, { id: user.id }
+      get :edit, params: { id: user.id }
       expect(response).to render_template :edit
       expect(response).to have_http_status(:success)
       expect(assigns(:user).id).to eq(user.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :edit, { id: 99 }
+        get :edit, params: { id: 99 }
       end
     end
   end
@@ -138,17 +138,17 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context "with valid data" do
 
-      let(:user) { FactoryGirl.create(:default_user, :first_name => 'Original') }
+      let(:user) { FactoryBot.create(:default_user, :first_name => 'Original') }
 
       def post_update
-        put :update,
+        put :update, params: {
             :id => user.id,
             :user => {
               :first_name => 'Changed',
               :last_name  => user.last_name,
               :email      => user.email,
               :role       => user.role,
-            }
+            } }
         user.reload
       end
 
@@ -169,10 +169,10 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context "with invalid data" do
 
-      let(:user) { FactoryGirl.create(:default_user, :first_name => 'Original') }
+      let(:user) { FactoryBot.create(:default_user, :first_name => 'Original') }
 
       def post_update
-        put :update, :id => user.id, :user => { :first_name => nil }
+        put :update, params: { :id => user.id, :user => { :first_name => nil } }
         user.reload
       end
 
@@ -185,7 +185,7 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
       it "re-renders the form with the posted data" do
         expect(response).to render_template(:edit)
-        expect(assigns(:user).first_name).to be_nil
+        expect(assigns(:user).first_name).to be_empty
       end
     end
   end
@@ -193,15 +193,15 @@ RSpec.describe Admin::UsersController, type: :controller do
 
   describe "DELETE #destroy" do
 
-    let!(:user) { FactoryGirl.create(:default_user) }
+    let!(:user) { FactoryBot.create(:default_user) }
 
     it "deletes the record" do
       expect {
-        delete :destroy, :id => user.id
+        delete :destroy, params: { :id => user.id }
       }.to change(User, :count).by(-1)
     end
     it "redirects to #index" do
-      delete :destroy, :id => user.id
+      delete :destroy, params: { :id => user.id }
       expect(response).to redirect_to([:admin, :users])
     end
   end

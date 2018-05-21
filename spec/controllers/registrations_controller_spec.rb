@@ -21,7 +21,7 @@ RSpec.describe RegistrationsController, type: :controller do
     let(:code) { volunteer.mobile_confirmation_code }
     context "when the code matches the volunteer's mobile_confirmation_code" do
       before(:each) do
-        post :do_confirm_mobile, { code: code }
+        post :do_confirm_mobile, params: { code: code }
         volunteer.reload
       end
       it "set the volunteer mobile_confirmation_code to nil" do
@@ -36,7 +36,7 @@ RSpec.describe RegistrationsController, type: :controller do
     end
     context "when the code does not match the volunteer's mobile_confirmation_code" do
       before(:each) do
-        post :do_confirm_mobile, { code: 'abcd' }
+        post :do_confirm_mobile, params: { code: 'abcd' }
         volunteer.reload
       end
       it "does not set the volunteer mobile_confirmation_code to nil" do

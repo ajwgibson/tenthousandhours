@@ -15,80 +15,80 @@ RSpec.describe Admin::VolunteersController, type: :controller do
       expect(response).to render_template :index
     end
     it "populates an array of volunteers" do
-      v = FactoryGirl.create(:default_volunteer)
+      v = FactoryBot.create(:default_volunteer)
       get :index
       expect(assigns(:volunteers)).to eq([v])
     end
     it "orders volunteers by name by default" do
-      ba = FactoryGirl.create(:default_volunteer, first_name: 'b', last_name: 'a')
-      ca = FactoryGirl.create(:default_volunteer, first_name: 'c', last_name: 'a')
-      ab = FactoryGirl.create(:default_volunteer, first_name: 'a', last_name: 'b')
-      aa = FactoryGirl.create(:default_volunteer, first_name: 'a', last_name: 'a')
+      ba = FactoryBot.create(:default_volunteer, first_name: 'b', last_name: 'a')
+      ca = FactoryBot.create(:default_volunteer, first_name: 'c', last_name: 'a')
+      ab = FactoryBot.create(:default_volunteer, first_name: 'a', last_name: 'b')
+      aa = FactoryBot.create(:default_volunteer, first_name: 'a', last_name: 'a')
       get :index
       expect(assigns(:volunteers)).to eq([aa,ab,ba,ca])
     end
     it "stores filters to the session" do
-      get :index, with_first_name: 'abc'
+      get :index, params: { with_first_name: 'abc' }
       expect(session[:filter_admin_volunteers]).to eq({'with_first_name' => 'abc'})
     end
     it "removes blank filter values" do
-      get :index, with_first_name: nil
+      get :index, params: { with_first_name: nil }
       expect(assigns(:filter)).to eq({})
     end
     it "retrieves filters from the session if none have been supplied" do
-      a = FactoryGirl.create(:default_volunteer, first_name: 'a', last_name: 'zzz')
-      b = FactoryGirl.create(:default_volunteer, first_name: 'b', last_name: 'zzz')
-      get :index, { }, { :filter_admin_volunteers => {'with_first_name' => 'a'} }
+      a = FactoryBot.create(:default_volunteer, first_name: 'a', last_name: 'zzz')
+      b = FactoryBot.create(:default_volunteer, first_name: 'b', last_name: 'zzz')
+      get :index, session: { :filter_admin_volunteers => {'with_first_name' => 'a'} }
       expect(assigns(:volunteers)).to eq([a])
     end
     it "applies the 'with_first_name' filter if supplied" do
-      a = FactoryGirl.create(:default_volunteer, first_name: 'a')
-      b = FactoryGirl.create(:default_volunteer, first_name: 'b')
-      get :index, with_first_name: 'a'
+      a = FactoryBot.create(:default_volunteer, first_name: 'a')
+      b = FactoryBot.create(:default_volunteer, first_name: 'b')
+      get :index, params: { with_first_name: 'a' }
       expect(assigns(:volunteers)).to eq([a])
     end
     it "applies the 'with_last_name' filter if supplied" do
-      a = FactoryGirl.create(:default_volunteer, last_name: 'a')
-      b = FactoryGirl.create(:default_volunteer, last_name: 'b')
-      get :index, with_last_name: 'a'
+      a = FactoryBot.create(:default_volunteer, last_name: 'a')
+      b = FactoryBot.create(:default_volunteer, last_name: 'b')
+      get :index, params: { with_last_name: 'a' }
       expect(assigns(:volunteers)).to eq([a])
     end
     it "applies the 'with_email' filter if supplied" do
-      a = FactoryGirl.create(:default_volunteer, email: 'a@x.y')
-      b = FactoryGirl.create(:default_volunteer, email: 'b@x.y')
-      get :index, with_email: 'a'
+      a = FactoryBot.create(:default_volunteer, email: 'a@x.y')
+      b = FactoryBot.create(:default_volunteer, email: 'b@x.y')
+      get :index, params: { with_email: 'a' }
       expect(assigns(:volunteers)).to eq([a])
     end
     it "applies the 'with_mobile' filter if supplied" do
-      a = FactoryGirl.create(:default_volunteer, mobile: 'a')
-      b = FactoryGirl.create(:default_volunteer, mobile: 'b')
-      get :index, with_mobile: 'a'
+      a = FactoryBot.create(:default_volunteer, mobile: 'a')
+      b = FactoryBot.create(:default_volunteer, mobile: 'b')
+      get :index, params: { with_mobile: 'a' }
       expect(assigns(:volunteers)).to eq([a])
     end
     it "applies the 'in_age_category' filter if supplied" do
-      a = FactoryGirl.create(:default_volunteer)
-      b = FactoryGirl.create(:youth_volunteer)
-      get :index, in_age_category: 'youth'
+      a = FactoryBot.create(:default_volunteer)
+      b = FactoryBot.create(:youth_volunteer)
+      get :index, params: { in_age_category: 'youth' }
       expect(assigns(:volunteers)).to eq([b])
     end
     it "applies the 'with_skill' filter if supplied" do
-      a = FactoryGirl.create(:default_volunteer, skills: ['a','x'])
-      b = FactoryGirl.create(:default_volunteer, skills: ['b','x'])
-      get :index, with_skill: 'a'
+      a = FactoryBot.create(:default_volunteer, skills: ['a','x'])
+      b = FactoryBot.create(:default_volunteer, skills: ['b','x'])
+      get :index, params: { with_skill: 'a' }
       expect(assigns(:volunteers)).to eq([a])
     end
     it "applies the 'without_projects' filter if supplied" do
-      slot = FactoryGirl.create(:default_project_slot)
-      a    = FactoryGirl.create(:default_volunteer, first_name: 'a')
-      b    = FactoryGirl.create(:default_volunteer, first_name: 'b')
+      slot = FactoryBot.create(:default_project_slot)
+      a    = FactoryBot.create(:default_volunteer, first_name: 'a')
+      b    = FactoryBot.create(:default_volunteer, first_name: 'b')
       slot.volunteers << a
-      get :index, without_projects: true
+      get :index, params: { without_projects: true }
       expect(assigns(:volunteers)).to eq([b])
     end
     context "with no explicit page value" do
       it "returns the first page of volunteers" do
         30.times do |i|
-          FactoryGirl.create(:default_volunteer, first_name: "Person_#{i}", last_name: 'xxx')
+          FactoryBot.create(:default_volunteer, first_name: "Person_#{i}", last_name: 'xxx')
         end
         get :index
         expect(assigns(:volunteers).count).to eq(25)
@@ -97,9 +97,9 @@ RSpec.describe Admin::VolunteersController, type: :controller do
     context "with an explicit page value" do
       it "returns the requested page of volunteers" do
         30.times do |i|
-          FactoryGirl.create(:default_volunteer, first_name: "Person_#{i}", last_name: 'xxx')
+          FactoryBot.create(:default_volunteer, first_name: "Person_#{i}", last_name: 'xxx')
         end
-        get :index, page: 2
+        get :index, params: { page: 2 }
         expect(assigns(:volunteers).count).to eq(5)
       end
     end
@@ -121,17 +121,17 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
   describe "GET #show" do
 
-    let(:volunteer) { FactoryGirl.create(:default_volunteer, :email => 'a@a.com') }
+    let(:volunteer) { FactoryBot.create(:default_volunteer, :email => 'a@a.com') }
 
     it "shows a record" do
-      get :show, { id: volunteer.id }
+      get :show, params: { id: volunteer.id }
       expect(response).to render_template :show
       expect(response).to have_http_status(:success)
       expect(assigns(:volunteer).id).to eq(volunteer.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :show, { id: 99 }
+        get :show, params: { id: 99 }
       end
     end
   end
@@ -165,7 +165,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
           guardian_name:  'The grown up',
           guardian_contact_number: '999'
         }
-        post :create, { volunteer: attrs }
+        post :create, params: { volunteer: attrs }
       end
 
       before(:each) do
@@ -226,7 +226,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
           mobile:         '12345',
           age_category:   'adult'
         }
-        post :create, { volunteer: attrs }
+        post :create, params: { volunteer: attrs }
       end
 
       before(:each) do
@@ -255,7 +255,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
           mobile:         '12345',
           age_category:   'adult'
         }
-        post :create, { volunteer: attrs }
+        post :create, params: { volunteer: attrs }
       end
 
       before(:each) do
@@ -278,7 +278,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
       def post_create
         attrs = { first_name: 'A' }
-        post :create, { volunteer: attrs }
+        post :create, params: { volunteer: attrs }
       end
 
       before(:each) do
@@ -301,10 +301,10 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
   describe "GET #edit" do
 
-    let(:volunteer) { FactoryGirl.create(:default_volunteer) }
+    let(:volunteer) { FactoryBot.create(:default_volunteer) }
 
     it "shows a record for editing" do
-      get :edit, { id: volunteer.id }
+      get :edit, params: { id: volunteer.id }
       expect(response).to render_template :edit
       expect(response).to have_http_status(:success)
       expect(assigns(:volunteer).id).to eq(volunteer.id)
@@ -312,7 +312,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :edit, { id: 99 }
+        get :edit, params: { id: 99 }
       end
     end
 
@@ -323,10 +323,10 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     context "with valid data" do
 
-      let(:volunteer) { FactoryGirl.create(:default_volunteer, :first_name => 'Original') }
+      let(:volunteer) { FactoryBot.create(:default_volunteer, :first_name => 'Original') }
 
       def post_update
-        put :update, :id => volunteer.id, :volunteer => { :first_name => 'Changed' }
+        put :update, params: { :id => volunteer.id, :volunteer => { :first_name => 'Changed' } }
         volunteer.reload
       end
 
@@ -350,10 +350,10 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     context "with invalid data" do
 
-      let(:volunteer) { FactoryGirl.create(:default_volunteer, :first_name => 'Original') }
+      let(:volunteer) { FactoryBot.create(:default_volunteer, :first_name => 'Original') }
 
       def post_update
-        put :update, :id => volunteer.id, :volunteer => { :first_name => nil }
+        put :update, params: { :id => volunteer.id, :volunteer => { :first_name => nil } }
         volunteer.reload
       end
 
@@ -367,7 +367,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
       it "re-renders the form with the posted data" do
         expect(response).to render_template(:edit)
-        expect(assigns(:volunteer).first_name).to be_nil
+        expect(assigns(:volunteer).first_name).to be_empty
       end
 
     end
@@ -378,10 +378,10 @@ RSpec.describe Admin::VolunteersController, type: :controller do
   describe "GET #compose_one" do
 
     context "with a valid volunteer id" do
-      let(:volunteer) { FactoryGirl.create(:default_volunteer) }
+      let(:volunteer) { FactoryBot.create(:default_volunteer) }
 
       before(:each) do
-        get :compose_one, { id: volunteer.id }
+        get :compose_one, params: { id: volunteer.id }
       end
 
       it "returns http success" do
@@ -400,7 +400,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :compose_one, { id: 99 }
+        get :compose_one, params: { id: 99 }
       end
     end
 
@@ -409,11 +409,11 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
   describe "POST #send_one" do
 
-    let(:volunteer) { FactoryGirl.create(:default_volunteer, mobile: '1234') }
+    let(:volunteer) { FactoryBot.create(:default_volunteer, mobile: '1234') }
 
     context "with an invalid message" do
       def send_message
-        post :send_one, { id: volunteer.id, compose_message: { message_text: nil } }
+        post :send_one, params: { id: volunteer.id, compose_message: { message_text: nil } }
       end
       it "does not send a message" do
         expect {
@@ -428,7 +428,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     context "with a valid message" do
       def send_message
-        post :send_one, { id: volunteer.id, compose_message: { message_text: 'Hello world' } }
+        post :send_one, params: { id: volunteer.id, compose_message: { message_text: 'Hello world' } }
       end
 
       before(:each) do
@@ -458,8 +458,8 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
   describe "GET #compose_all" do
     before do
-      FactoryGirl.create(:default_volunteer)
-      FactoryGirl.create(:default_volunteer)
+      FactoryBot.create(:default_volunteer)
+      FactoryBot.create(:default_volunteer)
     end
 
     before(:each) do
@@ -485,7 +485,7 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     context "with an invalid message" do
       def send_message
-        post :send_all, { compose_message: { message_text: nil } }
+        post :send_all, params: { compose_message: { message_text: nil } }
       end
       it "does not send a message" do
         expect {
@@ -500,13 +500,13 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     context "with a valid message" do
       def send_message
-        post :send_all, { compose_message: { message_text: 'Hello world' } }
+        post :send_all, params: { compose_message: { message_text: 'Hello world' } }
       end
 
       before do
-        FactoryGirl.create(:default_volunteer, mobile: '1111')
-        FactoryGirl.create(:default_volunteer, mobile: '2222')
-        FactoryGirl.create(:default_volunteer, mobile: '3333')
+        FactoryBot.create(:default_volunteer, mobile: '1111')
+        FactoryBot.create(:default_volunteer, mobile: '2222')
+        FactoryBot.create(:default_volunteer, mobile: '3333')
       end
 
       before(:each) do
@@ -535,13 +535,13 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
 
   describe "GET #new_sign_up" do
-    let(:volunteer) { FactoryGirl.create(:default_volunteer) }
+    let(:volunteer) { FactoryBot.create(:default_volunteer) }
 
-    let(:published_project)   { FactoryGirl.create(:published_project) }
-    let(:unpublished_project) { FactoryGirl.create(:default_project) }
+    let(:published_project)   { FactoryBot.create(:published_project) }
+    let(:unpublished_project) { FactoryBot.create(:default_project) }
 
     it "renders a blank form" do
-      get :new_sign_up, { id: volunteer.id }
+      get :new_sign_up, params: { id: volunteer.id }
       expect(response).to render_template :new_sign_up
       expect(response).to have_http_status(:success)
       expect(assigns(:volunteer).id).to eq(volunteer.id)

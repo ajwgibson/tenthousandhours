@@ -18,8 +18,8 @@ RSpec.describe PersonalProjectsController, type: :controller do
   describe "POST #create" do
     context "with invalid data" do
       def post_create
-        attrs = FactoryGirl.attributes_for(:personal_project, description: 'Something')
-        post :create, { personal_project: attrs }
+        attrs = FactoryBot.attributes_for(:personal_project, description: 'Something')
+        post :create, params: { personal_project: attrs }
       end
       it "does not create a new record" do
         expect {
@@ -36,13 +36,13 @@ RSpec.describe PersonalProjectsController, type: :controller do
       let(:personal_project) { PersonalProject.first }
       def post_create
         attrs =
-          FactoryGirl.attributes_for(
+          FactoryBot.attributes_for(
             :personal_project,
             project_date: '2017-07-12',
             volunteer_count: 3,
             duration: 2.5,
             description: 'Some details')
-        post :create, { personal_project: attrs }
+        post :create, params: { personal_project: attrs }
       end
       before(:each) do
         post_create
@@ -70,16 +70,16 @@ RSpec.describe PersonalProjectsController, type: :controller do
 
 
   describe "GET #edit" do
-    let(:project) { FactoryGirl.create(:default_personal_project) }
+    let(:project) { FactoryBot.create(:default_personal_project) }
     it "shows a record for editing" do
-      get :edit, { id: project.id }
+      get :edit, params: { id: project.id }
       expect(response).to render_template :new
       expect(response).to have_http_status(:success)
       expect(assigns(:personal_project).id).to eq(project.id)
     end
     it "raises an exception for a missing record" do
       assert_raises(ActiveRecord::RecordNotFound) do
-        get :edit, { id: 99 }
+        get :edit, params: { id: 99 }
       end
     end
   end
@@ -87,9 +87,9 @@ RSpec.describe PersonalProjectsController, type: :controller do
 
   describe "PUT #update" do
     context "with valid data" do
-      let(:project) { FactoryGirl.create(:default_personal_project, :description => 'Original') }
+      let(:project) { FactoryBot.create(:default_personal_project, :description => 'Original') }
       def post_update
-        put :update, :id => project.id, :personal_project => { :description => 'Changed' }
+        put :update, params: { id: project.id, personal_project: { description: 'Changed' } }
         project.reload
       end
       before(:each) do
@@ -106,9 +106,9 @@ RSpec.describe PersonalProjectsController, type: :controller do
       end
     end
     context "with invalid data" do
-      let(:project) { FactoryGirl.create(:default_personal_project, :description => 'Original') }
+      let(:project) { FactoryBot.create(:default_personal_project, description: 'Original') }
       def post_update
-        put :update, :id => project.id, :personal_project => { :description => nil }
+        put :update, params: { id: project.id, personal_project: { description: nil } }
         project.reload
       end
       before(:each) do
@@ -119,22 +119,22 @@ RSpec.describe PersonalProjectsController, type: :controller do
       end
       it "re-renders the form with the posted data" do
         expect(response).to render_template(:new)
-        expect(assigns(:personal_project).description).to be_nil
+        expect(assigns(:personal_project).description).to be_empty
       end
     end
   end
 
 
   describe "DELETE #destroy" do
-    let!(:project) { FactoryGirl.create(:default_personal_project) }
+    let!(:project) { FactoryBot.create(:default_personal_project) }
     it "soft deletes the record" do
       expect {
-        delete :destroy, :id => project.id
+        delete :destroy, params: { id: project.id }
       }.to change(PersonalProject, :count).by(-1)
       expect(PersonalProject.only_deleted.count).to eq(1)
     end
     it "redirects to my_projects" do
-      delete :destroy, :id => project.id
+      delete :destroy, params: { id: project.id }
       expect(response).to redirect_to(my_projects_url)
     end
   end

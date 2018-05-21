@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   def index
     @filter = get_filter
     @slots = ProjectSlot.filter(@filter)
-    project_ids = @slots.uniq.pluck(:project_id)
+    project_ids = @slots.distinct.pluck(:project_id)
     @projects = Project.published.where(id: project_ids).order(:project_name)
     set_filter @filter
     @filtered = !(@filter.except(:order_by).empty?)
@@ -41,14 +41,14 @@ class ProjectsController < ApplicationController
 
   def get_filter
     filter =
-      params.slice(
+      params.permit(
         :with_project_name,
         :for_children,
         :for_youth,
         :for_week,
         :for_date,
         :of_type,
-      )
+      ).to_h
     filter = session[:filter_projects].symbolize_keys! if filter.empty? && session.key?(:filter_projects)
     filter.delete_if { |key, value| value.blank? }
   end

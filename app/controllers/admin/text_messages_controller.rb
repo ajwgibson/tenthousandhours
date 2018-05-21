@@ -25,10 +25,10 @@ private
 
   def get_filter
     filter =
-      params.slice(
+      params.permit(
         :with_recipient,
         :order_by,
-      )
+      ).to_h
     filter = session[:filter_admin_text_messages].symbolize_keys! if filter.empty? && session.key?(:filter_admin_text_messages)
     filter = { :order_by => 'created_at desc' } if filter.empty?
     filter.delete_if { |key, value| value.blank? }

@@ -1,4 +1,4 @@
-class PersonalProject < ActiveRecord::Base
+class PersonalProject < ApplicationRecord
 
   acts_as_paranoid
   belongs_to :volunteer

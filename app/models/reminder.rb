@@ -1,4 +1,4 @@
-class Reminder < ActiveRecord::Base
+class Reminder < ApplicationRecord
   belongs_to :project
   belongs_to :volunteer
   validates :reminder_date, :presence => true

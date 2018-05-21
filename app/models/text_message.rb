@@ -1,4 +1,4 @@
-class TextMessage < ActiveRecord::Base
+class TextMessage < ApplicationRecord
 
   include Filterable
 
