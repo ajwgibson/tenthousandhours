@@ -1,54 +1,58 @@
+GIT
+  remote: https://github.com/ActsAsParanoid/acts_as_paranoid.git
+  revision: d643738e1373850d4225d4678a129ef4e648e719
+  specs:
+    acts_as_paranoid (1.0.0.beta)
+      activerecord (>= 4.2, < 6.0)
+      activesupport (>= 4.2, < 6.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (5.0.7)
-      actionpack (= 5.0.7)
-      nio4r (>= 1.2, < 3.0)
+    actioncable (5.1.6)
+      actionpack (= 5.1.6)
+      nio4r (~> 2.0)
       websocket-driver (~> 0.6.1)
-    actionmailer (5.0.7)
-      actionpack (= 5.0.7)
-      actionview (= 5.0.7)
-      activejob (= 5.0.7)
+    actionmailer (5.1.6)
+      actionpack (= 5.1.6)
+      actionview (= 5.1.6)
+      activejob (= 5.1.6)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.0.7)
-      actionview (= 5.0.7)
-      activesupport (= 5.0.7)
+    actionpack (5.1.6)
+      actionview (= 5.1.6)
+      activesupport (= 5.1.6)
       rack (~> 2.0)
-      rack-test (~> 0.6.3)
+      rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.0.7)
-      activesupport (= 5.0.7)
+    actionview (5.1.6)
+      activesupport (= 5.1.6)
       builder (~> 3.1)
-      erubis (~> 2.7.0)
+      erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.0.7)
-      activesupport (= 5.0.7)
+    activejob (5.1.6)
+      activesupport (= 5.1.6)
       globalid (>= 0.3.6)
-    activemodel (5.0.7)
-      activesupport (= 5.0.7)
-    activerecord (5.0.7)
-      activemodel (= 5.0.7)
-      activesupport (= 5.0.7)
-      arel (~> 7.0)
-    activesupport (5.0.7)
+    activemodel (5.1.6)
+      activesupport (= 5.1.6)
+    activerecord (5.1.6)
+      activemodel (= 5.1.6)
+      activesupport (= 5.1.6)
+      arel (~> 8.0)
+    activesupport (5.1.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    acts_as_paranoid (0.5.0)
-      activerecord (>= 4.0, < 5.1)
-      activesupport (>= 4.0, < 5.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    arel (7.1.4)
+    arel (8.0.0)
     autoprefixer-rails (8.5.0)
       execjs
     bcrypt (3.1.12)
-    binding_of_caller (0.8.0)
-      debug_inspector (>= 0.0.1)
+    bindex (0.5.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -64,9 +68,9 @@ GEM
       rack-test (>= 0.6.3)
       xpath (~> 3.0)
     coderay (1.1.2)
-    coffee-rails (4.1.1)
+    coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
-      railties (>= 4.0.0, < 5.1.x)
+      railties (>= 4.0.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -74,7 +78,6 @@ GEM
     concurrent-ruby (1.0.5)
     crass (1.0.4)
     database_cleaner (1.7.0)
-    debug_inspector (0.0.3)
     devise (4.4.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -82,7 +85,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.3)
-    erubis (2.7.0)
+    erubi (1.7.1)
     execjs (2.7.0)
     factory_bot (4.8.2)
       activesupport (>= 3.0.0)
@@ -92,8 +95,8 @@ GEM
     faker (1.8.7)
       i18n (>= 0.7)
     ffi (1.9.23)
-    font-awesome-rails (4.7.0.1)
-      railties (>= 3.2, < 5.1)
+    font-awesome-rails (4.7.0.4)
+      railties (>= 3.2, < 6.0)
     formatador (0.2.5)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -120,7 +123,6 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.6)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.1.1)
@@ -158,26 +160,26 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
-    pg (0.21.0)
+    pg (1.0.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.5)
-    rack-test (0.6.3)
-      rack (>= 1.0)
-    rails (5.0.7)
-      actioncable (= 5.0.7)
-      actionmailer (= 5.0.7)
-      actionpack (= 5.0.7)
-      actionview (= 5.0.7)
-      activejob (= 5.0.7)
-      activemodel (= 5.0.7)
-      activerecord (= 5.0.7)
-      activesupport (= 5.0.7)
+    rack-test (1.0.0)
+      rack (>= 1.0, < 3)
+    rails (5.1.6)
+      actioncable (= 5.1.6)
+      actionmailer (= 5.1.6)
+      actionpack (= 5.1.6)
+      actionview (= 5.1.6)
+      activejob (= 5.1.6)
+      activemodel (= 5.1.6)
+      activerecord (= 5.1.6)
+      activesupport (= 5.1.6)
       bundler (>= 1.3.0)
-      railties (= 5.0.7)
+      railties (= 5.1.6)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.2)
       actionpack (~> 5.x, >= 5.0.1)
@@ -193,9 +195,9 @@ GEM
       rails_stdout_logging
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
-    railties (5.0.7)
-      actionpack (= 5.0.7)
-      activesupport (= 5.0.7)
+    railties (5.1.6)
+      actionpack (= 5.1.6)
+      activesupport (= 5.1.6)
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
@@ -203,7 +205,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    rdoc (4.3.0)
+    rdoc (6.0.4)
     ref (2.0.0)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
@@ -245,9 +247,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sdoc (0.4.2)
-      json (~> 1.7, >= 1.7.7)
-      rdoc (~> 4.0)
+    sdoc (1.0.0)
+      rdoc (>= 5.0)
     shellany (0.0.1)
     spring (2.0.2)
       activesupport (>= 4.2)
@@ -270,11 +271,11 @@ GEM
       execjs (>= 0.3.0, < 3)
     warden (1.2.7)
       rack (>= 1.0)
-    web-console (2.3.0)
-      activemodel (>= 4.0)
-      binding_of_caller (>= 0.7.2)
-      railties (>= 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
+    web-console (3.6.2)
+      actionview (>= 5.0)
+      activemodel (>= 5.0)
+      bindex (>= 0.4.0)
+      railties (>= 5.0)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
@@ -285,37 +286,37 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_paranoid
-  bootstrap-sass (~> 3.3.6)
+  acts_as_paranoid!
+  bootstrap-sass
   bootstrap_form
   byebug
   cancancan
   capybara
-  coffee-rails (~> 4.1.0)
+  coffee-rails
   database_cleaner
   devise
   factory_bot_rails
   faker
-  font-awesome-rails (= 4.7.0.1)
+  font-awesome-rails
   guard-rspec
-  jbuilder (~> 2.0)
+  jbuilder
   jquery-rails
   kaminari
   kramdown
-  pg (~> 0.15)
+  pg
   puma
-  rails (~> 5.0)
+  rails (~> 5.1.6)
   rails-controller-testing
   rails_12factor
   rake
   roo
-  rspec-rails (~> 3.0)
-  sass-rails (~> 5.0)
-  sdoc (~> 0.4.0)
+  rspec-rails
+  sass-rails
+  sdoc
   spring
   therubyracer
-  uglifier (>= 1.3.0)
-  web-console (~> 2.0)
+  uglifier
+  web-console
 
 BUNDLED WITH
    1.16.0
