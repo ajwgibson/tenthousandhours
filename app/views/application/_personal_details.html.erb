@@ -1,52 +1,36 @@
 
-<div id="ko-region-age-category">
+<fieldset>
+  <legend>Personal details</legend>
+  <%= f.email_field :email, label: 'Email', autofocus: true,
+      help: 'Please ensure this is a valid email address as we will use it to contact you.' %>
+  <%= f.text_field :first_name, label: 'First name' %>
+  <%= f.text_field :last_name,  label: 'Last name' %>
+  <%= f.phone_field :mobile,    label: 'Mobile number', prepend: '+44 (0)',
+      help: 'Please ensure this is a valid number as we will use it to contact you.' %>
+  <%= f.select :age_category,
+      options_for_select(
+        [
+          ['Please select an age category...',''],
+          ['Over 18', :adult],
+          ['13 to 17', :youth]
+        ],
+        volunteer.age_category),
+      { label: 'Age category' },
+      data: { bind: 'value: ageCategory' } %>
+</fieldset>
 
-  <fieldset>
-    <legend>Personal details</legend>
-    <%= f.email_field :email, label: 'Email', autofocus: true,
-        help: 'Please ensure this is a valid email address as we will use it to contact you.' %>
-    <%= f.text_field :first_name, label: 'First name' %>
-    <%= f.text_field :last_name,  label: 'Last name' %>
-    <%= f.phone_field :mobile,    label: 'Mobile number', prepend: '+44 (0)',
-        help: 'Please ensure this is a valid number as we will use it to contact you.' %>
-    <%= f.select :age_category,
-        options_for_select(
-          [
-            ['Please select an age category...',''],
-            ['Over 18', :adult],
-            ['11 to 18', :youth]
-          ],
-          volunteer.age_category),
-        { label: 'Age category' },
-        data: { bind: 'value: ageCategory' } %>
-  </fieldset>
-
-  <fieldset data-bind="visible: ageCategory()=='youth'">
-    <legend>Parent/guardian details</legend>
-    <p><em>
-      You've indicated that you are under 18 so we need valid, contact details
-      of a parent or guardian.
-    </em></p>
-    <%= f.text_field  :guardian_name, label: 'Name', label_class: "required" %>
-    <%= f.phone_field :guardian_contact_number, label: 'Contact number', label_class: "required" %>
-  </fieldset>
-
-</div>
-
-
-<%= javascript_tag do %>
-
-  $(function() {
-
-    var GuardianViewModel = function(initial) {
-      var self = this;
-      self.ageCategory = ko.observable(initial);
-    };
-
-    ko.applyBindings(
-      new GuardianViewModel('<%= volunteer.age_category %>'),
-      document.getElementById('ko-region-age-category'));
-
-  });
-
-<% end %>
+<fieldset data-bind="visible: ageCategory()=='youth'">
+  <legend>Parent/guardian details</legend>
+  <p><em>
+    You've indicated that you are under 18 so we need valid, contact details
+    of a parent or guardian.
+  </em></p>
+  <%= f.text_field  :guardian_name,
+          label: 'Name',
+          label_class: "required",
+          data: { bind: 'value: guardianName' } %>
+  <%= f.phone_field :guardian_contact_number,
+          label: 'Contact number',
+          label_class: "required",
+          data: { bind: 'value: guardianPhone' } %>
+</fieldset>

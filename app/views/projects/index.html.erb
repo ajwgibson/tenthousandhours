@@ -93,14 +93,14 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <%= label_tag :for_children, 'Suitable for kids (under 11)?', :class => 'control-label' %>
+                    <%= label_tag :for_children, 'Suitable for kids (under 13)?', :class => 'control-label' %>
                     <div class="checkbox checkbox-primary">
                       <%= check_box_tag :for_children, 1, @filter[:for_children] %>
                       <%= label_tag :for_children, 'Yes' %>
                     </div>
                   </div>
                   <div class="form-group">
-                    <%= label_tag :for_youth, 'Suitable for youth (11 to 18)?', :class => 'control-label' %>
+                    <%= label_tag :for_youth, 'Suitable for youth (13 to 17)?', :class => 'control-label' %>
                     <div class="checkbox checkbox-primary">
                       <%= check_box_tag :for_youth, 1, @filter[:for_youth] %>
                       <%= label_tag :for_youth, 'Yes' %>

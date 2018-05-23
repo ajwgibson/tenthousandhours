@@ -125,7 +125,7 @@ private
    def human_age_category(category)
      return nil if category.nil?
      description = category.eql?(:adult.to_s) ? 'over 18' :
-        category.eql?(:youth.to_s) ? '11 to 18' : 'under 11'
+        category.eql?(:youth.to_s) ? '13 to 17' : 'under 13'
      "#{category.humanize} - #{description}"
    end
 

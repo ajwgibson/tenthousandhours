@@ -1,12 +1,13 @@
 
 <%= f.number_field :extra_adults,
-      label: 'Adults (over 18)',
-      min: 0, max: 10, step: 1 %>
-
+        label: 'Adults (over 18)',
+        min: 0, max: 10, step: 1,
+        data: { bind: 'value: extraAdults' } %>
 <%= f.number_field :extra_youth,
-      label: 'Youth (aged 13 - 17)',
-      min: 0, max: 10, step: 1 %>
-
+        label: 'Youth (aged 13 - 17)',
+        min: 0, max: 10, step: 1,
+        data: { bind: 'value: extraYouth' } %>
 <%= f.number_field :extra_children,
-      label: 'Children (under 13)',
-      min: 0, max: 10, step: 1 %>
+        label: 'Children (under 13)',
+        min: 0, max: 10, step: 1,
+        data: { bind: 'value: extraChildren' } %>

@@ -166,13 +166,13 @@ RSpec.describe Volunteer, type: :model do
       v = FactoryBot.build(:default_volunteer, age_category: 'adult')
       expect(v.humanized_age_category).to eq('Adult - over 18')
     end
-    it "returns 'Youth - 11 to 18' when age_category is 'youth'" do
+    it "returns 'Youth - 13 to 17' when age_category is 'youth'" do
       v = FactoryBot.build(:default_volunteer, age_category: 'youth')
-      expect(v.humanized_age_category).to eq('Youth - 11 to 18')
+      expect(v.humanized_age_category).to eq('Youth - 13 to 17')
     end
-    it "returns 'Child - under 11' when age_category is 'child'" do
+    it "returns 'Child - under 13' when age_category is 'child'" do
       v = FactoryBot.build(:default_volunteer, age_category: 'child')
-      expect(v.humanized_age_category).to eq('Child - under 11')
+      expect(v.humanized_age_category).to eq('Child - under 13')
     end
     it "returns nil when age_category is nil" do
       v = FactoryBot.build(:default_volunteer, age_category: nil)

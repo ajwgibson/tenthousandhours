@@ -52,7 +52,7 @@
                       <%= label_tag :in_age_category, 'Age category', :class => 'control-label' %>
                       <%= select_tag :in_age_category,
                                     options_for_select(
-                                      [['Over 18', :adult],['11 to 18', :youth]],
+                                      [['Over 18', :adult],['13 to 17', :youth]],
                                       @filter[:in_age_category]),
                                     { prompt: "Please select a value...",
                                       class: 'form-control' } %>

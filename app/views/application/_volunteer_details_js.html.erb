@@ -1,0 +1,48 @@
+<%= javascript_tag do %>
+
+  $(function() {
+
+    var VolunteerDetailsViewModel =
+      function(
+            age_category,
+            extra_adults, extra_youth, extra_children,
+            guardian_name, guardian_phone) {
+
+        var self = this;
+
+        self.ageCategory   = ko.observable(age_category);
+        self.extraAdults   = ko.observable(extra_adults);
+        self.extraYouth    = ko.observable(extra_youth);
+        self.extraChildren = ko.observable(extra_children);
+        self.guardianName  = ko.observable(guardian_name);
+        self.guardianPhone = ko.observable(guardian_phone);
+
+        self.ageCategory.subscribe(
+          function(newValue) {
+            if (newValue == 'youth') {
+              self.extraAdults(0);
+              self.extraYouth(0);
+              self.extraChildren(0);
+            } else {
+              self.guardianName('');
+              self.guardianPhone('');
+            }
+          });
+
+    };
+
+
+    ko.applyBindings(
+      new VolunteerDetailsViewModel(
+        '<%= volunteer.age_category %>',
+        <%= volunteer.extra_adults %>,
+        <%= volunteer.extra_youth %>,
+        <%= volunteer.extra_children %>,
+        '<%= volunteer.guardian_name %>',
+        '<%= volunteer.guardian_contact_number %>'
+      ),
+      document.getElementById('ko-region-volunteer-details'));
+
+  });
+
+<% end %>
