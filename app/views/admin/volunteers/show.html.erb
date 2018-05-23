@@ -22,19 +22,19 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Email</label>
             <div class="col-lg-9">
-              <p class="form-control-static"><%= @volunteer.email %></p>
+              <p class="form-control-static">
+                <%= @volunteer.email %>
+                <%= confirmed_label @volunteer.confirmed? %>
+              </p>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Mobile</label>
             <div class="col-lg-9">
-              <p class="form-control-static"><%= mobile_phone_number @volunteer.mobile %></p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Mobile confirmed?</label>
-            <div class="col-lg-9">
-              <p class="form-control-static"><%= yes_no_icon @volunteer.mobile_confirmed? %></p>
+              <p class="form-control-static">
+                <%= mobile_phone_number @volunteer.mobile %>
+                <%= confirmed_label @volunteer.mobile_confirmed? %>
+              </p>
             </div>
           </div>
           <div class="form-group">
@@ -58,22 +58,6 @@
           </div>
           <% end %>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Family members</label>
-            <div class="col-lg-9">
-              <p class="form-control-static">
-                <% @volunteer.family_members.each do |m| %>
-                  <%= "#{m['name']} (#{m['age_category']})" %><br />
-                <% end %>
-              </p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Email confirmed?</label>
-            <div class="col-lg-9">
-              <p class="form-control-static"><%= yes_no_icon @volunteer.confirmed? %></p>
-            </div>
-          </div>
-          <div class="form-group">
             <label class="col-lg-3 control-label">Last sign-in</label>
             <div class="col-lg-9">
               <p class="form-control-static"><%= @volunteer.current_sign_in_at %></p>
@@ -83,6 +67,33 @@
             <label class="col-lg-3 control-label">Number of sign-ins</label>
             <div class="col-lg-9">
               <p class="form-control-static"><%= @volunteer.sign_in_count %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h3>Additional family members</h3>
+      </div>
+      <div class="ibox-content">
+        <div class="form-horizontal form-static">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Adults</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @volunteer.extra_adults %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Youth</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @volunteer.extra_youth %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Children</label>
+            <div class="col-lg-9">
+              <p class="form-control-static"><%= @volunteer.extra_children %></p>
             </div>
           </div>
         </div>

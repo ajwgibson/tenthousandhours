@@ -72,7 +72,7 @@
           <thead>
             <tr>
               <th>Volunteer</th>
-              <th>Family members</th>
+              <th>Family size</th>
               <th>Phone</th>
             </tr>
           </thead>
@@ -87,11 +87,7 @@
               <% @ProjectSlot.volunteers.order(:first_name, :last_name).each do |volunteer| %>
                 <tr>
                   <td><%= volunteer.name %></td>
-                  <td>
-                    <% volunteer.family_members.each do |m| %>
-                      <%= "#{m['name']} (#{m['age_category']})" %><br />
-                    <% end %>
-                  </td>
+                  <td><%= volunteer.family_size %></td>
                   <td><%= volunteer.mobile_local_format %></td>
                 </tr>
               <% end %>

@@ -9,24 +9,44 @@ RSpec.describe Volunteer, type: :model do
 
   # VALIDATION
 
-  it "is not valid without a first_name" do
-    expect(FactoryBot.build(:default_volunteer, first_name: nil)).not_to be_valid
-  end
-  it "is not valid without a last_name" do
-    expect(FactoryBot.build(:default_volunteer, last_name: nil)).not_to be_valid
-  end
-  it "is not valid without an mobile" do
-    expect(FactoryBot.build(:default_volunteer, mobile: nil)).not_to be_valid
-  end
-  it "is not valid without an age_category" do
-    expect(FactoryBot.build(:default_volunteer, age_category: nil)).not_to be_valid
-  end
-  context "an under 18 volunteer" do
-    it "is not valid without a guardian_name" do
-      expect(FactoryBot.build(:youth_volunteer, guardian_name: nil)).not_to be_valid
+  describe "a volunteer" do
+    it "is not valid without a first_name" do
+      expect(FactoryBot.build(:default_volunteer, first_name: nil)).not_to be_valid
     end
-    it "is not valid without a guardian_contact_number" do
-      expect(FactoryBot.build(:youth_volunteer, guardian_contact_number: nil)).not_to be_valid
+    it "is not valid without a last_name" do
+      expect(FactoryBot.build(:default_volunteer, last_name: nil)).not_to be_valid
+    end
+    it "is not valid without an mobile" do
+      expect(FactoryBot.build(:default_volunteer, mobile: nil)).not_to be_valid
+    end
+    it "is not valid without an age_category" do
+      expect(FactoryBot.build(:default_volunteer, age_category: nil)).not_to be_valid
+    end
+    it "is not valid without a numeric extra_adults value" do
+      expect(FactoryBot.build(:default_volunteer, extra_adults: nil)).not_to be_valid
+    end
+    it "is not valid without a numeric extra_youth value" do
+      expect(FactoryBot.build(:default_volunteer, extra_youth: nil)).not_to be_valid
+    end
+    it "is not valid without a numeric extra_children value" do
+      expect(FactoryBot.build(:default_volunteer, extra_children: nil)).not_to be_valid
+    end
+    context "who is under 18" do
+      it "is not valid without a guardian_name" do
+        expect(FactoryBot.build(:youth_volunteer, guardian_name: nil)).not_to be_valid
+      end
+      it "is not valid without a guardian_contact_number" do
+        expect(FactoryBot.build(:youth_volunteer, guardian_contact_number: nil)).not_to be_valid
+      end
+      it "is not valid with a non-zero extra_adults value" do
+        expect(FactoryBot.build(:youth_volunteer, extra_adults: 1)).not_to be_valid
+      end
+      it "is not valid with a non-zero extra_youth value" do
+        expect(FactoryBot.build(:youth_volunteer, extra_youth: 1)).not_to be_valid
+      end
+      it "is not valid with a non-zero extra_children value" do
+        expect(FactoryBot.build(:youth_volunteer, extra_children: 1)).not_to be_valid
+      end
     end
   end
 
@@ -171,41 +191,48 @@ RSpec.describe Volunteer, type: :model do
       end
       context "when the volunteer has family that includes adults" do
         it "counts the volunteer and the other adults in the family" do
-          volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
+          #volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
+          volunteer.extra_adults = 1
           expect(volunteer.adults_in_family).to eq(2)
         end
       end
     end
     context "when the volunteer is not an adult" do
       let(:volunteer) { FactoryBot.build(:default_volunteer, age_category: 'youth') }
-      context "when the volunteer has no family" do
-        it "returns 0" do
-          expect(volunteer.adults_in_family).to eq(0)
-        end
+      it "returns 0" do
+        expect(volunteer.adults_in_family).to eq(0)
       end
-      context "when the volunteer has family that includes adults" do
-        it "counts the other adults in the family" do
-          volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
-          expect(volunteer.adults_in_family).to eq(1)
-        end
-      end
+      # context "when the volunteer has no family" do
+      #   it "returns 0" do
+      #     expect(volunteer.adults_in_family).to eq(0)
+      #   end
+      # end
+      # context "when the volunteer has family that includes adults" do
+      #   it "counts the other adults in the family" do
+      #     volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
+      #     expect(volunteer.adults_in_family).to eq(1)
+      #   end
+      # end
     end
   end
 
   describe "#youth_in_family" do
     context "when the volunteer is a youth" do
       let(:volunteer) { FactoryBot.build(:default_volunteer, age_category: 'youth') }
-      context "when the volunteer has no family" do
-        it "returns 1" do
-          expect(volunteer.youth_in_family).to eq(1)
-        end
+      it "returns 1" do
+        expect(volunteer.youth_in_family).to eq(1)
       end
-      context "when the volunteer has family that includes youth" do
-        it "counts the volunteer and the other youth in the family" do
-          volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
-          expect(volunteer.youth_in_family).to eq(2)
-        end
-      end
+      # context "when the volunteer has no family" do
+      #   it "returns 1" do
+      #     expect(volunteer.youth_in_family).to eq(1)
+      #   end
+      # end
+      # context "when the volunteer has family that includes youth" do
+      #   it "counts the volunteer and the other youth in the family" do
+      #     volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
+      #     expect(volunteer.youth_in_family).to eq(2)
+      #   end
+      # end
     end
     context "when the volunteer is not a youth" do
       let(:volunteer) { FactoryBot.build(:default_volunteer, age_category: 'adult') }
@@ -216,7 +243,8 @@ RSpec.describe Volunteer, type: :model do
       end
       context "when the volunteer has family that includes youth" do
         it "counts the other youth in the family" do
-          volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
+          #volunteer.family = '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"youth"},{"name":"c","age_category":"child"}]'
+          volunteer.extra_youth = 1
           expect(volunteer.youth_in_family).to eq(1)
         end
       end
@@ -227,8 +255,9 @@ RSpec.describe Volunteer, type: :model do
     let(:volunteer) {
       FactoryBot.build(
         :default_volunteer, age_category: 'adult',
-        family: '[{"name":"a","age_category":"child"},{"name":"b","age_category":"child"},{"name":"c","age_category":"child"}]')
-      }
+        extra_children: 3,
+        #family: '[{"name":"a","age_category":"child"},{"name":"b","age_category":"child"},{"name":"c","age_category":"child"}]'
+      )}
     it "counts the children in the family" do
       expect(volunteer.children_in_family).to eq(3)
     end
@@ -238,8 +267,11 @@ RSpec.describe Volunteer, type: :model do
     let(:volunteer) {
       FactoryBot.build(
         :default_volunteer, age_category: 'adult',
-        family: '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"child"},{"name":"c","age_category":"youth"}]')
-      }
+        extra_adults: 1,
+        extra_youth: 1,
+        extra_children: 1,
+        #family: '[{"name":"a","age_category":"adult"},{"name":"b","age_category":"child"},{"name":"c","age_category":"youth"}]'
+      )}
     it "counts the total number of people in the family" do
       expect(volunteer.family_size).to eq(4)
     end

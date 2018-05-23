@@ -15,15 +15,17 @@
   <%= render partial: "personal_details", locals: { f: f, volunteer: resource } %>
 
   <fieldset>
-    <legend>Family members</legend>
+    <legend>Additional family members</legend>
     <p>
       <em>
       If you are going to be volunteering with family members please add them
-      here so we know how many people there will be in total. Please note
-      that family members over 11 can also register and volunteer separately.
+      here so we know how many people there will be in total.
+      Please don't include yourself or you will be counted twice.
+      Also note that family members over the age of 13 can also register and
+      volunteer separately.
       </em>
     </p>
-    <%= render partial: "volunteer_family", locals: { f: f, volunteer: resource } %>
+    <%= render partial: "volunteer_family_simple", locals: { f: f, volunteer: resource } %>
   </fieldset>
 
   <fieldset>

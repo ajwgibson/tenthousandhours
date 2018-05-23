@@ -391,7 +391,7 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Family members</th>
+                <th>Family size</th>
                 <th>Phone</th>
                 <th>Slots</th>
                 <th></th>
@@ -401,11 +401,7 @@
               <% @project.volunteers.order(:first_name, :last_name).each do |volunteer| %>
                 <tr>
                   <td><%= volunteer.name %></td>
-                  <td>
-                    <% volunteer.family_members.each do |m| %>
-                      <%= "#{m['name']} (#{m['age_category']})" %><br />
-                    <% end %>
-                  </td>
+                  <td><%= volunteer.family_size %></td>
                   <td><%= volunteer.mobile %></td>
                   <td>
                     <% volunteer.project_slots.where(project_id: @project.id).order(:slot_date, :slot_type).each do |slot| %>

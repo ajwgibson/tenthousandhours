@@ -42,6 +42,23 @@ module ApplicationHelper
   end
 
 
+  def confirmed_label(confirmed)
+    content_tag(:small) do
+      if confirmed
+        content_tag(:span, class: "label label-primary") do
+          content_tag(:span, " ", class: ["fa", "fa-check"]) +
+          ' CONFIRMED'
+        end
+      else
+        content_tag(:span, class: "label label-danger") do
+          content_tag(:span, " ", class: ["fa", "fa-times"]) +
+          ' NOT CONFIRMED'
+        end
+      end
+    end
+  end
+
+
   def sortable(column, filter, path, title=nil)
 
     title ||= column.titleize

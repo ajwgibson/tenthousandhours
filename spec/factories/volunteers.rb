@@ -32,19 +32,27 @@ FactoryBot.define do
   end
 
   factory :family_of_four_volunteer, parent: :default_volunteer do
-    family  '[{"name":"Dad","age_category":"adult"},{"name":"Youth","age_category":"youth"},{"name":"Child","age_category":"child"}]'
+    #family  '[{"name":"Dad","age_category":"adult"},{"name":"Youth","age_category":"youth"},{"name":"Child","age_category":"child"}]'
+    extra_adults   1
+    extra_youth    1
+    extra_children 1
   end
 
   factory :family_of_five_volunteer, parent: :default_volunteer do
-    family  '[{"name":"Dad","age_category":"adult"},{"name":"Youth","age_category":"youth"},{"name":"Child1","age_category":"child"},{"name":"Child2","age_category":"child"}]'
+    #family  '[{"name":"Dad","age_category":"adult"},{"name":"Youth","age_category":"youth"},{"name":"Child1","age_category":"child"},{"name":"Child2","age_category":"child"}]'
+    extra_adults   1
+    extra_youth    1
+    extra_children 2
   end
 
   factory :adult_volunteer_with_one_child, parent: :default_volunteer do
-    family  '[{"name":"Child","age_category":"child"}]'
+    #family  '[{"name":"Child","age_category":"child"}]'
+    extra_children 1
   end
 
   factory :adult_volunteer_with_one_youth, parent: :default_volunteer do
-    family  '[{"name":"Youth","age_category":"youth"}]'
+    #family  '[{"name":"Youth","age_category":"youth"}]'
+    extra_youth 1
   end
 
 end

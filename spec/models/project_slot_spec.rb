@@ -63,9 +63,9 @@ RSpec.describe ProjectSlot, type: :model do
   describe "#volunteer_count" do
     it "returns the sum of the volunteers signed up plus the extra volunteers from the day" do
       slot = FactoryBot.build(:default_project_slot, extra_volunteers: 2)
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 1, extra_youth: 1, extra_children: 1)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 0, extra_youth: 1, extra_children: 1)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 1, extra_youth: 1, extra_children: 1)
       expect(slot.volunteer_count).to eq(13)
     end
   end
@@ -74,9 +74,9 @@ RSpec.describe ProjectSlot, type: :model do
   describe "#adults" do
     it "returns the sum of the adult volunteers signed up" do
       slot = FactoryBot.build(:default_project_slot)
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 1, extra_youth: 1, extra_children: 1)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 0, extra_youth: 1, extra_children: 1)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 1, extra_youth: 1, extra_children: 1)
       expect(slot.adults).to eq(5)
     end
   end
@@ -107,9 +107,9 @@ RSpec.describe ProjectSlot, type: :model do
   describe "#youth" do
     it "returns the sum of the youth volunteers signed up" do
       slot = FactoryBot.build(:default_project_slot)
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"},{"age_category":"child"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"child"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 0, extra_youth: 1, extra_children: 1)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 0, extra_youth: 0, extra_children: 1)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 1, extra_youth: 1, extra_children: 1)
       expect(slot.youth).to eq(2)
     end
   end
@@ -118,9 +118,9 @@ RSpec.describe ProjectSlot, type: :model do
   describe "#children" do
     it "returns the sum of the child volunteers signed up" do
       slot = FactoryBot.build(:default_project_slot)
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"child"},{"age_category":"child"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"youth"}]')
-      slot.volunteers << FactoryBot.build(:default_volunteer, family: '[{"age_category":"adult"},{"age_category":"youth"},{"age_category":"child"}]')
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 0, extra_youth: 0, extra_children: 2)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 0, extra_youth: 1, extra_children: 0)
+      slot.volunteers << FactoryBot.build(:default_volunteer, extra_adults: 1, extra_youth: 1, extra_children: 1)
       expect(slot.children).to eq(3)
     end
   end

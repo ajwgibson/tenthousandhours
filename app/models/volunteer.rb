@@ -24,12 +24,16 @@ class Volunteer < ApplicationRecord
    enum age_category: [ :adult, :youth, :child ]
 
 
-   validates :first_name,   :presence => true
-   validates :last_name,    :presence => true
-   validates :mobile,       :presence => true
-   validates :age_category, :presence => true
+   validates :first_name,     :presence => true
+   validates :last_name,      :presence => true
+   validates :mobile,         :presence => true
+   validates :age_category,   :presence => true
+   validates :extra_adults,   :presence => true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+   validates :extra_youth,    :presence => true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+   validates :extra_children, :presence => true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
    validate :under_18s_need_guardian_details
+   validate :under_18s_cannot_include_extra_volunteers
 
    scope :with_first_name, ->(value) { where("lower(first_name) like lower(?)", "%#{value}%") }
    scope :with_last_name,  ->(value) { where("lower(last_name) like lower(?)", "%#{value}%") }
@@ -60,19 +64,22 @@ class Volunteer < ApplicationRecord
    end
 
    def adults_in_family
-     count = family_hash.count { |p| p['age_category'] == :adult.to_s }
+     #count = family_hash.count { |p| p['age_category'] == :adult.to_s }
+     count = extra_adults
      return count+1 if adult?
      count
    end
 
    def youth_in_family
-     count = family_hash.count { |p| p['age_category'] == :youth.to_s }
+     #count = family_hash.count { |p| p['age_category'] == :youth.to_s }
+     count = extra_youth
      return count+1 if youth?
      count
    end
 
    def children_in_family
-     family_hash.count { |p| p['age_category'] == :child.to_s }
+     #family_hash.count { |p| p['age_category'] == :child.to_s }
+     extra_children
    end
 
    def family_size
@@ -142,6 +149,15 @@ private
      if youth?
        errors.add(:guardian_name, "is required for an under 18 volunteer") if guardian_name.blank?
        errors.add(:guardian_contact_number, "is required for an under 18 volunteer") if guardian_contact_number.blank?
+     end
+   end
+
+
+   def under_18s_cannot_include_extra_volunteers
+     if youth?
+       errors.add(:extra_adults,   "must be zero for an under 18 volunteer") if extra_adults > 0
+       errors.add(:extra_youth,    "must be zero for an under 18 volunteer") if extra_youth > 0
+       errors.add(:extra_children, "must be zero for an under 18 volunteer") if extra_children > 0
      end
    end
 
