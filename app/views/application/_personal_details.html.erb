@@ -15,8 +15,11 @@
           ['13 to 17', :youth]
         ],
         volunteer.age_category),
-      { label: 'Age category' },
-      data: { bind: 'value: ageCategory' } %>
+      { label: 'Age category', help: 'You must be 13 or over to register online' },
+      {
+        disabled: mode == 'edit',
+        data: { bind: 'value: ageCategory' }
+      } %>
 </fieldset>
 
 <fieldset data-bind="visible: ageCategory()=='youth'">
@@ -33,4 +36,22 @@
           label: 'Contact number',
           label_class: "required",
           data: { bind: 'value: guardianPhone' } %>
+
+  <% if mode == 'new' || volunteer.activity_consent_required? %>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <i class="fa fa-info-circle"></i>
+      Activity consent form required
+    </div>
+    <div class="panel-body">
+      <p><em>
+        We need you to return an activity consent form signed by a
+        parent or guardian. You can download a form
+        <a href="" target="_blank"><span class="fa fa-external-link"></span> here</a>.
+        Please return the completed form to the church office as soon as possible.
+      </em></p>
+    </div>
+  </div>
+  <% end %>
+
 </fieldset>

@@ -31,6 +31,10 @@ FactoryBot.define do
     guardian_contact_number { Faker::PhoneNumber.phone_number }
   end
 
+  factory :child_volunteer, parent: :default_volunteer do
+    age_category            :child
+  end
+
   factory :family_of_four_volunteer, parent: :default_volunteer do
     #family  '[{"name":"Dad","age_category":"adult"},{"name":"Youth","age_category":"youth"},{"name":"Child","age_category":"child"}]'
     extra_adults   1

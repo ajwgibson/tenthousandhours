@@ -42,6 +42,7 @@ class Volunteer < ApplicationRecord
    scope :with_skill,      ->(value) { where("? = ANY(skills)", value) }
    scope :in_age_category, ->(value) { where age_category: age_categories[value] }
    scope :without_projects,->(value) { includes(:projects).where(projects: { id: nil }) }
+   scope :needs_activity_consent,->(value) { in_age_category(:youth).where(activity_consent_recorded_by: nil) }
 
 
    before_validation(on: [:create, :update]) do
@@ -110,6 +111,11 @@ class Volunteer < ApplicationRecord
 
    def mobile_local_format
      "0#{clean_mobile(mobile)}"
+   end
+
+   def activity_consent_required?
+     return true if youth? && activity_consent_recorded_by.blank?
+     false
    end
 
 

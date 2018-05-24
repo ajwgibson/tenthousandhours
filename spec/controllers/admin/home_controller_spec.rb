@@ -147,6 +147,12 @@ RSpec.describe Admin::HomeController, type: :controller do
       end
     end
 
+    it "returns the number of youth who have not returned consent forms" do
+      FactoryBot.create(:youth_volunteer, activity_consent_recorded_by: nil)
+      FactoryBot.create(:youth_volunteer, activity_consent_recorded_by: 'someone')
+      get :index
+      expect(assigns(:activity_consent_required_count)).to eq(1)
+    end
   end
 
 end

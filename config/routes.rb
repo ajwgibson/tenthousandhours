@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         post 'send_one'
         get  'new_sign_up'
         post 'create_sign_up'
+        post 'activity_consent_received'
       end
     end
 

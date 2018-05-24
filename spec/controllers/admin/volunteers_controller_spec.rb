@@ -85,6 +85,12 @@ RSpec.describe Admin::VolunteersController, type: :controller do
       get :index, params: { without_projects: true }
       expect(assigns(:volunteers)).to eq([b])
     end
+    it "applies the 'needs_activity_consent' filter if supplied" do
+      a    = FactoryBot.create(:default_volunteer)
+      b    = FactoryBot.create(:youth_volunteer)
+      get :index, params: { needs_activity_consent: true }
+      expect(assigns(:volunteers)).to eq([b])
+    end
     context "with no explicit page value" do
       it "returns the first page of volunteers" do
         30.times do |i|
@@ -372,6 +378,27 @@ RSpec.describe Admin::VolunteersController, type: :controller do
 
     end
 
+  end
+
+
+  describe "POST #activity_consent_received" do
+    let(:volunteer) { FactoryBot.create(:youth_volunteer) }
+    def post_update
+      post :activity_consent_received, params: { :id => volunteer.id }
+      volunteer.reload
+    end
+    before(:each) do
+      post_update
+    end
+    it "updates the volunteer details" do
+      expect(volunteer.activity_consent_recorded_by).to eq(subject.current_user.name)
+    end
+    it "redirects to the show action" do
+      expect(response).to redirect_to(admin_volunteer_path(assigns(:volunteer)))
+    end
+    it "set a flash message" do
+      expect(flash[:notice]).to eq('Volunteer was updated successfully')
+    end
   end
 
 

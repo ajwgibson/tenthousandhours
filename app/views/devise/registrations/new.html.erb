@@ -16,7 +16,7 @@
       url: registration_path(resource_name),
       html: { id: 'ko-region-volunteer-details' }) do |f| %>
 
-  <%= render partial: "personal_details", locals: { f: f, volunteer: resource } %>
+  <%= render partial: "personal_details", locals: { f: f, volunteer: resource, mode: 'new' } %>
 
   <fieldset data-bind="visible: ageCategory()!='youth'">
     <legend>Additional family members</legend>

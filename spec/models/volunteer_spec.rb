@@ -158,6 +158,19 @@ RSpec.describe Volunteer, type: :model do
     end
   end
 
+  describe 'scope:needs_activity_consent' do
+    it 'includes youth records where the activity consent has not been recorded yet' do
+      v1 = FactoryBot.create(:default_volunteer)
+      v2 = FactoryBot.create(:youth_volunteer)
+      v3 = FactoryBot.create(:youth_volunteer, activity_consent_recorded_by: 'someone')
+      v4 = FactoryBot.create(:youth_volunteer, activity_consent_recorded_by: '')
+      v5 = FactoryBot.create(:child_volunteer)
+      filtered = Volunteer.needs_activity_consent(true)
+      expect(filtered).to include(v2)
+      expect(filtered).not_to include([v1,v3,v4,v5])
+    end
+  end
+
 
   # METHODS
 
@@ -358,6 +371,21 @@ RSpec.describe Volunteer, type: :model do
         v = FactoryBot.build(:default_volunteer, mobile_confirmation_code: '1234')
         expect(v.mobile_confirmed?).to eq(false)
       end
+    end
+  end
+
+
+  describe "#activity_consent_required?" do
+    it "is false for an adult volunteer" do
+      expect(FactoryBot.build(:default_volunteer).activity_consent_required?).to be_falsey
+    end
+    it "is true for a youth volunteer by default" do
+      expect(FactoryBot.build(:youth_volunteer).activity_consent_required?).to be_truthy
+    end
+    it "is false for a youth volunteer when someone has recorded consent received" do
+      expect(FactoryBot.build(
+        :youth_volunteer,
+        activity_consent_recorded_by: 'someone').activity_consent_required?).to be_falsey
     end
   end
 

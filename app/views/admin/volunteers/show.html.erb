@@ -56,6 +56,20 @@
               <p class="form-control-static"><%= @volunteer.guardian_contact_number %></p>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Activity consent</label>
+            <div class="col-lg-9">
+              <p class="form-control-static">
+                <% if @volunteer.activity_consent_required? %>
+                <span class="text-danger text-uppercase">
+                  <i class="fa fa-exclamation-circle"></i> Not received yet
+                </span>
+                <% else %>
+                <i>Recorded by <%= @volunteer.activity_consent_recorded_by %></i>
+                <% end %>
+              </p>
+            </div>
+          </div>
           <% end %>
           <div class="form-group">
             <label class="col-lg-3 control-label">Last sign-in</label>
@@ -211,6 +225,13 @@
             <i class="fa fa-edit"></i> Edit details
           <% end %>
         </div>
+        <% if @volunteer.activity_consent_required? %>
+        <%= form_tag activity_consent_received_admin_volunteer_path(@volunteer), method: :post do |f| %>
+          <%= button_tag(type: "submit", class: "btn btn-warning btn-outline sweet-confirm") do %>
+            <i class="fa fa-check-square-o"></i> Activity consent received
+          <% end %>
+        <% end %>
+        <% end %>
         <div>
           <%= link_to new_sign_up_admin_volunteer_path(@volunteer), :class => 'btn btn-outline btn-success' do %>
             <i class="fa fa-check-square-o"></i> Sign up to project

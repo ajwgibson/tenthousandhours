@@ -17,7 +17,7 @@
   <% end %>
 
 
-  <%= render partial: "personal_details", locals: { f: f, volunteer: resource } %>
+  <%= render partial: "personal_details", locals: { f: f, volunteer: resource, mode: 'edit' } %>
 
 
   <fieldset data-bind="visible: ageCategory()!='youth'">

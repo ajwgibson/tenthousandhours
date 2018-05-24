@@ -52,6 +52,12 @@ class Admin::VolunteersController < Admin::BaseController
   end
 
 
+  def activity_consent_received
+    @volunteer.update(activity_consent_recorded_by: current_user.name)
+    redirect_to [:admin, @volunteer], notice: 'Volunteer was updated successfully'
+  end
+
+
   def new_sign_up
     @manual_sign_up = ManualSignUp.new
     @projects = Project.published.order(:project_name)
@@ -177,6 +183,7 @@ private
         :with_skill,
         :in_age_category,
         :without_projects,
+        :needs_activity_consent,
         :order_by,
       ).to_h
     filter = session[:filter_admin_volunteers].symbolize_keys! if filter.empty? && session.key?(:filter_admin_volunteers)

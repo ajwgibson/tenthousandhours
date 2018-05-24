@@ -58,6 +58,10 @@
                                       class: 'form-control' } %>
                     </div>
                     <div class="checkbox checkbox-primary">
+                      <%= check_box_tag :needs_activity_consent, true, @filter[:needs_activity_consent] %>
+                      <%= label_tag :needs_activity_consent, 'Has not returned an activity consent form' %>
+                    </div>
+                    <div class="checkbox checkbox-primary">
                       <%= check_box_tag :without_projects, true, @filter[:without_projects] %>
                       <%= label_tag :without_projects, 'Has not signed up to a project yet' %>
                     </div>
@@ -120,7 +124,14 @@
                 <td><%= volunteer.name %> </td>
                 <td><%= volunteer.email %> </td>
                 <td><%= mobile_phone_number volunteer.mobile %> </td>
-                <td><%= volunteer.humanized_age_category %> </td>
+                <td>
+                  <%= volunteer.humanized_age_category %>
+                  <% if volunteer.activity_consent_required? %>
+                  <span class="text-danger pull-right">
+                    <i class="fa fa-exclamation-circle"></i>
+                  </span>
+                  <% end %>
+                </td>
                 <td><%= volunteer.family_size %> </td>
                 <td><%= volunteer.commitment %> </td>
                 <td><%= volunteer.personal_project_commitment %> </td>

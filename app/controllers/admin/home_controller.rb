@@ -42,6 +42,8 @@ class Admin::HomeController < Admin::BaseController
     @personal_project_volunteer_count = PersonalProject.sum('volunteer_count')
     @personal_project_commitment      = PersonalProject.sum('duration * volunteer_count')
 
+    @activity_consent_required_count = Volunteer.needs_activity_consent(true).count
+
   end
 
 
