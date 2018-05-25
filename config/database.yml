@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV.fetch("LINKLOGS_DATABASE") { nil } %>
-  username: <%= ENV.fetch("LINKLOGS_DATABASE_USERNAME") { nil } %>
-  password: <%= ENV.fetch("LINKLOGS_DATABASE_PASSWORD") { nil } %>
+  database: <%= ENV.fetch("TENKHOURS_DATABASE") { nil } %>
+  username: <%= ENV.fetch("TENKHOURS_DATABASE_USERNAME") { nil } %>
+  password: <%= ENV.fetch("TENKHOURS_DATABASE_PASSWORD") { nil } %>
