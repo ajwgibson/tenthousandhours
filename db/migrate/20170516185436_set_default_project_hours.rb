@@ -1,4 +1,4 @@
-class SetDefaultProjectHours < ActiveRecord::Migration
+class SetDefaultProjectHours < ActiveRecord::Migration[5.1]
 
   def self.up
     change_column_default :projects, :morning_start_time,    '09:30'

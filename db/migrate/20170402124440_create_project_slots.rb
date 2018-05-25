@@ -1,4 +1,4 @@
-class CreateProjectSlots < ActiveRecord::Migration
+class CreateProjectSlots < ActiveRecord::Migration[5.1]
   def change
     create_table :project_slots do |t|
       t.date       :slot_date, null: false

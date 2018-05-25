@@ -1,4 +1,4 @@
-class ChangeDefaultUnderEighteenValueOnProjects < ActiveRecord::Migration
+class ChangeDefaultUnderEighteenValueOnProjects < ActiveRecord::Migration[5.1]
   def up
     change_column_default :projects, :project_3_under_18, nil
   end

@@ -1,4 +1,4 @@
-class CreatePersonalProjects < ActiveRecord::Migration
+class CreatePersonalProjects < ActiveRecord::Migration[5.1]
   def change
     create_table :personal_projects do |t|
       t.date       :project_date, null: false

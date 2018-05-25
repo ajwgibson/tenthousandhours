@@ -1,4 +1,4 @@
-class SplitYouthAndKidsCounts < ActiveRecord::Migration
+class SplitYouthAndKidsCounts < ActiveRecord::Migration[5.1]
   def change
     add_column :projects, :kids, :integer
   end
