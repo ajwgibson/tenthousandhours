@@ -329,6 +329,56 @@ RSpec.describe ProjectSlot, type: :model do
   end
 
 
+  describe "self.selectable_weeks" do
+    context "when there are no planned project slots" do
+      it "returns an empty list" do
+        expect(ProjectSlot.selectable_weeks).to be_empty
+      end
+    end
+    context "when there is only one planned project slot" do
+      before do
+        FactoryBot.create(:default_project_slot, slot_date: Date.parse('2018-05-30'))
+      end
+      before(:each) do
+        @result = ProjectSlot.selectable_weeks
+      end
+      it "returns a single value" do
+        expect(@result.count).to eq(1)
+      end
+    end
+    context "when all the planned project slots are in the same week" do
+      before do
+        FactoryBot.create(:default_project_slot, slot_date: Date.parse('2018-05-29'))
+        FactoryBot.create(:default_project_slot, slot_date: Date.parse('2018-05-30'))
+        FactoryBot.create(:default_project_slot, slot_date: Date.parse('2018-05-31'))
+      end
+      before(:each) do
+        @result = ProjectSlot.selectable_weeks
+      end
+      it "returns a single value" do
+        expect(@result.count).to eq(1)
+      end
+    end
+    context "when the planned project slots span multiple weeks" do
+      before do
+        FactoryBot.create(:default_project_slot, slot_date: Date.parse('2018-05-30'))
+        FactoryBot.create(:default_project_slot, slot_date: Date.parse('2018-06-20'))
+      end
+      before(:each) do
+        @result = ProjectSlot.selectable_weeks
+      end
+      it "returns a value for each week from earliest to latest" do
+        expect(@result).to eq([
+          ['May 28th, 2018', 22],
+          ['June 4th, 2018', 23],
+          ['June 11th, 2018', 24],
+          ['June 18th, 2018', 25]
+        ])
+      end
+    end
+  end
+
+
   # SCOPES
 
   describe 'scope:for_week' do

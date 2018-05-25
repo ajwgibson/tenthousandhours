@@ -71,12 +71,7 @@
                   <div class="form-group">
                     <%= label_tag :for_week, 'Week commencing', :class => 'control-label' %>
                     <%= select_tag :for_week,
-                          options_for_select({
-                            '03/07/2017' => Date.new(2017,7,3).cweek,
-                            '10/07/2017' => Date.new(2017,7,10).cweek,
-                            '17/07/2017' => Date.new(2017,7,17).cweek,
-                            '24/07/2017' => Date.new(2017,7,24).cweek,
-                            }, @filter[:for_week]),
+                          options_for_select(ProjectSlot.selectable_weeks, @filter[:for_week]),
                           include_blank: true,
                           :class => 'form-control' %>
                   </div>

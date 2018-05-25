@@ -55,21 +55,21 @@
                   <%= f.radio_button :any_week, false, label: "No",  inline: true %>
                 <% end %>
                 <div class="specific-week-container collapse<%= @project.any_week ? '' : ' in' %>">
-                  <%= f.form_group :july_3, label: { text: "July 3rd" } do %>
-                    <%= f.radio_button :july_3, true,  label: "Yes", inline: true %>
-                    <%= f.radio_button :july_3, false, label: "No",  inline: true %>
+                  <%= f.form_group :week_1, label: { text: "Week 1" } do %>
+                    <%= f.radio_button :week_1, true,  label: "Yes", inline: true %>
+                    <%= f.radio_button :week_1, false, label: "No",  inline: true %>
                   <% end %>
-                  <%= f.form_group :july_10, label: { text: "July 10th" } do %>
-                    <%= f.radio_button :july_10, true,  label: "Yes", inline: true %>
-                    <%= f.radio_button :july_10, false, label: "No",  inline: true %>
+                  <%= f.form_group :week_2, label: { text: "Week 2" } do %>
+                    <%= f.radio_button :week_2, true,  label: "Yes", inline: true %>
+                    <%= f.radio_button :week_2, false, label: "No",  inline: true %>
                   <% end %>
-                  <%= f.form_group :july_17, label: { text: "July 17th" } do %>
-                    <%= f.radio_button :july_17, true,  label: "Yes", inline: true %>
-                    <%= f.radio_button :july_17, false, label: "No",  inline: true %>
+                  <%= f.form_group :week_3, label: { text: "Week 3" } do %>
+                    <%= f.radio_button :week_3, true,  label: "Yes", inline: true %>
+                    <%= f.radio_button :week_3, false, label: "No",  inline: true %>
                   <% end %>
-                  <%= f.form_group :july_24, label: { text: "July 24th" } do %>
-                    <%= f.radio_button :july_24, true,  label: "Yes", inline: true %>
-                    <%= f.radio_button :july_24, false, label: "No",  inline: true %>
+                  <%= f.form_group :week_4, label: { text: "Week 4" } do %>
+                    <%= f.radio_button :week_4, true,  label: "Yes", inline: true %>
+                    <%= f.radio_button :week_4, false, label: "No",  inline: true %>
                   <% end %>
                 </div>
                 <%= f.form_group :evenings, label: { text: "Evenings" } do %>

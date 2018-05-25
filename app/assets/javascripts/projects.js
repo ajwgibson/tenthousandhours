@@ -5,16 +5,16 @@ $(function () {
     var any_week = $(this).val() == 'true';
     if (any_week) {
       $(".project-form .specific-week-container").collapse('hide');
-      $(".project-form input[name='project[july_3]']").val( ['true']);
-      $(".project-form input[name='project[july_10]']").val(['true']);
-      $(".project-form input[name='project[july_17]']").val(['true']);
-      $(".project-form input[name='project[july_24]']").val(['true']);
+      $(".project-form input[name='project[week_1]']").val( ['true']);
+      $(".project-form input[name='project[week_2]']").val(['true']);
+      $(".project-form input[name='project[week_3]']").val(['true']);
+      $(".project-form input[name='project[week_4]']").val(['true']);
     } else {
       $(".project-form .specific-week-container").collapse('show');
-      $(".project-form input[name='project[july_3]']").val( ['false']);
-      $(".project-form input[name='project[july_10]']").val(['false']);
-      $(".project-form input[name='project[july_17]']").val(['false']);
-      $(".project-form input[name='project[july_24]']").val(['false']);
+      $(".project-form input[name='project[week_1]']").val( ['false']);
+      $(".project-form input[name='project[week_2]']").val(['false']);
+      $(".project-form input[name='project[week_3]']").val(['false']);
+      $(".project-form input[name='project[week_4]']").val(['false']);
     }
   });
 

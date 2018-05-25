@@ -36,20 +36,20 @@ RSpec.describe Admin::HomeController, type: :controller do
     end
 
     it "returns projects_by_requested_week" do
-      FactoryBot.create(:default_project, july_3:  true, any_week: false)
-      FactoryBot.create(:default_project, july_3:  true, any_week: false)
-      FactoryBot.create(:default_project, july_10: true, any_week: false)
-      FactoryBot.create(:default_project, july_10: true, any_week: false)
-      FactoryBot.create(:default_project, july_10: true, any_week: false)
-      FactoryBot.create(:default_project, july_17: true, any_week: false)
-      FactoryBot.create(:default_project, july_24: true, any_week: false)
+      FactoryBot.create(:default_project, week_1:  true, any_week: false)
+      FactoryBot.create(:default_project, week_1:  true, any_week: false)
+      FactoryBot.create(:default_project, week_2: true, any_week: false)
+      FactoryBot.create(:default_project, week_2: true, any_week: false)
+      FactoryBot.create(:default_project, week_2: true, any_week: false)
+      FactoryBot.create(:default_project, week_3: true, any_week: false)
+      FactoryBot.create(:default_project, week_4: true, any_week: false)
       get :index
       expect(assigns(:projects_by_requested_week)).to eq(
         {
-          'July 3rd'  => 2,
-          'July 10th' => 3,
-          'July 17th' => 1,
-          'July 24th' => 1,
+          'Week 1' => 2,
+          'Week 2' => 3,
+          'Week 3' => 1,
+          'Week 4' => 1,
         }
       )
     end

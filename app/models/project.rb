@@ -25,10 +25,10 @@ class Project < ApplicationRecord
 
   validate :under_18s_need_suitable_activities
 
-  scope :could_run_wc_july_3rd,  ->(value) { where('july_3=? OR any_week=?',  true, true) }
-  scope :could_run_wc_july_10th, ->(value) { where('july_10=? OR any_week=?', true, true) }
-  scope :could_run_wc_july_17th, ->(value) { where('july_17=? OR any_week=?', true, true) }
-  scope :could_run_wc_july_24th, ->(value) { where('july_24=? OR any_week=?', true, true) }
+  scope :could_run_week_1,   ->(value) { where('week_1=? OR any_week=?', true, true) }
+  scope :could_run_week_2,   ->(value) { where('week_2=? OR any_week=?', true, true) }
+  scope :could_run_week_3,   ->(value) { where('week_3=? OR any_week=?', true, true) }
+  scope :could_run_week_4,   ->(value) { where('week_4=? OR any_week=?', true, true) }
   scope :could_run_evenings, ->(value) { where evenings: true }
   scope :could_run_saturday, ->(value) { where saturday: true }
   scope :with_name,   ->(value) { where("lower(project_name) like lower(?)", "%#{value}%") }
@@ -144,10 +144,10 @@ class Project < ApplicationRecord
         params['activity_3_information'] = row[23]
         params['activity_3_under_18']    = row[24].eql? '1'
         params['any_week']               = self.any_week row
-        params['july_3']                 = !row[25].blank? && !params['any_week']
-        params['july_10']                = !row[26].blank? && !params['any_week']
-        params['july_17']                = !row[27].blank? && !params['any_week']
-        params['july_24']                = !row[28].blank? && !params['any_week']
+        params['week_1']                 = !row[25].blank? && !params['any_week']
+        params['week_2']                 = !row[26].blank? && !params['any_week']
+        params['week_3']                 = !row[27].blank? && !params['any_week']
+        params['week_4']                 = !row[28].blank? && !params['any_week']
         params['evenings']               = row[30].eql? '1'
         params['saturday']               = row[31].eql? '1'
         params['notes']                  = row[32]

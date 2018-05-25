@@ -6,15 +6,15 @@ class Admin::HomeController < Admin::BaseController
 
     @projects_by_organisation_type = Project.group(:organisation_type).count(:all)
 
-    july_3  = Project.could_run_wc_july_3rd(true).count
-    july_10 = Project.could_run_wc_july_10th(true).count
-    july_17 = Project.could_run_wc_july_17th(true).count
-    july_24 = Project.could_run_wc_july_24th(true).count
+    week_1 = Project.could_run_week_1(true).count
+    week_2 = Project.could_run_week_2(true).count
+    week_3 = Project.could_run_week_3(true).count
+    week_4 = Project.could_run_week_4(true).count
     @projects_by_requested_week = {
-      'July 3rd'  => july_3,
-      'July 10th' => july_10,
-      'July 17th' => july_17,
-      'July 24th' => july_24,
+      'Week 1' => week_1,
+      'Week 2' => week_2,
+      'Week 3' => week_3,
+      'Week 4' => week_4,
     }
 
     projects_by_evening = Project.group(:evenings).count(:all)

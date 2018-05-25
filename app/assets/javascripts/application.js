@@ -61,7 +61,6 @@ $(function() {
     forceParse: false,
     autoclose: true,
     weekStart: 1,
-    defaultViewDate: { year: 2017, month: 6, day: 1 }
   });
 
   $('.clockpicker').clockpicker();

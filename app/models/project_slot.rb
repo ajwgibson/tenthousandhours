@@ -42,6 +42,22 @@ class ProjectSlot < ApplicationRecord
     ProjectSlot.slot_types.keys.map { |t| [t.humanize, t] }
   end
 
+
+  def self.selectable_weeks
+    weeks = []
+    start  = ProjectSlot.minimum(:slot_date)
+    finish = ProjectSlot.maximum(:slot_date)
+    if start && finish
+      start  = start.beginning_of_week(:monday)
+      finish = finish.beginning_of_week(:monday)
+      (start..finish).step(7) do |d|
+        weeks << [d.strftime("%B #{d.day.ordinalize}, %Y"), d.cweek]
+      end
+    end
+    return weeks
+  end
+
+
   def humanized_slot_type
     slot_type.humanize
   end

@@ -214,17 +214,17 @@ RSpec.describe Project, type: :model do
       it "captures any_week" do
         expect(project.any_week).to be_truthy
       end
-      it "does not capture july_3 when any_week is true" do
-        expect(project.july_3).to be_falsey
+      it "does not capture week_1 when any_week is true" do
+        expect(project.week_1).to be_falsey
       end
-      it "does not capture july_10 when any_week is true" do
-        expect(project.july_10).to be_falsey
+      it "does not capture week_2 when any_week is true" do
+        expect(project.week_2).to be_falsey
       end
-      it "does not capture july_17 when any_week is true" do
-        expect(project.july_17).to be_falsey
+      it "does not capture week_3 when any_week is true" do
+        expect(project.week_3).to be_falsey
       end
-      it "does not capture july_24 when any_week is true" do
-        expect(project.july_24).to be_falsey
+      it "does not capture week_4 when any_week is true" do
+        expect(project.week_4).to be_falsey
       end
       it "captures evenings" do
         expect(project.evenings).to be_truthy
@@ -314,17 +314,17 @@ RSpec.describe Project, type: :model do
       before do
         Project.import(file_fixture('project_imports/specified_dates.csv'))
       end
-      it "captures the july_3 flag" do
-        expect(project.july_3).to be_truthy
+      it "captures the week_1 flag" do
+        expect(project.week_1).to be_truthy
       end
-      it "captures the july_10 flag" do
-        expect(project.july_10).to be_truthy
+      it "captures the week_2 flag" do
+        expect(project.week_2).to be_truthy
       end
-      it "captures the july_17 flag" do
-        expect(project.july_17).to be_truthy
+      it "captures the week_3 flag" do
+        expect(project.week_3).to be_truthy
       end
-      it "captures the july_24 flag" do
-        expect(project.july_24).to be_truthy
+      it "captures the week_4 flag" do
+        expect(project.week_4).to be_truthy
       end
     end
 
@@ -502,66 +502,66 @@ RSpec.describe Project, type: :model do
   #
   # SCOPES
   #
-  describe 'scope:could_run_wc_july_3rd' do
-    it 'includes records with july_3 set true' do
-      a    = FactoryBot.create(:default_project, :july_3 => true , any_week: false)
-      b    = FactoryBot.create(:default_project, :july_3 => false, any_week: false)
-      filtered = Project.could_run_wc_july_3rd(true)
+  describe 'scope:could_run_week_1' do
+    it 'includes records with week_1 set true' do
+      a    = FactoryBot.create(:default_project, :week_1 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :week_1 => false, any_week: false)
+      filtered = Project.could_run_week_1(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryBot.create(:default_project, july_3: false, any_week: true)
-      b    = FactoryBot.create(:default_project, july_3: false, any_week: false)
-      filtered = Project.could_run_wc_july_3rd(true)
+      a    = FactoryBot.create(:default_project, week_1: false, any_week: true)
+      b    = FactoryBot.create(:default_project, week_1: false, any_week: false)
+      filtered = Project.could_run_week_1(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
   end
-  describe 'scope:could_run_wc_july_10th' do
-    it 'includes records with july_10 set true' do
-      a    = FactoryBot.create(:default_project, :july_10 => true , any_week: false)
-      b    = FactoryBot.create(:default_project, :july_10 => false, any_week: false)
-      filtered = Project.could_run_wc_july_10th(true)
+  describe 'scope:could_run_week_2' do
+    it 'includes records with week_2 set true' do
+      a    = FactoryBot.create(:default_project, :week_2 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :week_2 => false, any_week: false)
+      filtered = Project.could_run_week_2(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryBot.create(:default_project, july_10: false, any_week: true)
-      b    = FactoryBot.create(:default_project, july_10: false, any_week: false)
-      filtered = Project.could_run_wc_july_10th(true)
+      a    = FactoryBot.create(:default_project, week_2: false, any_week: true)
+      b    = FactoryBot.create(:default_project, week_2: false, any_week: false)
+      filtered = Project.could_run_week_2(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
   end
-  describe 'scope:could_run_wc_july_17th' do
-    it 'includes records with july_17 set true' do
-      a    = FactoryBot.create(:default_project, :july_17 => true , any_week: false)
-      b    = FactoryBot.create(:default_project, :july_17 => false, any_week: false)
-      filtered = Project.could_run_wc_july_17th(true)
+  describe 'scope:could_run_week_3' do
+    it 'includes records with week_3 set true' do
+      a    = FactoryBot.create(:default_project, :week_3 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :week_3 => false, any_week: false)
+      filtered = Project.could_run_week_3(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryBot.create(:default_project, july_17: false, any_week: true)
-      b    = FactoryBot.create(:default_project, july_17: false, any_week: false)
-      filtered = Project.could_run_wc_july_17th(true)
+      a    = FactoryBot.create(:default_project, week_3: false, any_week: true)
+      b    = FactoryBot.create(:default_project, week_3: false, any_week: false)
+      filtered = Project.could_run_week_3(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
   end
-  describe 'scope:could_run_wc_july_24th' do
-    it 'includes records with july_24 set true' do
-      a    = FactoryBot.create(:default_project, :july_24 => true , any_week: false)
-      b    = FactoryBot.create(:default_project, :july_24 => false, any_week: false)
-      filtered = Project.could_run_wc_july_24th(true)
+  describe 'scope:could_run_week_4' do
+    it 'includes records with week_4 set true' do
+      a    = FactoryBot.create(:default_project, :week_4 => true , any_week: false)
+      b    = FactoryBot.create(:default_project, :week_4 => false, any_week: false)
+      filtered = Project.could_run_week_4(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end
     it 'includes records with any_week set true' do
-      a    = FactoryBot.create(:default_project, july_24: false, any_week: true)
-      b    = FactoryBot.create(:default_project, july_24: false, any_week: false)
-      filtered = Project.could_run_wc_july_24th(true)
+      a    = FactoryBot.create(:default_project, week_4: false, any_week: true)
+      b    = FactoryBot.create(:default_project, week_4: false, any_week: false)
+      filtered = Project.could_run_week_4(true)
       expect(filtered).to include(a)
       expect(filtered).not_to include(b)
     end

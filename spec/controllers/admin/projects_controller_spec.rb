@@ -32,28 +32,28 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       get :index, params: {order_by: 'project_name desc' }
       expect(assigns(:projects)).to eq([c,b,a])
     end
-    it "applies the 'could_run_wc_july_3rd' filter" do
-      a = FactoryBot.create(:default_project, :july_3 => true , any_week: false)
-      b = FactoryBot.create(:default_project, :july_3 => false, any_week: false)
-      get :index, params: {could_run_wc_july_3rd: true }
+    it "applies the 'could_run_week_1' filter" do
+      a = FactoryBot.create(:default_project, :week_1 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :week_1 => false, any_week: false)
+      get :index, params: {could_run_week_1: true }
       expect(assigns(:projects)).to eq([a])
     end
-    it "applies the 'could_run_wc_july_10th' filter" do
-      a = FactoryBot.create(:default_project, :july_10 => true , any_week: false)
-      b = FactoryBot.create(:default_project, :july_10 => false, any_week: false)
-      get :index, params: {could_run_wc_july_10th: true }
+    it "applies the 'could_run_week_2' filter" do
+      a = FactoryBot.create(:default_project, :week_2 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :week_2 => false, any_week: false)
+      get :index, params: {could_run_week_2: true }
       expect(assigns(:projects)).to eq([a])
     end
-    it "applies the 'could_run_wc_july_17th' filter" do
-      a = FactoryBot.create(:default_project, :july_17 => true , any_week: false)
-      b = FactoryBot.create(:default_project, :july_17 => false, any_week: false)
-      get :index, params: {could_run_wc_july_17th: true }
+    it "applies the 'could_run_week_3' filter" do
+      a = FactoryBot.create(:default_project, :week_3 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :week_3 => false, any_week: false)
+      get :index, params: {could_run_week_3: true }
       expect(assigns(:projects)).to eq([a])
     end
-    it "applies the 'could_run_wc_july_24th' filter" do
-      a = FactoryBot.create(:default_project, :july_24 => true , any_week: false)
-      b = FactoryBot.create(:default_project, :july_24 => false, any_week: false)
-      get :index, params: {could_run_wc_july_24th: true }
+    it "applies the 'could_run_week_4' filter" do
+      a = FactoryBot.create(:default_project, :week_4 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :week_4 => false, any_week: false)
+      get :index, params: {could_run_week_4: true }
       expect(assigns(:projects)).to eq([a])
     end
     it "applies the 'could_run_evenings' filter" do
@@ -87,17 +87,17 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       expect(assigns(:projects)).to eq([a])
     end
     it "stores filters to the session" do
-      get :index, params: {could_run_wc_july_3rd: true }
-      expect(session[:filter_admin_projects]).to eq({'could_run_wc_july_3rd' => 'true'})
+      get :index, params: {could_run_week_1: true }
+      expect(session[:filter_admin_projects]).to eq({'could_run_week_1' => 'true'})
     end
     it "removes blank filter values" do
-      get :index, params: {could_run_wc_july_3rd: nil }
+      get :index, params: {could_run_week_1: nil }
       expect(assigns(:filter)).to eq({})
     end
     it "retrieves filters from the session if none have been supplied" do
-      a = FactoryBot.create(:default_project, :july_3 => true , any_week: false)
-      b = FactoryBot.create(:default_project, :july_3 => false, any_week: false)
-      get :index, session: { :filter_admin_projects => {'could_run_wc_july_3rd' => 'true'} }
+      a = FactoryBot.create(:default_project, :week_1 => true , any_week: false)
+      b = FactoryBot.create(:default_project, :week_1 => false, any_week: false)
+      get :index, session: { :filter_admin_projects => {'could_run_week_1' => 'true'} }
       expect(assigns(:projects)).to eq([a])
     end
   end
@@ -109,7 +109,7 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       expect(response).to redirect_to([:admin, :projects])
     end
     it "clears the session entry" do
-      session[:filter_admin_projects] = {'could_run_wc_july_3rd' => true}
+      session[:filter_admin_projects] = {'could_run_week_1' => true}
       get :clear_filter
       expect(session.key?(:filter_admin_projects)).to be false
     end
@@ -198,10 +198,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
           activity_3_information: 'More info about the third project',
           activity_3_under_18:    true,
           any_week:              false,
-          july_3:                true,
-          july_10:               false,
-          july_17:               true,
-          july_24:               false,
+          week_1:                true,
+          week_2:               false,
+          week_3:               true,
+          week_4:               false,
           evenings:              true,
           saturday:              false,
           notes:                 'More notes about the project',
@@ -258,10 +258,10 @@ RSpec.describe Admin::ProjectsController, type: :controller do
       it "stores activity_3_information" do expect(project.activity_3_information).to eq('More info about the third project') end
       it "stores activity_3_under_18" do expect(project.activity_3_under_18).to be_truthy end
       it "stores any_week" do expect(project.any_week).to be_falsey end
-      it "stores july_3" do expect(project.july_3).to be_truthy end
-      it "stores july_10" do expect(project.july_10).to be_falsey end
-      it "stores july_17" do expect(project.july_17).to be_truthy end
-      it "stores july_24" do expect(project.july_24).to be_falsey end
+      it "stores week_1" do expect(project.week_1).to be_truthy end
+      it "stores week_2" do expect(project.week_2).to be_falsey end
+      it "stores week_3" do expect(project.week_3).to be_truthy end
+      it "stores week_4" do expect(project.week_4).to be_falsey end
       it "stores evenings" do expect(project.evenings).to be_truthy end
       it "stores saturday" do expect(project.saturday).to be_falsey end
       it "stores notes" do expect(project.notes).to eq('More notes about the project') end

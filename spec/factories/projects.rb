@@ -19,10 +19,10 @@ FactoryBot.define do
     activity_3_information nil
     activity_3_under_18    false
     any_week               true
-    july_3                 false
-    july_10                false
-    july_17                false
-    july_24                false
+    week_1                 false
+    week_2                 false
+    week_3                 false
+    week_4                 false
     evenings               false
     saturday               false
     notes                  nil
