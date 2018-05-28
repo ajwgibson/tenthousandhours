@@ -36,6 +36,28 @@
 
 
   <fieldset>
+    <legend>Data Protection</legend>
+    <p class="text-primary font-italic">
+      Please refer to our
+      <%= link_to "/PrivacyPolicy.pdf", target: "_blank" do %>
+        <span class="fa fa-external-link"></span> Privacy Policy
+      <% end %>
+      for full information on how we will use and store your information.
+    </p>
+    <p style="margin-top: 20px;">
+      Please tick the box below if you would like to receive updates
+      about future projects.
+    </p>
+    <div>
+      <label>
+        <%= f.check_box_without_bootstrap :can_contact_future %>
+        I would like to receive updates about future projects.
+      </label>
+    </div>
+  </fieldset>
+
+
+  <fieldset>
     <legend>Current password</legend>
     <%= f.password_field :current_password,
         label: 'Current password', label_class: 'required',

@@ -171,6 +171,16 @@ RSpec.describe Volunteer, type: :model do
     end
   end
 
+  describe 'scope:with_can_contact_future' do
+    it 'includes records where the can_contact_future flag is true' do
+      v1 = FactoryBot.create(:default_volunteer)
+      v2 = FactoryBot.create(:default_volunteer, can_contact_future: true)
+      filtered = Volunteer.with_can_contact_future(true)
+      expect(filtered).to include(v2)
+      expect(filtered).not_to include(v1)
+    end
+  end
+
 
   # METHODS
 

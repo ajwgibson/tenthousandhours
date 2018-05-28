@@ -8,6 +8,11 @@ class Admin::VolunteersController < Admin::BaseController
     @volunteers = Volunteer.filter(@filter).order(:first_name,:last_name)
     @volunteers = @volunteers.page params[:page]
     set_filter @filter
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @volunteers.to_csv, filename: "volunteers-#{Date.today}.csv" }
+    end
   end
 
 
@@ -184,6 +189,7 @@ private
         :in_age_category,
         :without_projects,
         :needs_activity_consent,
+        :with_can_contact_future,
         :order_by,
       ).to_h
     filter = session[:filter_admin_volunteers].symbolize_keys! if filter.empty? && session.key?(:filter_admin_volunteers)

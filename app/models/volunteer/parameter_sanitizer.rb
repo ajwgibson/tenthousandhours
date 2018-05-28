@@ -17,6 +17,7 @@ class Volunteer::ParameterSanitizer < Devise::ParameterSanitizer
         :guardian_name, :guardian_contact_number,
         :family,
         :extra_adults, :extra_youth, :extra_children,
+        :can_contact_future,
         { skills: [] }
       ]
     end

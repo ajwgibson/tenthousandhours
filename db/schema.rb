@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180525131611) do
+ActiveRecord::Schema.define(version: 20180526160603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "personal_projects", force: :cascade do |t|
+  create_table "personal_projects", id: :serial, force: :cascade do |t|
     t.date "project_date", null: false
     t.decimal "duration", precision: 2, scale: 1, null: false
     t.integer "volunteer_count", null: false
     t.text "description", null: false
-    t.bigint "volunteer_id", null: false
+    t.integer "volunteer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 20180525131611) do
     t.index ["volunteer_id"], name: "index_personal_projects_on_volunteer_id"
   end
 
-  create_table "project_slots", force: :cascade do |t|
+  create_table "project_slots", id: :serial, force: :cascade do |t|
     t.date "slot_date", null: false
     t.integer "slot_type", null: false
-    t.bigint "project_id", null: false
+    t.integer "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
@@ -41,13 +41,13 @@ ActiveRecord::Schema.define(version: 20180525131611) do
   end
 
   create_table "project_slots_volunteers", id: false, force: :cascade do |t|
-    t.bigint "project_slot_id"
-    t.bigint "volunteer_id"
+    t.integer "project_slot_id"
+    t.integer "volunteer_id"
     t.index ["project_slot_id"], name: "index_project_slots_volunteers_on_project_slot_id"
     t.index ["volunteer_id"], name: "index_project_slots_volunteers_on_volunteer_id"
   end
 
-  create_table "projects", force: :cascade do |t|
+  create_table "projects", id: :serial, force: :cascade do |t|
     t.string "typeform_id"
     t.string "organisation_type", null: false
     t.string "project_name", null: false
@@ -92,9 +92,9 @@ ActiveRecord::Schema.define(version: 20180525131611) do
     t.index ["deleted_at"], name: "index_projects_on_deleted_at"
   end
 
-  create_table "reminders", force: :cascade do |t|
-    t.bigint "project_id", null: false
-    t.bigint "volunteer_id", null: false
+  create_table "reminders", id: :serial, force: :cascade do |t|
+    t.integer "project_id", null: false
+    t.integer "volunteer_id", null: false
     t.date "reminder_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 20180525131611) do
     t.index ["volunteer_id"], name: "index_reminders_on_volunteer_id"
   end
 
-  create_table "text_messages", force: :cascade do |t|
+  create_table "text_messages", id: :serial, force: :cascade do |t|
     t.text "message", null: false
     t.text "recipients", null: false
     t.text "response"
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20180525131611) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 20180525131611) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  create_table "volunteers", force: :cascade do |t|
+  create_table "volunteers", id: :serial, force: :cascade do |t|
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
     t.string "mobile", default: "", null: false
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 20180525131611) do
     t.integer "extra_youth", default: 0, null: false
     t.integer "extra_children", default: 0, null: false
     t.string "activity_consent_recorded_by"
+    t.boolean "can_contact_future", default: false
     t.index ["confirmation_token"], name: "index_volunteers_on_confirmation_token", unique: true
     t.index ["email"], name: "index_volunteers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_volunteers_on_reset_password_token", unique: true

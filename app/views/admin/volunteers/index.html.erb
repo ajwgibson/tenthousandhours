@@ -65,6 +65,10 @@
                       <%= check_box_tag :without_projects, true, @filter[:without_projects] %>
                       <%= label_tag :without_projects, 'Has not signed up to a project yet' %>
                     </div>
+                    <div class="checkbox checkbox-primary">
+                      <%= check_box_tag :with_can_contact_future, true, @filter[:with_can_contact_future] %>
+                      <%= label_tag :with_can_contact_future, 'Has consented to future contact' %>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -94,9 +98,12 @@
             <% end %>
           <% end %>
           <% if can? :compose_all, Volunteer %>
-            <%= link_to admin_compose_all_volunteers_path, :class => 'btn btn-outline btn-info' do %>
+            <%= link_to admin_compose_all_volunteers_path, :class => 'btn btn-outline btn-info btn-sm' do %>
               <i class="fa fa-send"></i> Send message to all
             <% end %>
+          <% end %>
+          <%= link_to admin_volunteers_path(format: :csv), :class => 'btn btn-default btn-sm sweet-confirm' do %>
+            <i class="fa fa-file-excel-o"></i> Export filtered volunteer list
           <% end %>
         </div>
 
@@ -165,3 +172,30 @@
     </div>
   </div>
 </div>
+
+
+<%= javascript_tag do %>
+
+  $(function() {
+    $("a.sweet-confirm").on('click', function(e) {
+        e.preventDefault();
+        var link = $(this).attr('href');
+        swal({
+            title: "Are you sure?",
+            text: "You are about to export a list of volunteers. This data is subject to data protection rules and must be treated accordingly.",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "No",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+              swal.close();
+              window.location.href = link;
+            }
+        });
+    });
+  });
+
+<% end %>

@@ -42,7 +42,8 @@ class Volunteer < ApplicationRecord
    scope :with_skill,      ->(value) { where("? = ANY(skills)", value) }
    scope :in_age_category, ->(value) { where age_category: age_categories[value] }
    scope :without_projects,->(value) { includes(:projects).where(projects: { id: nil }) }
-   scope :needs_activity_consent,->(value) { in_age_category(:youth).where(activity_consent_recorded_by: nil) }
+   scope :needs_activity_consent,  ->(value) { in_age_category(:youth).where(activity_consent_recorded_by: nil) }
+   scope :with_can_contact_future, ->(value) { where can_contact_future: value }
 
 
    before_validation(on: [:create, :update]) do
@@ -53,6 +54,23 @@ class Volunteer < ApplicationRecord
    before_create do
      self.mobile_confirmation_code = rand(1..9999).to_s.rjust(4, '0')
    end
+
+
+   def self.to_csv
+     attributes = %w(
+       first_name last_name mobile_international_format email
+       humanized_age_category family_size
+       commitment personal_project_commitment
+       can_contact_future
+     )
+     CSV.generate(headers: true) do |csv|
+       csv << attributes
+       all.each do |volunteer|
+         csv << attributes.map{ |attr| volunteer.send(attr) }
+       end
+     end
+   end
+
 
 
    def name

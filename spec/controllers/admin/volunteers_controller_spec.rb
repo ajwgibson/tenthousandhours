@@ -91,6 +91,12 @@ RSpec.describe Admin::VolunteersController, type: :controller do
       get :index, params: { needs_activity_consent: true }
       expect(assigns(:volunteers)).to eq([b])
     end
+    it "applies the 'with_can_contact_future' filter if supplied" do
+      a    = FactoryBot.create(:default_volunteer)
+      b    = FactoryBot.create(:default_volunteer, can_contact_future: true)
+      get :index, params: { with_can_contact_future: true }
+      expect(assigns(:volunteers)).to eq([b])
+    end
     context "with no explicit page value" do
       it "returns the first page of volunteers" do
         30.times do |i|
