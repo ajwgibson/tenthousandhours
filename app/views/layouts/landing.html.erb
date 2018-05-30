@@ -62,9 +62,13 @@
   </section>
   <% end %>
 
-  <div class="banner">
+  <div class="banner visible-xs-block visible-sm-block">
     <%= image_tag('banner.jpg') %>
   </div>
+
+  <section class="embed-responsive embed-responsive-16by9 hidden-xs hidden-sm">
+    <div id="player"></div>
+  </section>
 
   <section id="pledges" class="" style="">
     <div class="container">
@@ -171,6 +175,46 @@
         });
 
     });
+
+    // YouTube video iFrame API code
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: 'WzbY8TRpNmY',
+        height: '360',
+        width: '100%',
+        playerVars: {
+          autoplay: 0,
+          loop: 0,
+          modestbranding: 1,
+          showinfo: 0,
+          controls: 0,
+          fs: 0,
+          rel: 0,
+          enablejsapi: 1,
+          iv_load_policy: 3,
+          playsinline: 1,
+          origin: 'https://10k.causewaycoastvineyard.com'
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange' : onPlayerStateChange
+        }
+      });
+    }
+    function onPlayerReady(event) {
+      event.target.mute();
+      event.target.playVideo();
+    }
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        event.target.playVideo();
+      }
+    }
 
 </script>
 
