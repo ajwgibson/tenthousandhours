@@ -1,7 +1,7 @@
 <fieldset>
   <legend>Resourcing information</legend>
   <%= f.text_field :leader, :label => 'Leader' %>
-  <%= f.number_field :adults, :label => 'Adults',          :min => 2, help: 'The minimum number of adults needed to work on this project' %>
+  <%= f.number_field :adults, :label => 'Adults',          :min => 2, help: 'The maximum number of adults that could be utilized on this project' %>
   <%= f.number_field :youth,  :label => 'Youth (13-17)',   :min => 0, help: 'The maximum number of youth that could be supervised on this project' %>
   <%= f.number_field :kids,   :label => 'Kids (under 13)', :min => 0, help: 'The maximum number of kids that could be supervised on this project' %>
   <%= f.text_area :materials, :label => 'Materials' %>
