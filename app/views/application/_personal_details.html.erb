@@ -47,7 +47,9 @@
       <p><em>
         We need you to return an activity consent form signed by a
         parent or guardian. You can download a form
-        <a href="" target="_blank"><span class="fa fa-external-link"></span> here</a>.
+        <%= link_to "/YouthConsent.pdf", target: "_blank" do %>
+          <span class="fa fa-external-link"></span> here
+        <% end %>.
         Please return the completed form to the church office as soon as possible.
       </em></p>
     </div>
